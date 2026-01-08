@@ -13,6 +13,7 @@ interface FormStatus {
 export default function Contact(): JSX.Element {
   const [formData, setFormData] = useState({
     name: '',
+    businessName: '',
     email: '',
     message: '',
   })
@@ -59,6 +60,7 @@ export default function Contact(): JSX.Element {
       // Reset form after successful submission
       setFormData({
         name: '',
+        businessName: '',
         email: '',
         message: '',
       })
@@ -121,6 +123,25 @@ export default function Contact(): JSX.Element {
                     required
                     className="w-full px-4 py-3 border border-neutral-medium rounded-soft focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                     placeholder="Your name"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="businessName"
+                    className="block text-sm font-medium text-primary mb-2"
+                  >
+                    Business Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="businessName"
+                    name="businessName"
+                    value={formData.businessName}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-neutral-medium rounded-soft focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                    placeholder="Your business name"
                   />
                 </div>
 

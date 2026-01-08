@@ -24,15 +24,15 @@ app.get('/api/hello', (req, res) => {
 })
 
 app.post('/api/contact', (req, res) => {
-  const { name, email, message } = req.body
+  const { name, businessName, email, message } = req.body
   
-  if (!name || !email || !message) {
+  if (!name || !businessName || !email || !message) {
     return res.status(400).json({ 
-      error: 'Missing required fields: name, email, message' 
+      error: 'Missing required fields: name, businessName, email, message' 
     })
   }
 
-  console.log('Contact form submission:', { name, email, message })
+  console.log('Contact form submission:', { name, businessName, email, message })
   
   res.json({ 
     success: true, 
