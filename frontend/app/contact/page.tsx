@@ -34,6 +34,24 @@ export default function Contact(): JSX.Element {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
+    
+    // Validate message length
+    if (formData.message.length === 0) {
+      setStatus({
+        type: 'error',
+        message: 'Message is required.',
+      })
+      return
+    }
+    
+    if (formData.message.length > 200) {
+      setStatus({
+        type: 'error',
+        message: 'Message must be 200 characters or less.',
+      })
+      return
+    }
+    
     setStatus({ type: 'loading', message: 'Sending message...' })
 
     try {
@@ -75,9 +93,14 @@ export default function Contact(): JSX.Element {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
+    const value = e.target.value
+    // Enforce character limit for message field
+    if (e.target.name === 'message' && value.length > 200) {
+      return
+    }
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     })
     // Clear status message when user starts typing
     if (status.type !== 'idle') {
@@ -165,22 +188,43 @@ export default function Contact(): JSX.Element {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-primary mb-2"
-                  >
-                    Message
-                  </label>
+                  <div className="flex justify-between items-center mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-primary"
+                    >
+                      Message <span className="text-red-500">*</span>
+                    </label>
+                    <span
+                      className={`text-sm ${
+                        formData.message.length > 200
+                          ? 'text-red-500'
+                          : 'text-neutral-medium'
+                      }`}
+                    >
+                      {formData.message.length}/200
+                    </span>
+                  </div>
                   <textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     required
+                    maxLength={200}
                     rows={6}
-                    className="w-full px-4 py-3 border border-neutral-medium rounded-soft focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-vertical"
+                    className={`w-full px-4 py-3 border rounded-soft focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-vertical ${
+                      formData.message.length > 200
+                        ? 'border-red-500'
+                        : 'border-neutral-medium'
+                    }`}
                     placeholder="Tell us about your business and how we can help..."
                   />
+                  {formData.message.length > 200 && (
+                    <p className="mt-1 text-sm text-red-500">
+                      Message exceeds 200 character limit
+                    </p>
+                  )}
                 </div>
 
                 {status.type !== 'idle' && (
