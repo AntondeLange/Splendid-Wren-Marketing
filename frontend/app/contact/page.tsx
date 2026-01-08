@@ -135,7 +135,7 @@ export default function Contact(): JSX.Element {
                     htmlFor="name"
                     className="block text-sm font-medium text-primary mb-2"
                   >
-                    Name
+                    Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -173,7 +173,7 @@ export default function Contact(): JSX.Element {
                     htmlFor="email"
                     className="block text-sm font-medium text-primary mb-2"
                   >
-                    Email
+                    Email <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
