@@ -5,17 +5,69 @@ import Container from '@/components/Container'
 import Section from '@/components/Section'
 import Button from '@/components/Button'
 
+interface FormStatus {
+  type: 'idle' | 'loading' | 'success' | 'error'
+  message: string
+}
+
 export default function Contact(): JSX.Element {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
   })
+  const [status, setStatus] = useState<FormStatus>({
+    type: 'idle',
+    message: '',
+  })
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const getApiUrl = (): string => {
+    if (typeof window === 'undefined') return ''
+    // In production, use the same origin or set NEXT_PUBLIC_API_URL
+    if (process.env.NEXT_PUBLIC_API_URL) {
+      return process.env.NEXT_PUBLIC_API_URL
+    }
+    // Default to localhost for development
+    return 'http://localhost:3001'
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
-    // Form submission logic would go here
-    console.log('Form submitted:', formData)
+    setStatus({ type: 'loading', message: 'Sending message...' })
+
+    try {
+      const apiUrl = getApiUrl()
+      const response = await fetch(`${apiUrl}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message')
+      }
+
+      setStatus({
+        type: 'success',
+        message: 'Thank you! Your message has been sent successfully.',
+      })
+
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        message: '',
+      })
+    } catch (error) {
+      setStatus({
+        type: 'error',
+        message: error instanceof Error ? error.message : 'An error occurred. Please try again.',
+      })
+    }
   }
 
   const handleChange = (
@@ -25,6 +77,10 @@ export default function Contact(): JSX.Element {
       ...formData,
       [e.target.name]: e.target.value,
     })
+    // Clear status message when user starts typing
+    if (status.type !== 'idle') {
+      setStatus({ type: 'idle', message: '' })
+    }
   }
 
   return (
@@ -106,9 +162,29 @@ export default function Contact(): JSX.Element {
                   />
                 </div>
 
+                {status.type !== 'idle' && (
+                  <div
+                    className={`p-4 rounded-soft ${
+                      status.type === 'success'
+                        ? 'bg-green-50 text-green-800 border border-green-200'
+                        : status.type === 'error'
+                        ? 'bg-red-50 text-red-800 border border-red-200'
+                        : 'bg-blue-50 text-blue-800 border border-blue-200'
+                    }`}
+                    role={status.type === 'error' ? 'alert' : 'status'}
+                  >
+                    <p className="text-sm font-medium">{status.message}</p>
+                  </div>
+                )}
+
                 <div className="pt-4">
-                  <Button type="submit" variant="primary" className="w-full sm:w-auto">
-                    Send Message
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-full sm:w-auto"
+                    disabled={status.type === 'loading'}
+                  >
+                    {status.type === 'loading' ? 'Sending...' : 'Send Message'}
                   </Button>
                 </div>
               </form>
