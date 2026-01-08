@@ -16,6 +16,7 @@ export default function HeroSection(): JSX.Element {
   const [ripples, setRipples] = useState<Ripple[]>([])
   const rippleIdRef = useRef(0)
   const lastRippleTimeRef = useRef(0)
+  const audioUnlockedRef = useRef(false)
 
   useEffect(() => {
     // Initialize audio element
@@ -33,23 +34,57 @@ export default function HeroSection(): JSX.Element {
       } catch (error) {
         console.error('Error loading audio:', error)
       }
-    }
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
+      // Unlock audio on first user interaction
+      const unlockAudio = async (): Promise<void> => {
+        if (audioRef.current && !audioUnlockedRef.current) {
+          try {
+            await audioRef.current.play()
+            audioRef.current.pause()
+            audioRef.current.currentTime = 0
+            audioUnlockedRef.current = true
+          } catch (error) {
+            // Audio not unlocked yet, will try again on next interaction
+          }
+        }
+      }
+
+      // Try to unlock on various user interactions
+      const events = ['click', 'touchstart', 'keydown']
+      events.forEach((event) => {
+        document.addEventListener(event, unlockAudio, { once: true })
+      })
+
+      return () => {
+        events.forEach((event) => {
+          document.removeEventListener(event, unlockAudio)
+        })
+        if (audioRef.current) {
+          audioRef.current.pause()
+          audioRef.current = null
+        }
       }
     }
   }, [])
 
-  const handleMouseEnter = (): void => {
+  const handleMouseEnter = async (): Promise<void> => {
     if (audioRef.current) {
+      // Try to unlock audio if not already unlocked
+      if (!audioUnlockedRef.current) {
+        try {
+          await audioRef.current.play()
+          audioRef.current.pause()
+          audioRef.current.currentTime = 0
+          audioUnlockedRef.current = true
+        } catch (error) {
+          // Audio still locked, user needs to interact with page first
+          return
+        }
+      }
+
+      // Play audio if unlocked
       audioRef.current.currentTime = 0
       audioRef.current.play().catch((error: Error) => {
-        // Browser autoplay policy - audio will only play after user interaction
-        // This error is expected on first hover before any click/tap interaction
-        // Once user has interacted with the page, audio will play on hover
         if (error.name !== 'NotAllowedError') {
           console.error('Error playing audio:', error)
         }
