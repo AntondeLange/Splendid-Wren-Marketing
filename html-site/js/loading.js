@@ -25,6 +25,8 @@
     logo.src = 'images/logo_loader.svg';
     logo.alt = 'Splendid Wren Marketing';
     logo.className = 'loading-logo';
+    logo.width = 687;
+    logo.height = 532;
     
     overlay.appendChild(logo);
     document.body.appendChild(overlay);
