@@ -5,6 +5,7 @@ A modern, human-focused marketing website for Splendid Wren Marketing, a small-b
 ## Project Structure
 
 ```
+├── html-site/         # Static HTML/CSS/JS site (Vercel deploy target)
 ├── frontend/          # Next.js frontend application
 │   ├── app/          # Next.js App Router pages
 │   ├── components/   # React components
@@ -106,6 +107,13 @@ npm run build
 npm run frontend:build
 npm start
 ```
+
+## Deployment (Vercel)
+
+This repo is configured to deploy the static `html-site/` folder on Vercel.
+
+- `vercel.json` sets `outputDirectory` to `html-site`
+- No build step required
 
 ## Development
 
