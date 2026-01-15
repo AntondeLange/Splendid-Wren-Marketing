@@ -27,8 +27,14 @@
     navLinks.forEach(function(link) {
       const href = link.getAttribute('href');
       const linkPage = href.split('/').pop();
-      if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
+      const isActive = linkPage === currentPage || (currentPage === '' && linkPage === 'index.html');
+
+      if (isActive) {
         link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
       }
     });
   }
