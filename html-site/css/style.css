@@ -548,6 +548,30 @@ h1, h2, h3, h4, h5, h6 {
   fill: currentColor;
 }
 
+.social-large {
+  justify-content: center;
+  gap: 2rem;
+}
+
+.social-large .footer-social-link {
+  width: 288px;
+  height: 288px;
+  border: 2px solid #2c60a5;
+}
+
+.social-large .footer-social-link svg {
+  width: 126px;
+  height: 126px;
+}
+
+.cta-section {
+  background-color: #f8f9fa;
+}
+
+.cta-card {
+  box-shadow: 0 20px 40px rgba(248, 249, 250, 0.9);
+}
+
 .footer-list {
   list-style: none;
   padding-left: 0;
