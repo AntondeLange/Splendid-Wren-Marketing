@@ -7,6 +7,11 @@
     if (sessionStorage.getItem('loaderShown') === 'true') {
       return;
     }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      sessionStorage.setItem('loaderShown', 'true');
+      return;
+    }
     
     // Mark as shown immediately
     sessionStorage.setItem('loaderShown', 'true');

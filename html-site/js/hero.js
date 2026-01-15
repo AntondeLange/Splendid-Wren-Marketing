@@ -11,7 +11,11 @@
   function initHero() {
     const heroSection = document.querySelector('.hero-section');
     if (!heroSection) return;
-    
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      return;
+    }
+
     // Initialize audio
     const audioPath = encodeURI('images/Blue Wren Audio.mp3');
     audioElement = new Audio(audioPath);
