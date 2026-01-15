@@ -1,54 +1,8 @@
 # Deployment Guide
 
-## Frontend Deployment (Vercel - Recommended for Next.js)
+## Frontend Deployment
 
-### Option 1: Deploy via Vercel Dashboard (Easiest)
-
-1. Go to [vercel.com](https://vercel.com) and sign up/login
-2. Click "Add New Project"
-3. Import your Git repository (GitHub, GitLab, or Bitbucket)
-4. Configure the project:
-   - **Root Directory**: Set to `frontend`
-   - **Framework Preset**: Next.js (auto-detected)
-   - **Build Command**: `npm run build` (runs automatically in frontend directory)
-   - **Output Directory**: `.next` (default)
-5. Add environment variables if needed
-6. Click "Deploy"
-
-### Option 2: Deploy via Vercel CLI
-
-1. Install Vercel CLI (if not already installed):
-   ```bash
-   npm install -g vercel
-   # Or use npx without installation:
-   npx vercel
-   ```
-
-2. Navigate to the project root:
-   ```bash
-   cd "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren"
-   ```
-
-3. Run Vercel deployment:
-   ```bash
-   vercel
-   ```
-
-4. Follow the prompts:
-   - Login to Vercel (if not already logged in)
-   - Link to existing project or create new
-   - Confirm settings (should auto-detect Next.js in frontend folder)
-
-5. For production deployment:
-   ```bash
-   vercel --prod
-   ```
-
-### Option 3: Deploy via Git Integration (Recommended for CI/CD)
-
-1. Push your code to GitHub/GitLab/Bitbucket
-2. Connect your repository to Vercel
-3. Vercel will automatically deploy on every push to main/master branch
+Deploy the `frontend/` Next.js app on any Node.js hosting provider, or deploy the static `html-site/` folder to any static hosting provider.
 
 ## Backend Deployment
 
@@ -103,7 +57,7 @@ NEXT_PUBLIC_API_URL=https://your-backend-url.com
 ```env
 NODE_ENV=production
 PORT=3001
-CORS_ORIGIN=https://your-frontend-url.vercel.app
+CORS_ORIGIN=https://your-frontend-url
 ```
 
 ## Post-Deployment Checklist
@@ -121,12 +75,6 @@ CORS_ORIGIN=https://your-frontend-url.vercel.app
 - [ ] Verify favicon loads
 
 ## Custom Domain Setup
-
-### Vercel (Frontend)
-1. Go to your project settings in Vercel dashboard
-2. Navigate to "Domains"
-3. Add your custom domain
-4. Follow DNS configuration instructions
 
 ### Backend
 - Update CORS_ORIGIN to include your custom domain

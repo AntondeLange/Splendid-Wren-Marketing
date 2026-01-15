@@ -5,7 +5,7 @@ A modern, human-focused marketing website for Splendid Wren Marketing, a small-b
 ## Project Structure
 
 ```
-├── html-site/         # Static HTML/CSS/JS site (Vercel deploy target)
+├── html-site/         # Static HTML/CSS/JS site 
 ├── frontend/          # Next.js frontend application
 │   ├── app/          # Next.js App Router pages
 │   ├── components/   # React components
