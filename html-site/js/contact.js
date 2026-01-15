@@ -25,6 +25,7 @@
         successBanner.style.display = 'block';
         successBanner.setAttribute('tabindex', '-1');
         successBanner.focus();
+        window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
     
