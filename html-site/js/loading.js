@@ -24,15 +24,15 @@
     overlay.appendChild(logo);
     document.body.appendChild(overlay);
     
-    // Start fade out after 5 seconds
+    // Start fade out after 2 seconds
     setTimeout(function() {
       overlay.classList.add('fade-out');
-    }, 5000);
+    }, 2000);
     
     // Remove from DOM after fade out completes
     setTimeout(function() {
       overlay.remove();
-    }, 5500);
+    }, 2500);
   }
   
   // Initialize when DOM is ready
