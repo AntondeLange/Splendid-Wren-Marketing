@@ -108,12 +108,6 @@ npm run frontend:build
 npm start
 ```
 
-## Deployment (Vercel)
-
-This repo is configured to deploy the static `html-site/` folder on Vercel.
-
-- `vercel.json` sets `outputDirectory` to `html-site`
-- No build step required
 
 ## Development
 
