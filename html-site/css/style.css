@@ -367,6 +367,63 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
+.consent-banner {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 960px;
+  width: calc(100% - 3rem);
+  background-color: white;
+  border: 1px solid var(--neutral-light);
+  border-radius: var(--border-radius-soft);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  padding: 1rem 1.25rem;
+}
+
+.consent-banner__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.consent-banner__text {
+  margin: 0;
+  color: var(--neutral-dark);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.consent-banner__text a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.consent-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.consent-btn {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+  .consent-banner__content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .consent-banner__actions {
+    justify-content: flex-end;
+  }
+}
+
 .ratio > picture {
   position: absolute;
   inset: 0;
