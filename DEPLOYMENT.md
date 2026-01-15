@@ -93,6 +93,5 @@ CORS_ORIGIN=https://your-frontend-url
 - Verify environment variables are set correctly
 
 ### Image/Asset Loading Issues
-- Ensure all images are in `frontend/public/Images/`
+- For the static site, ensure all images are in `html-site/images/`
 - Check file paths are correct (case-sensitive)
-- Verify Next.js Image component is used correctly

@@ -5,7 +5,7 @@ A modern, human-focused marketing website for Splendid Wren Marketing, a small-b
 ## Project Structure
 
 ```
-├── html-site/         # Static HTML/CSS/JS site 
+├── html-site/         # Static HTML/CSS/JS site (production)
 ├── frontend/          # Next.js frontend application
 │   ├── app/          # Next.js App Router pages
 │   ├── components/   # React components
@@ -25,6 +25,11 @@ A modern, human-focused marketing website for Splendid Wren Marketing, a small-b
 - **Blog**: Clean, readable layout for marketing content
 - **Contact**: Friendly contact form
 - **Tools Section**: Stub for future paywalled tools (Campaign Planner, 60-Minute Marketing Plan)
+
+## Production Source of Truth
+
+The live site is served from the static `html-site/` folder. The Next.js app in `frontend/` is retained for reference but is not the production source.
+All production assets should be referenced from `html-site/images/`.
 
 ## Tech Stack
 
