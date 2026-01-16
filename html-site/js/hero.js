@@ -63,6 +63,9 @@
     
     // Mouse move handler
     heroSection.addEventListener('mousemove', handleMouseMove);
+    
+    // Attempt audio unlock on direct pointer interaction with hero
+    heroSection.addEventListener('pointerdown', unlockAudio, { once: true });
   }
   
   function handleMouseEnter() {
@@ -107,6 +110,14 @@
   function handleMouseMove(event) {
     const heroSection = document.querySelector('.hero-section');
     if (!heroSection) return;
+    
+    if (audioElement && audioUnlocked && audioElement.paused) {
+      audioElement.play().catch(function(error) {
+        if (error.name !== 'NotAllowedError') {
+          console.error('Error playing audio:', error);
+        }
+      });
+    }
     
     // Throttle ripple creation (max 1 every 100ms)
     const now = Date.now();

@@ -632,20 +632,35 @@ h1, h2, h3, h4, h5, h6 {
   height: 64px;
   border-radius: 9999px;
   background-color: transparent;
-  color: #2c60a5;
+  color: #2c60a5 !important;
   transition: all 0.3s ease-out;
   text-decoration: none;
 }
 
 .footer-social-link:hover {
   background-color: transparent;
-  color: #2c60a5;
+  color: #2c60a5 !important;
 }
 
 .footer-social-link svg {
   width: 32px;
   height: 32px;
   fill: currentColor;
+}
+
+.footer-social-link svg path,
+.footer-social-link svg circle,
+.footer-social-link svg rect,
+.footer-social-link svg line,
+.footer-social-link svg polyline,
+.footer-social-link svg polygon {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+.footer-social-link i {
+  font-size: 32px;
+  color: currentColor;
 }
 
 .social-large {
