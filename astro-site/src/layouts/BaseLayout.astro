@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { buildAbsoluteUrl, SITE, withSiteTitle } from '../lib/site';
 import type { PageMeta } from '../lib/types';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
 
 interface Props {
@@ -79,5 +80,6 @@ const robots = resolvedMeta.noindex ? 'noindex, nofollow' : 'index, follow';
       <slot />
     </main>
     <Footer />
+    <SpeedInsights />
   </body>
 </html>
