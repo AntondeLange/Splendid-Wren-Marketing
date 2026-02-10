@@ -1,0 +1,20 @@
+---
+import PageHero from '../components/PageHero.astro';
+import BaseLayout from './BaseLayout.astro';
+import type { HeroImage, PageMeta } from '../lib/types';
+
+interface Props {
+  meta: PageMeta;
+  heroTitle: string;
+  heroDescription: string;
+  heroImage?: HeroImage;
+  heroEyebrow?: string;
+}
+
+const { meta, heroTitle, heroDescription, heroImage, heroEyebrow } = Astro.props;
+---
+
+<BaseLayout meta={meta}>
+  <PageHero title={heroTitle} description={heroDescription} image={heroImage} eyebrow={heroEyebrow} />
+  <slot />
+</BaseLayout>

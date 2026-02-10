@@ -1,0 +1,273 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/primitives/Button.astro';
+import Card from '../components/primitives/Card.astro';
+import Container from '../components/primitives/Container.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Heading from '../components/primitives/Heading.astro';
+import Section from '../components/primitives/Section.astro';
+import Text from '../components/primitives/Text.astro';
+import heroPoster from '../assets/images/blue-wren-couple.webp';
+
+const meta = {
+  title: 'Splendid Wren Marketing | Small Business Marketing Consultancy',
+  description:
+    'Warm, clear, and human-focused marketing guidance for small businesses in Australia.',
+  canonicalPath: '/',
+};
+
+const trustItems = [
+  {
+    title: 'Based in Australia',
+    description: 'Local insight with a global outlook.',
+  },
+  {
+    title: 'Small business focused',
+    description: 'Clear strategy built for real-world constraints.',
+  },
+  {
+    title: 'Human-first marketing',
+    description: 'AI-aware, but always authentic.',
+  },
+];
+
+const helpItems = [
+  {
+    title: 'Clear Strategy',
+    description:
+      'We cut through the noise and bring focus to what actually matters. Together, we uncover the heart of your brand and build a clear direction so every decision, message and action makes sense.',
+  },
+  {
+    title: 'Practical Guidance',
+    description:
+      'No jargon. No overwhelm. Just real advice and simple tools that are useful. We break ideas into practical steps so your marketing feels doable.',
+  },
+  {
+    title: 'Human-Centered',
+    description:
+      'Your brand is built by a real person. We learn your story, values and goals, then shape marketing that sounds like you and connects with the right people.',
+  },
+  {
+    title: 'Long-Term Growth',
+    description:
+      'We are not here for quick fixes. We help you build strong foundations and steady momentum so your business stays relevant and resilient.',
+  },
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Splendid Wren Marketing',
+  url: 'https://splendidwrenmarketing.com.au/',
+  logo: 'https://splendidwrenmarketing.com.au/favicon.png',
+};
+---
+
+<BaseLayout meta={meta} structuredData={structuredData}>
+  <Fragment slot="head">
+    <script is:inline>
+      (() => {
+        const hasFromLoader = window.location.search.includes('from=loader');
+        const alreadyShown = sessionStorage.getItem('loaderShown') === 'true';
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!hasFromLoader && !alreadyShown && !prefersReducedMotion) {
+          window.location.replace('/loader.html');
+          return;
+        }
+
+        sessionStorage.setItem('loaderShown', 'true');
+
+        if (hasFromLoader) {
+          window.history.replaceState({}, document.title, '/');
+        }
+      })();
+    </script>
+  </Fragment>
+
+  <section class="hero-section relative isolate flex min-h-[78vh] items-center overflow-hidden bg-brand-900">
+    <video
+      class="absolute inset-0 h-full w-full object-cover opacity-35"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="metadata"
+      poster={heroPoster.src}
+    >
+      <source src="/media/hero-wren.webm" type="video/webm" />
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-b from-brand-950/35 via-brand-900/60 to-brand-900/70"></div>
+
+    <Container class="relative z-10">
+      <div class="mx-auto max-w-4xl py-24 text-center text-white md:py-30">
+        <Heading level={1} class="text-display text-white">Marketing Solutions That Sing</Heading>
+        <Text class="mx-auto mt-6 max-w-3xl text-xl text-white/90 md:text-2xl">
+          Building clear, confident, human brands that thrive in an AI-powered world.
+        </Text>
+        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button href="/contact" variant="inverse" class="sm:min-w-[12rem]">Contact Us</Button>
+          <Button href="/how-we-work" variant="outline" class="border-white text-white hover:border-white hover:bg-white hover:text-brand-900 sm:min-w-[12rem]">
+            Learn More
+          </Button>
+        </div>
+        <p class="mt-4 text-sm font-medium tracking-wide text-white/80">
+          Based in Australia | Small business focused
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <Section tone="white" class="border-y border-neutral-200">
+    <Container>
+      <div class="grid gap-8 text-center md:grid-cols-3">
+        {trustItems.map((item) => (
+          <div>
+            <p class="text-base font-semibold text-brand-900">{item.title}</p>
+            <p class="mt-1 text-sm text-neutral-700">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="white">
+    <Container>
+      <header class="mx-auto mb-12 max-w-3xl text-center">
+        <Heading level={2}>How We Help</Heading>
+        <Text class="mt-4 text-body">
+          The world is getting louder, faster and less human. Clarity and a small brand's place in the world
+          is the most valuable marketing asset they can have. Let us uncover yours.
+        </Text>
+      </header>
+
+      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        {helpItems.map((item) => (
+          <Card class="h-full">
+            <Heading level={3} class="text-2xl">{item.title}</Heading>
+            <Text class="mt-4">{item.description}</Text>
+          </Card>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="white">
+    <Container>
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="font-accent text-3xl italic text-brand-900">
+          "Marketing becomes simple when a business understands who they really are."
+        </p>
+        <Text class="mt-5 text-body">
+          At Splendid Wren Marketing, we help small business owners uncover that clarity and use modern tools
+          to express their brand with purpose, confidence and humanity without losing the heart behind the business.
+        </Text>
+      </div>
+    </Container>
+  </Section>
+
+  <CtaBanner />
+
+  <script is:inline>
+    (() => {
+      const initHeroEffects = () => {
+        const heroSection = document.querySelector('.hero-section');
+        if (!(heroSection instanceof HTMLElement)) {
+          return;
+        }
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          return;
+        }
+
+        const rippleContainer = document.createElement('div');
+        rippleContainer.className = 'hero-ripple-container';
+        heroSection.appendChild(rippleContainer);
+
+        const audioElement = new Audio('/media/blue-wren-audio.mp3');
+        audioElement.volume = 0.6;
+        audioElement.loop = false;
+        audioElement.preload = 'auto';
+        audioElement.load();
+
+        let audioUnlocked = false;
+        let lastRippleTime = 0;
+
+        const unlockAudio = () => {
+          if (audioUnlocked) {
+            return;
+          }
+
+          audioElement
+            .play()
+            .then(() => {
+              audioElement.pause();
+              audioElement.currentTime = 0;
+              audioUnlocked = true;
+            })
+            .catch(() => {});
+        };
+
+        const handleMouseEnter = () => {
+          if (!audioUnlocked) {
+            unlockAudio();
+          }
+
+          if (!audioUnlocked) {
+            return;
+          }
+
+          audioElement.currentTime = 0;
+          audioElement.play().catch(() => {});
+        };
+
+        const handleMouseLeave = () => {
+          audioElement.pause();
+          audioElement.currentTime = 0;
+          rippleContainer.innerHTML = '';
+        };
+
+        const handleMouseMove = (event) => {
+          const now = Date.now();
+          if (now - lastRippleTime < 100) {
+            return;
+          }
+          lastRippleTime = now;
+
+          if (audioUnlocked && audioElement.paused) {
+            audioElement.play().catch(() => {});
+          }
+
+          const rect = heroSection.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+
+          const ripple = document.createElement('div');
+          ripple.className = 'hero-ripple';
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          rippleContainer.appendChild(ripple);
+
+          window.setTimeout(() => {
+            ripple.remove();
+          }, 1000);
+        };
+
+        document.addEventListener('click', unlockAudio, { once: true });
+        document.addEventListener('touchstart', unlockAudio, { once: true });
+        document.addEventListener('keydown', unlockAudio, { once: true });
+
+        heroSection.addEventListener('pointerdown', unlockAudio, { once: true });
+        heroSection.addEventListener('mouseenter', handleMouseEnter);
+        heroSection.addEventListener('mouseleave', handleMouseLeave);
+        heroSection.addEventListener('mousemove', handleMouseMove);
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initHeroEffects, { once: true });
+      } else {
+        initHeroEffects();
+      }
+    })();
+  </script>
+</BaseLayout>

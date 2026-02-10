@@ -1,0 +1,21 @@
+---
+interface Props {
+  as?: 'p' | 'span' | 'div';
+  class?: string;
+  lead?: boolean;
+  muted?: boolean;
+}
+
+const { as = 'p', class: className = '', lead = false, muted = false }: Props = Astro.props;
+const Tag = as;
+---
+
+<Tag
+  class:list={[
+    lead ? 'text-body leading-relaxed' : 'text-base leading-relaxed',
+    muted ? 'text-neutral-400' : 'text-neutral-700',
+    className,
+  ]}
+>
+  <slot />
+</Tag>

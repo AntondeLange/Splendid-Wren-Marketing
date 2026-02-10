@@ -1,0 +1,33 @@
+---
+import Badge from '../components/primitives/Badge.astro';
+import Card from '../components/primitives/Card.astro';
+import Container from '../components/primitives/Container.astro';
+import Heading from '../components/primitives/Heading.astro';
+import Section from '../components/primitives/Section.astro';
+import Text from '../components/primitives/Text.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+
+const meta = {
+  title: 'Marketing Tools',
+  description: 'Marketing tools and resources for small businesses.',
+  canonicalPath: '/tools',
+};
+---
+
+<PageLayout
+  meta={meta}
+  heroTitle="Marketing Tools"
+  heroDescription="This section is under development. Tools and member access are coming soon."
+>
+  <Section>
+    <Container class="max-w-3xl">
+      <Card class="text-center">
+        <Badge>Coming Soon</Badge>
+        <Heading level={2} class="mt-5">Tools Hub</Heading>
+        <Text class="mt-3 text-body">
+          Future tools will support planning, campaign design, brand audits and implementation workflows.
+        </Text>
+      </Card>
+    </Container>
+  </Section>
+</PageLayout>

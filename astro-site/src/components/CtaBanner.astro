@@ -1,0 +1,35 @@
+---
+import { DEFAULT_CTA } from '../lib/site';
+import Button from './primitives/Button.astro';
+import Card from './primitives/Card.astro';
+import Container from './primitives/Container.astro';
+import Heading from './primitives/Heading.astro';
+import Section from './primitives/Section.astro';
+import Text from './primitives/Text.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  class?: string;
+}
+
+const {
+  title = DEFAULT_CTA.title,
+  description = DEFAULT_CTA.description,
+  ctaLabel = DEFAULT_CTA.label,
+  ctaHref = DEFAULT_CTA.href,
+  class: className = '',
+} = Astro.props;
+---
+
+<Section tone="soft" class={className}>
+  <Container>
+    <Card class="mx-auto max-w-3xl text-center">
+      <Heading level={2}>{title}</Heading>
+      <Text class="mx-auto mt-4 max-w-2xl text-body">{description}</Text>
+      <Button href={ctaHref} class="mt-7">{ctaLabel}</Button>
+    </Card>
+  </Container>
+</Section>

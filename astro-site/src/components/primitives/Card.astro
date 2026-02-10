@@ -1,0 +1,14 @@
+---
+interface Props {
+  as?: 'article' | 'div' | 'section';
+  class?: string;
+  hover?: boolean;
+}
+
+const { as = 'article', class: className = '', hover = true }: Props = Astro.props;
+const Tag = as;
+---
+
+<Tag class:list={['surface-card p-8', hover && 'transition duration-300 hover:-translate-y-1 hover:shadow-glow', className]}>
+  <slot />
+</Tag>

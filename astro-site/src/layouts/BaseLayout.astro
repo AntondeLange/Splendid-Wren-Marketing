@@ -1,0 +1,83 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { buildAbsoluteUrl, SITE, withSiteTitle } from '../lib/site';
+import type { PageMeta } from '../lib/types';
+import '../styles/global.css';
+
+interface Props {
+  meta?: PageMeta;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const { meta, structuredData } = Astro.props;
+const pathname = Astro.url.pathname;
+
+const resolvedMeta: PageMeta = {
+  title: meta?.title ?? SITE.defaultTitle,
+  description: meta?.description ?? SITE.defaultDescription,
+  canonicalPath: meta?.canonicalPath ?? pathname,
+  ogTitle: meta?.ogTitle,
+  ogDescription: meta?.ogDescription,
+  ogImage: meta?.ogImage,
+  noindex: meta?.noindex,
+};
+
+const title = withSiteTitle(resolvedMeta.title);
+const canonicalUrl = buildAbsoluteUrl(resolvedMeta.canonicalPath ?? pathname);
+const ogTitle = resolvedMeta.ogTitle ?? title;
+const ogDescription = resolvedMeta.ogDescription ?? resolvedMeta.description;
+const ogImage = buildAbsoluteUrl(resolvedMeta.ogImage ?? SITE.defaultOgImage);
+const robots = resolvedMeta.noindex ? 'noindex, nofollow' : 'index, follow';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={resolvedMeta.description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content={robots} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    {
+      structuredData && (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+      )
+    }
+    <slot name="head" />
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-brand-900"
+    >
+      Skip to main content
+    </a>
+    <Header pathname={pathname} />
+    <main id="main-content" class="min-h-[60vh]">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

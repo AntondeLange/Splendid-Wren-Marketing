@@ -1,0 +1,103 @@
+@config "../../tailwind.config.ts";
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-neutral-50 text-neutral-700 antialiased;
+    background-image:
+      radial-gradient(circle at 12% 16%, rgba(99, 162, 170, 0.12), transparent 45%),
+      radial-gradient(circle at 84% 0%, rgba(30, 58, 95, 0.11), transparent 40%),
+      linear-gradient(to bottom, #ffffff, #f8f9fa 45%, #ffffff);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-brand-900;
+    text-wrap: balance;
+  }
+
+  a {
+    @apply text-brand-800;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    @apply rounded-sm outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white;
+  }
+}
+
+@layer components {
+  .surface-card {
+    @apply rounded-xl border border-neutral-200 bg-white shadow-card;
+  }
+
+  .section-soft {
+    @apply bg-neutral-50/90;
+  }
+
+  .hero-ripple-container {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .hero-ripple {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-radius: 9999px;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow:
+      0 0 30px rgba(255, 255, 255, 0.5),
+      0 0 60px rgba(255, 255, 255, 0.3);
+    animation: hero-ripple 1000ms ease-out forwards;
+  }
+}
+
+@keyframes hero-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    width: 250px;
+    height: 250px;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

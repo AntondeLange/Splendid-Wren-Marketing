@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+import logoLong from '../assets/images/logo-long.webp';
+import { NAV_ITEMS } from '../lib/site';
+import Button from './primitives/Button.astro';
+import Container from './primitives/Container.astro';
+
+interface Props {
+  pathname: string;
+}
+
+const { pathname } = Astro.props;
+
+const normalizePath = (path: string): string => {
+  if (path.length > 1 && path.endsWith('/')) {
+    return path.slice(0, -1);
+  }
+
+  return path;
+};
+
+const activePath = normalizePath(pathname);
+const isActive = (href: string): boolean => {
+  const normalizedHref = normalizePath(href);
+
+  if (normalizedHref === '/') {
+    return activePath === '/';
+  }
+
+  return activePath === normalizedHref || activePath.startsWith(`${normalizedHref}/`);
+};
+---
+
+<header class="sticky top-0 z-50 border-b border-brand-950/70 bg-brand-900/95 backdrop-blur-md">
+  <Container>
+    <div class="relative flex min-h-[4.5rem] items-center justify-between gap-3 py-2">
+      <a href="/" class="inline-flex max-w-[13.5rem]" aria-label="Splendid Wren Marketing home">
+        <Image src={logoLong} alt="Splendid Wren Marketing" widths={[320, 460]} sizes="(min-width: 768px) 216px, 170px" loading="eager" />
+      </a>
+
+      <nav class="hidden md:block" aria-label="Main navigation">
+        <ul class="flex items-center gap-7">
+          {NAV_ITEMS.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class:list={[
+                  'text-sm font-medium transition',
+                  isActive(item.href) ? 'text-white' : 'text-white/80 hover:text-white',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="hidden md:block">
+        <Button href="/contact" variant="inverse" class="min-w-[8.25rem]">
+          Contact Us
+        </Button>
+      </div>
+
+      <details class="group md:hidden" data-mobile-nav>
+        <summary
+          aria-label="Open menu"
+          class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/20 text-white [&::-webkit-details-marker]:hidden"
+        >
+          <span class="sr-only">Toggle navigation menu</span>
+          <span class="space-y-1.5">
+            <span class="block h-0.5 w-5 bg-current"></span>
+            <span class="block h-0.5 w-5 bg-current"></span>
+            <span class="block h-0.5 w-5 bg-current"></span>
+          </span>
+        </summary>
+        <div class="absolute right-0 top-[calc(100%+0.5rem)] w-[17rem] rounded-xl border border-brand-200 bg-white p-4 shadow-glow">
+          <nav aria-label="Mobile navigation">
+            <ul class="space-y-2">
+              {NAV_ITEMS.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
+                    class:list={[
+                      'block rounded-lg px-3 py-2 text-sm font-medium text-brand-900 transition hover:bg-brand-50',
+                      isActive(item.href) && 'bg-brand-50',
+                    ]}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+              <li class="pt-2">
+                <Button href="/contact" class="w-full justify-center">Contact Us</Button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </details>
+    </div>
+  </Container>
+</header>
+
+<script>
+  document.querySelectorAll('[data-mobile-nav]').forEach((menu) => {
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.removeAttribute('open');
+      });
+    });
+  });
+</script>

@@ -1,0 +1,20 @@
+---
+import Heading from './primitives/Heading.astro';
+import Text from './primitives/Text.astro';
+
+interface Props {
+  step: string;
+  title: string;
+  description: string;
+}
+
+const { step, title, description } = Astro.props;
+---
+
+<article class="grid gap-4 md:grid-cols-[minmax(0,13rem)_1fr] md:gap-7">
+  <div>
+    <p class="text-5xl font-bold leading-none text-neutral-200">{step}</p>
+    <Heading level={3} class="mt-2 text-2xl">{title}</Heading>
+  </div>
+  <Text class="text-body">{description}</Text>
+</article>

@@ -1,0 +1,61 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'textarea';
+  placeholder?: string;
+  autocomplete?: string;
+  required?: boolean;
+  rows?: number;
+  maxLength?: number;
+  class?: string;
+}
+
+const {
+  id,
+  name,
+  label,
+  type = 'text',
+  placeholder = '',
+  autocomplete,
+  required = false,
+  rows = 6,
+  maxLength,
+  class: className = '',
+} = Astro.props;
+
+const isTextarea = type === 'textarea';
+---
+
+<div class={className}>
+  <label for={id} class="mb-2 block text-sm font-medium text-brand-900">
+    {label}
+    {required && <span class="text-red-700"> *</span>}
+  </label>
+  {isTextarea ? (
+    <textarea
+      id={id}
+      name={name}
+      rows={rows}
+      required={required}
+      placeholder={placeholder}
+      maxlength={maxLength}
+      aria-describedby={`${id}-error`}
+      class="min-h-36 w-full rounded-lg border border-neutral-400 bg-white px-4 py-3 text-base text-neutral-700 shadow-sm transition placeholder:text-neutral-400 focus:border-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400/40"
+    ></textarea>
+  ) : (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      required={required}
+      placeholder={placeholder}
+      autocomplete={autocomplete}
+      maxlength={maxLength}
+      aria-describedby={`${id}-error`}
+      class="w-full rounded-lg border border-neutral-400 bg-white px-4 py-3 text-base text-neutral-700 shadow-sm transition placeholder:text-neutral-400 focus:border-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400/40"
+    />
+  )}
+  <p id={`${id}-error`} data-error-for={id} class="mt-2 hidden text-sm text-red-700"></p>
+</div>

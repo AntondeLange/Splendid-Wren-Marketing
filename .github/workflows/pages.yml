@@ -1,12 +1,13 @@
-name: Deploy html-site to GitHub Pages
+name: Deploy astro-site to GitHub Pages
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'html-site/**'
+      - 'astro-site/**'
       - '.github/workflows/pages.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,14 +19,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: astro-site/package-lock.json
+
+      - name: Install dependencies
+        working-directory: astro-site
+        run: npm ci
+
+      - name: Build Astro site
+        working-directory: astro-site
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -33,8 +46,15 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: html-site
+          path: astro-site/dist
 
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/primitives/Container.astro';
+import Heading from '../components/primitives/Heading.astro';
+import Section from '../components/primitives/Section.astro';
+import Text from '../components/primitives/Text.astro';
+
+const meta = {
+  title: 'Privacy Policy',
+  description: 'Privacy policy for Splendid Wren Marketing.',
+  canonicalPath: '/privacy',
+};
+---
+
+<BaseLayout meta={meta}>
+  <Section tone="white">
+    <Container class="max-w-3xl">
+      <Heading level={1}>Privacy Policy</Heading>
+      <Text class="mt-5 text-body">
+        This policy explains how Splendid Wren Marketing collects, uses and protects personal information.
+        We only collect information you choose to provide.
+      </Text>
+
+      <div class="mt-8 space-y-6">
+        <section>
+          <Heading level={2} class="text-2xl">Information we collect</Heading>
+          <Text class="mt-3">Name, business name, email address and message content when you contact us.</Text>
+        </section>
+
+        <section>
+          <Heading level={2} class="text-2xl">How we use it</Heading>
+          <Text class="mt-3">We use your details to respond to enquiries and provide information about services.</Text>
+        </section>
+
+        <section>
+          <Heading level={2} class="text-2xl">Third-party services</Heading>
+          <Text class="mt-3">
+            The contact form points to a placeholder endpoint. Your deployed provider may process form events and
+            analytics data according to its own terms.
+          </Text>
+        </section>
+
+        <section>
+          <Heading level={2} class="text-2xl">Contact</Heading>
+          <Text class="mt-3">Questions? Email hello@splendidwrenmarketing.com.au.</Text>
+        </section>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

@@ -1,0 +1,103 @@
+---
+import { Image } from 'astro:assets';
+import CtaBanner from '../components/CtaBanner.astro';
+import Container from '../components/primitives/Container.astro';
+import Heading from '../components/primitives/Heading.astro';
+import Section from '../components/primitives/Section.astro';
+import Text from '../components/primitives/Text.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+import blueWren from '../assets/images/blue-wren.webp';
+import headshotBridge from '../assets/images/headshot-bridge.webp';
+import headshotCuppa from '../assets/images/headshot-cuppa.webp';
+
+const meta = {
+  title: 'About Us',
+  description:
+    'Learn about Splendid Wren Marketing and our purpose-driven approach to helping small businesses.',
+  canonicalPath: '/about',
+};
+---
+
+<PageLayout
+  meta={meta}
+  heroTitle="About"
+  heroDescription="Splendid Wren Marketing was created from a simple belief: small businesses deserve brands that feel clear, confident and truly their own."
+  heroImage={{ src: blueWren, alt: 'Blue wren bird' }}
+>
+  <Section>
+    <Container>
+      <div class="grid items-center gap-10 lg:grid-cols-2">
+        <figure class="overflow-hidden rounded-xl border border-neutral-200 shadow-card">
+          <Image
+            src={headshotCuppa}
+            alt="Founder headshot"
+            widths={[560, 860]}
+            sizes="(min-width: 1024px) 34vw, 100vw"
+            loading="lazy"
+          />
+        </figure>
+
+        <article>
+          <Heading level={2}>Founder Story</Heading>
+          <div class="mt-4 space-y-4 text-base leading-relaxed text-neutral-700">
+            <p>
+              Meet Sarah Moore. After more than 20 years working alongside small business owners, it became
+              clear that many were not short on ideas or ambition. They were overwhelmed by noise.
+            </p>
+            <p>
+              Marketing is easier when you have strong foundations. With clear positioning and practical tools,
+              technology can do the heavy lifting.
+            </p>
+            <p>
+              Over the past two years, Sarah has focused deeply on AI and practical marketing systems. She left
+              a stable corporate path to build tools that help small businesses simplify marketing and grow with confidence.
+            </p>
+          </div>
+        </article>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="white">
+    <Container class="max-w-4xl">
+      <Heading level={2} class="text-center">Our Purpose</Heading>
+      <div class="mt-6 space-y-4 text-body text-neutral-700">
+        <p>We believe a business does not need to be big to deserve a brand that stands out.</p>
+        <p>
+          Our purpose is to bring clarity, confidence and meaning to small business people building something real.
+          When a business understands who they are, everything else becomes possible.
+        </p>
+        <p>
+          We show up with optimism, insight, innovation and honesty so clients can express their brand with
+          purpose and personality in a fast-moving world.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section>
+    <Container>
+      <div class="grid items-center gap-10 lg:grid-cols-2">
+        <article>
+          <Heading level={2}>Why Splendid Wren?</Heading>
+          <Text class="mt-4 text-body">
+            The name reflects what great brands can be: small but unmistakable. The splendid wren is vibrant,
+            clear and impossible to ignore in its natural environment. That is our approach to brand work.
+          </Text>
+        </article>
+
+        <figure class="overflow-hidden rounded-xl border border-neutral-200 shadow-card">
+          <Image
+            src={headshotBridge}
+            alt="Splendid Wren brand imagery"
+            widths={[560, 860]}
+            sizes="(min-width: 1024px) 34vw, 100vw"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </Container>
+  </Section>
+
+  <CtaBanner />
+</PageLayout>

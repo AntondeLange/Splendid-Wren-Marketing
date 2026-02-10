@@ -1,0 +1,32 @@
+---
+import Badge from './primitives/Badge.astro';
+import Card from './primitives/Card.astro';
+import Heading from './primitives/Heading.astro';
+import Text from './primitives/Text.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  publishDate: Date;
+}
+
+const { title, description, href, publishDate } = Astro.props;
+
+const formattedDate = publishDate.toLocaleDateString('en-AU', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<Card class="h-full">
+  <Badge>{formattedDate}</Badge>
+  <Heading level={3} class="mt-5 text-2xl">
+    <a href={href} class="transition hover:text-brand-700">{title}</a>
+  </Heading>
+  <Text class="mt-3">{description}</Text>
+  <a href={href} class="mt-6 inline-flex text-sm font-semibold text-brand-800 hover:text-brand-950">
+    Read article ->
+  </a>
+</Card>

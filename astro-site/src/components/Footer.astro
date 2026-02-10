@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import logoSquare from '../assets/images/logo-square.png';
+import { FOOTER_LEGAL_ITEMS, LAND_ACKNOWLEDGEMENT, NAV_ITEMS } from '../lib/site';
+import Container from './primitives/Container.astro';
+import SocialLinks from './SocialLinks.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-neutral-200 bg-white py-14 md:mt-24">
+  <Container>
+    <div class="grid gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.8fr)_minmax(0,1fr)]">
+      <div>
+        <a href="/" aria-label="Splendid Wren Marketing home" class="inline-flex max-w-[10.5rem]">
+          <Image src={logoSquare} alt="Splendid Wren Marketing" widths={[210, 320]} sizes="168px" loading="lazy" />
+        </a>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-[0.08em] text-brand-900">Navigation</h2>
+        <ul class="mt-4 space-y-2">
+          {NAV_ITEMS.map((item) => (
+            <li>
+              <a href={item.href} class="text-sm text-neutral-700 transition hover:text-brand-900">{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-[0.08em] text-brand-900">Connect</h2>
+        <p class="mt-4 text-sm text-neutral-700">Based in Australia</p>
+        <p class="mt-3 max-w-prose text-sm leading-relaxed text-neutral-700">{LAND_ACKNOWLEDGEMENT}</p>
+        <SocialLinks class="mt-4" />
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-neutral-200 pt-5 text-center text-xs text-neutral-400">
+      {FOOTER_LEGAL_ITEMS.map((item, index) => (
+        <>
+          {index > 0 && <span aria-hidden="true"> | </span>}
+          <a href={item.href} class="text-neutral-400 transition hover:text-brand-800">{item.label}</a>
+        </>
+      ))}
+      <span aria-hidden="true"> | </span>
+      <span>(c) {year} Splendid Wren Marketing. All rights reserved.</span>
+    </div>
+  </Container>
+</footer>

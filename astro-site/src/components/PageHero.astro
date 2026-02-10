@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import type { HeroImage } from '../lib/types';
+import Container from './primitives/Container.astro';
+import Heading from './primitives/Heading.astro';
+import Section from './primitives/Section.astro';
+import Text from './primitives/Text.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: HeroImage;
+  eyebrow?: string;
+}
+
+const { title, description, image, eyebrow } = Astro.props;
+---
+
+<Section tone="white">
+  <Container>
+    <div class:list={['grid items-center gap-10', image && 'lg:grid-cols-2']}>
+      <div class="animate-fade-up">
+        {eyebrow && (
+          <p class="mb-4 text-xs font-semibold uppercase tracking-[0.1em] text-brand-700">{eyebrow}</p>
+        )}
+        <Heading level={1}>{title}</Heading>
+        <Text class="mt-5 text-body">{description}</Text>
+      </div>
+
+      {image && (
+        <figure class="overflow-hidden rounded-xl border border-neutral-200 shadow-card">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            widths={[640, 960]}
+            sizes="(min-width: 1024px) 38vw, 100vw"
+            loading="eager"
+          />
+        </figure>
+      )}
+    </div>
+  </Container>
+</Section>

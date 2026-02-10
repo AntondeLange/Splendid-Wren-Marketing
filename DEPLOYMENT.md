@@ -1,97 +1,71 @@
 # Deployment Guide
 
-## Frontend Deployment
+## Project Sources
 
-Deploy the `frontend/` Next.js app on any Node.js hosting provider, or deploy the static `html-site/` folder to any static hosting provider.
+- `html-site/`: legacy static source kept as fallback/reference.
+- `astro-site/`: current production source (Astro + Tailwind + TypeScript).
 
-## Backend Deployment
+## Build and Deploy (Astro)
 
-The backend Express.js server needs separate hosting. Recommended options:
-
-### Option 1: Railway (Recommended)
-
-1. Go to [railway.app](https://railway.app) and sign up
-2. Click "New Project" → "Deploy from GitHub repo"
-3. Select your repository
-4. Configure:
-   - **Root Directory**: `backend`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm start`
-5. Add environment variables in Railway dashboard
-6. Railway will provide a URL (e.g., `https://your-app.railway.app`)
-
-### Option 2: Render
-
-1. Go to [render.com](https://render.com) and sign up
-2. Click "New" → "Web Service"
-3. Connect your Git repository
-4. Configure:
-   - **Root Directory**: `backend`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm start`
-   - **Environment**: Node
-5. Add environment variables
-6. Deploy
-
-### Option 3: Heroku
-
-1. Install Heroku CLI: `brew install heroku/brew/heroku` (Mac) or download from heroku.com
-2. Login: `heroku login`
-3. Create app: `heroku create your-app-name`
-4. Set buildpack: `heroku buildpacks:set heroku/nodejs`
-5. Configure:
+1. Install dependencies:
    ```bash
-   cd backend
-   heroku config:set NODE_ENV=production
+   cd astro-site
+   npm install
    ```
-6. Deploy: `git push heroku main`
+2. Run quality checks:
+   ```bash
+   npm run typecheck
+   npm run lint
+   npm run build
+   ```
+3. Deploy the generated static output from:
+   - `astro-site/dist/`
 
-## Environment Variables
+## Contact Form Endpoint
 
-### Frontend (.env.local in frontend directory)
-```env
-NEXT_PUBLIC_API_URL=https://your-backend-url.com
+The contact form posts to `/api/contact`.
+
+- Current implementation is a placeholder validation endpoint.
+- In production, deploy this route as a serverless function and forward validated submissions to your email/CRM provider.
+- Keep all secrets (API keys, SMTP credentials, webhook secrets) in server environment variables only.
+
+Recommended server-side controls:
+
+- Strict input validation (name, business name, email, message length)
+- Input sanitization before any logging/storage
+- Honeypot and rate limiting
+- Request size limits
+- Structured error handling with no stack traces in responses
+
+## Security Headers (Recommended)
+
+Configure these at your host/CDN:
+
+- `Content-Security-Policy`
+- `Strict-Transport-Security`
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `X-Frame-Options: DENY`
+- `Permissions-Policy` (disable unused browser features)
+
+Example baseline:
+
+```txt
+Content-Security-Policy: default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+X-Frame-Options: DENY
 ```
 
-### Backend (.env in backend directory)
-```env
-NODE_ENV=production
-PORT=3001
-CORS_ORIGIN=https://your-frontend-url
-```
+Adjust CSP sources as needed for analytics, forms, or third-party embeds.
 
 ## Post-Deployment Checklist
 
-- [ ] Test all pages load correctly
-- [ ] Verify images and assets load
-- [ ] Test contact form submission
-- [ ] Check mobile responsiveness
-- [ ] Verify API endpoints work
-- [ ] Test audio/video playback (hero section)
-- [ ] Check loading animation works
-- [ ] Verify ripple effects on hero section
-- [ ] Test navigation between pages
-- [ ] Check SEO metadata
-- [ ] Verify favicon loads
-
-## Custom Domain Setup
-
-### Backend
-- Update CORS_ORIGIN to include your custom domain
-- Update frontend NEXT_PUBLIC_API_URL if backend has custom domain
-
-## Troubleshooting
-
-### Build Errors
-- Ensure all dependencies are in package.json
-- Check Node.js version (should be 18+)
-- Verify all environment variables are set
-
-### API Connection Issues
-- Verify CORS_ORIGIN includes frontend URL
-- Check backend is running and accessible
-- Verify environment variables are set correctly
-
-### Image/Asset Loading Issues
-- For the static site, ensure all images are in `html-site/images/`
-- Check file paths are correct (case-sensitive)
+- [ ] All routes return `200` (or expected redirects)
+- [ ] `robots.txt` and `sitemap.xml` are served
+- [ ] Metadata (title/description/OG/Twitter) is correct per page
+- [ ] Contact form endpoint rejects invalid input
+- [ ] Keyboard navigation and visible focus states work
+- [ ] Mobile navigation and responsive layouts render correctly
+- [ ] No client-side secrets are exposed

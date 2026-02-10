@@ -1,0 +1,29 @@
+---
+interface Props {
+  as?: 'section' | 'div' | 'article';
+  class?: string;
+  id?: string;
+  padded?: boolean;
+  tone?: 'default' | 'soft' | 'white' | 'brand';
+}
+
+const {
+  as = 'section',
+  class: className = '',
+  id,
+  padded = true,
+  tone = 'default',
+} = Astro.props;
+const Tag = as;
+
+const toneClasses: Record<NonNullable<Props['tone']>, string> = {
+  default: '',
+  soft: 'section-soft',
+  white: 'bg-white',
+  brand: 'bg-brand-900 text-white',
+};
+---
+
+<Tag id={id} class:list={[padded && 'py-16 md:py-24', toneClasses[tone], className]}>
+  <slot />
+</Tag>

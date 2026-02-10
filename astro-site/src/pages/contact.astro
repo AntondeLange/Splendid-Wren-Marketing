@@ -1,0 +1,24 @@
+---
+import ContactForm from '../components/ContactForm.astro';
+import Container from '../components/primitives/Container.astro';
+import Section from '../components/primitives/Section.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+
+const meta = {
+  title: 'Contact Us',
+  description: 'Contact Splendid Wren Marketing for guidance for your small business.',
+  canonicalPath: '/contact',
+};
+---
+
+<PageLayout
+  meta={meta}
+  heroTitle="Let's Connect"
+  heroDescription="Whether you are ready to build your brand or just want to ask a few questions, we would love to hear from you."
+>
+  <Section>
+    <Container class="max-w-3xl">
+      <ContactForm />
+    </Container>
+  </Section>
+</PageLayout>

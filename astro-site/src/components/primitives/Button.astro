@@ -1,0 +1,60 @@
+---
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  variant?: 'primary' | 'outline' | 'inverse' | 'ghost';
+  class?: string;
+  target?: string;
+  rel?: string;
+  disabled?: boolean;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  type = 'button',
+  variant = 'primary',
+  class: className = '',
+  target,
+  rel,
+  disabled = false,
+  ariaLabel,
+} = Astro.props;
+
+const baseClasses =
+  'inline-flex min-h-11 items-center justify-center rounded-lg border px-6 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+
+const variantClasses: Record<NonNullable<Props['variant']>, string> = {
+  primary: 'border-brand-900 bg-brand-900 text-white hover:bg-brand-950 hover:border-brand-950',
+  outline: 'border-brand-900 bg-transparent text-brand-900 hover:bg-brand-900 hover:text-white',
+  inverse: 'border-white bg-white text-brand-900 hover:bg-brand-100',
+  ghost: 'border-transparent bg-transparent text-brand-900 hover:bg-brand-50',
+};
+---
+
+{href ? (
+  <a
+    href={href}
+    target={target}
+    rel={rel}
+    aria-label={ariaLabel}
+    aria-disabled={disabled ? 'true' : undefined}
+    class:list={[
+      baseClasses,
+      variantClasses[variant],
+      disabled && 'pointer-events-none opacity-50',
+      className,
+    ]}
+  >
+    <slot />
+  </a>
+) : (
+  <button
+    type={type}
+    disabled={disabled}
+    aria-label={ariaLabel}
+    class:list={[baseClasses, variantClasses[variant], disabled && 'opacity-50', className]}
+  >
+    <slot />
+  </button>
+)}

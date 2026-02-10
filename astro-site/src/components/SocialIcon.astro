@@ -1,0 +1,32 @@
+---
+import type { SocialIcon as SocialIconType } from '../lib/types';
+
+interface Props {
+  icon: SocialIconType;
+  class?: string;
+}
+
+const { icon, class: className = 'size-6' } = Astro.props;
+---
+
+{
+  icon === 'facebook' && (
+    <svg viewBox="0 0 24 24" aria-hidden="true" class={className} fill="currentColor">
+      <path d="M22 12.07C22 6.48 17.52 2 11.93 2S1.87 6.48 1.87 12.07c0 5.03 3.67 9.2 8.47 9.96v-7.04H7.9v-2.92h2.44V9.84c0-2.42 1.44-3.76 3.64-3.76 1.05 0 2.15.19 2.15.19v2.37h-1.21c-1.2 0-1.57.75-1.57 1.51v1.81h2.67l-.43 2.92h-2.24V22c4.8-.76 8.65-4.93 8.65-9.93Z" />
+    </svg>
+  )
+}
+{
+  icon === 'instagram' && (
+    <svg viewBox="0 0 24 24" aria-hidden="true" class={className} fill="currentColor">
+      <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm-.19 1.92A3.64 3.64 0 0 0 3.92 7.56v8.88a3.64 3.64 0 0 0 3.64 3.64h8.88a3.64 3.64 0 0 0 3.64-3.64V7.56a3.64 3.64 0 0 0-3.64-3.64H7.56Zm8.96 1.44a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.92a3.08 3.08 0 1 0 0 6.16 3.08 3.08 0 0 0 0-6.16Z" />
+    </svg>
+  )
+}
+{
+  icon === 'linkedin' && (
+    <svg viewBox="0 0 24 24" aria-hidden="true" class={className} fill="currentColor">
+      <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.01 2.5 2.5 0 0 1 0-5.01ZM2.75 9.75h4.46V21H2.75V9.75Zm7.14 0h4.28v1.54h.06c.6-1.13 2.05-1.9 4.22-1.9 4.51 0 5.35 2.96 5.35 6.81V21h-4.46v-4.27c0-1.02-.02-2.33-1.42-2.33-1.42 0-1.64 1.11-1.64 2.26V21H9.9V9.75Z" />
+    </svg>
+  )
+}
