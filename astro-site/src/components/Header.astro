@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import logoLong from '../assets/images/logo-long.webp';
+import logoNavbar from '../assets/images/logo-navbar.png';
 import { NAV_ITEMS } from '../lib/site';
 import Button from './primitives/Button.astro';
 import Container from './primitives/Container.astro';
@@ -35,7 +35,13 @@ const isActive = (href: string): boolean => {
   <Container>
     <div class="relative flex min-h-[4.5rem] items-center justify-between gap-3 py-2">
       <a href="/" class="inline-flex max-w-[13.5rem]" aria-label="Splendid Wren Marketing home">
-        <Image src={logoLong} alt="Splendid Wren Marketing" widths={[320, 460]} sizes="(min-width: 768px) 216px, 170px" loading="eager" />
+        <Image
+          src={logoNavbar}
+          alt="Splendid Wren Marketing"
+          widths={[320, 520, 720]}
+          sizes="(min-width: 768px) 216px, 170px"
+          loading="eager"
+        />
       </a>
 
       <nav class="hidden md:block" aria-label="Main navigation">

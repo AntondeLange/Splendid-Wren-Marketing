@@ -1,6 +1,7 @@
 # React Islands
 
-This folder is intentionally empty for now.
+React islands that hydrate only where client interactivity is needed.
 
-The current migration keeps interactivity in plain Astro where possible to minimize shipped JavaScript.
-React should only be introduced for UI states that cannot be handled cleanly with Astro and minimal client scripts.
+Current islands:
+
+- `ContactFormEnhancer.tsx` (`client:load`) for contact-form validation, status updates, and submit handling.

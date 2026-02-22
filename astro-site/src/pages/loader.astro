@@ -1,0 +1,50 @@
+---
+const refreshDelaySeconds = 8;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="refresh" content={`${refreshDelaySeconds};url=/?from=loader`} />
+    <title>Logo Loader</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #ffffff;
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+      }
+
+      .loader {
+        width: min(480px, 90vw);
+      }
+
+      .loader img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+    <script is:inline>
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.location.replace('/?from=loader');
+      }
+    </script>
+  </head>
+  <body>
+    <div class="loader">
+      <img src="/media/logo-loader.png" alt="Splendid Wren Marketing" width="687" height="532" />
+    </div>
+  </body>
+</html>

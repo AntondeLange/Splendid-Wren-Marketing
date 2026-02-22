@@ -15,7 +15,6 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'About', href: '/about' },
   { label: 'How We Work', href: '/how-we-work' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Tools', href: '/tools' },
 ];
 
 export const FOOTER_LEGAL_ITEMS: NavItem[] = [

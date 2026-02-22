@@ -2,8 +2,7 @@
 
 ## Project Sources
 
-- `html-site/`: legacy static source kept as fallback/reference.
-- `astro-site/`: current production source (Astro + Tailwind + TypeScript).
+- `astro-site/`: production source (Astro + Tailwind + TypeScript + React islands).
 
 ## Build and Deploy (Astro)
 
