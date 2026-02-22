@@ -30,6 +30,7 @@ const ogTitle = resolvedMeta.ogTitle ?? title;
 const ogDescription = resolvedMeta.ogDescription ?? resolvedMeta.description;
 const ogImage = buildAbsoluteUrl(resolvedMeta.ogImage ?? SITE.defaultOgImage);
 const robots = resolvedMeta.noindex ? 'noindex, nofollow' : 'index, follow';
+const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'true';
 ---
 
 <!doctype html>
@@ -80,6 +81,6 @@ const robots = resolvedMeta.noindex ? 'noindex, nofollow' : 'index, follow';
       <slot />
     </main>
     <Footer />
-    <SpeedInsights />
+    {enableSpeedInsights && <SpeedInsights />}
   </body>
 </html>
