@@ -67,32 +67,28 @@ const structuredData = {
   <Fragment slot="head">
     <script is:inline>
       (() => {
-        const hasFromLoader = window.location.search.includes('from=loader');
-        const alreadyShown = sessionStorage.getItem('loaderShown') === 'true';
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const currentUrl = new URL(window.location.href);
+        const fromValue = currentUrl.searchParams.get('from');
 
-        if (!hasFromLoader && !alreadyShown && !prefersReducedMotion) {
-          window.location.replace('/loader');
+        if (fromValue !== 'loader') {
           return;
         }
 
         sessionStorage.setItem('loaderShown', 'true');
-
-        if (hasFromLoader) {
-          window.history.replaceState({}, document.title, '/');
-        }
+        currentUrl.searchParams.delete('from');
+        const cleanPath = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
+        window.history.replaceState({}, document.title, cleanPath || '/');
       })();
     </script>
   </Fragment>
 
   <section class="hero-section relative isolate flex min-h-[78vh] items-center overflow-hidden bg-brand-900">
     <video
+      data-hero-video
       class="absolute inset-0 h-full w-full object-cover opacity-35"
-      autoplay
-      loop
       muted
       playsinline
-      preload="metadata"
+      preload="none"
       poster={heroPoster.src}
     >
       <source src="/media/hero-wren.webm" type="video/webm" />
@@ -170,103 +166,61 @@ const structuredData = {
 
   <script is:inline>
     (() => {
-      const initHeroEffects = () => {
+      const initHeroVideo = () => {
         const heroSection = document.querySelector('.hero-section');
-        if (!(heroSection instanceof HTMLElement)) {
+        const heroVideo = document.querySelector('[data-hero-video]');
+
+        if (!(heroSection instanceof HTMLElement) || !(heroVideo instanceof HTMLVideoElement)) {
           return;
         }
 
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const prefersReducedData = window.matchMedia('(prefers-reduced-data: reduce)').matches;
+        const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        if (prefersReducedMotion || prefersReducedData || !hasFinePointer) {
           return;
         }
 
-        const rippleContainer = document.createElement('div');
-        rippleContainer.className = 'hero-ripple-container';
-        heroSection.appendChild(rippleContainer);
-
-        const audioElement = new Audio('/media/blue-wren-audio.mp3');
-        audioElement.volume = 0.6;
-        audioElement.loop = false;
-        audioElement.preload = 'auto';
-        audioElement.load();
-
-        let audioUnlocked = false;
-        let lastRippleTime = 0;
-
-        const unlockAudio = () => {
-          if (audioUnlocked) {
-            return;
-          }
-
-          audioElement
-            .play()
-            .then(() => {
-              audioElement.pause();
-              audioElement.currentTime = 0;
-              audioUnlocked = true;
-            })
-            .catch(() => {});
+        const startPlayback = () => {
+          heroVideo.autoplay = true;
+          heroVideo.loop = true;
+          heroVideo.play().catch(() => {});
         };
 
-        const handleMouseEnter = () => {
-          if (!audioUnlocked) {
-            unlockAudio();
+        if (!('IntersectionObserver' in window)) {
+          startPlayback();
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) {
+              return;
+            }
+
+            observer.disconnect();
+
+            if ('requestIdleCallback' in window) {
+              window.requestIdleCallback(() => {
+                startPlayback();
+              }, { timeout: 1000 });
+            } else {
+              window.setTimeout(startPlayback, 250);
+            }
+          },
+          {
+            threshold: 0.35,
           }
+        );
 
-          if (!audioUnlocked) {
-            return;
-          }
-
-          audioElement.currentTime = 0;
-          audioElement.play().catch(() => {});
-        };
-
-        const handleMouseLeave = () => {
-          audioElement.pause();
-          audioElement.currentTime = 0;
-          rippleContainer.innerHTML = '';
-        };
-
-        const handleMouseMove = (event) => {
-          const now = Date.now();
-          if (now - lastRippleTime < 100) {
-            return;
-          }
-          lastRippleTime = now;
-
-          if (audioUnlocked && audioElement.paused) {
-            audioElement.play().catch(() => {});
-          }
-
-          const rect = heroSection.getBoundingClientRect();
-          const x = event.clientX - rect.left;
-          const y = event.clientY - rect.top;
-
-          const ripple = document.createElement('div');
-          ripple.className = 'hero-ripple';
-          ripple.style.left = `${x}px`;
-          ripple.style.top = `${y}px`;
-          rippleContainer.appendChild(ripple);
-
-          window.setTimeout(() => {
-            ripple.remove();
-          }, 1000);
-        };
-
-        document.addEventListener('click', unlockAudio, { once: true });
-        document.addEventListener('touchstart', unlockAudio, { once: true });
-        document.addEventListener('keydown', unlockAudio, { once: true });
-
-        heroSection.addEventListener('pointerdown', unlockAudio, { once: true });
-        heroSection.addEventListener('mouseenter', handleMouseEnter);
-        heroSection.addEventListener('mouseleave', handleMouseLeave);
-        heroSection.addEventListener('mousemove', handleMouseMove);
+        observer.observe(heroSection);
       };
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initHeroEffects, { once: true });
+        document.addEventListener('DOMContentLoaded', initHeroVideo, { once: true });
       } else {
-        initHeroEffects();
+        initHeroVideo();
       }
     })();
   </script>

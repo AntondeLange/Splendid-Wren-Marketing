@@ -69,7 +69,7 @@ const isActive = (href: string): boolean => {
         </Button>
       </div>
 
-      <details class="group md:hidden" data-mobile-nav>
+      <details class="group md:hidden">
         <summary
           aria-label="Open menu"
           class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/20 text-white [&::-webkit-details-marker]:hidden"
@@ -108,13 +108,3 @@ const isActive = (href: string): boolean => {
     </div>
   </Container>
 </header>
-
-<script>
-  document.querySelectorAll('[data-mobile-nav]').forEach((menu) => {
-    menu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        menu.removeAttribute('open');
-      });
-    });
-  });
-</script>
