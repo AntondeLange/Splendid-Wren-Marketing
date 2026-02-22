@@ -12,7 +12,6 @@ html-site/
 ├── blog.html           # Blog listing page
 ├── blog-post.html      # Individual blog post page
 ├── contact.html        # Contact form page
-├── tools.html          # Tools page
 ├── css/
 │   └── style.css      # Custom CSS matching Tailwind design
 ├── js/
