@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^[\d\s()+-]{6,20}$/;
 
 function sanitize(value: FormDataEntryValue | null): string {
   return String(value ?? '')
@@ -44,6 +45,7 @@ export const POST: APIRoute = async ({ request }) => {
   const name = sanitize(formData.get('name'));
   const businessName = sanitize(formData.get('businessName'));
   const email = sanitize(formData.get('email'));
+  const phone = sanitize(formData.get('phone'));
   const message = sanitize(formData.get('message'));
 
   const errors: string[] = [];
@@ -51,6 +53,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (!name) errors.push('Name is required.');
   if (!businessName) errors.push('Business name is required.');
   if (!EMAIL_PATTERN.test(email)) errors.push('Valid email is required.');
+  if (!PHONE_PATTERN.test(phone)) errors.push('Valid phone number is required.');
   if (message.length < 10 || message.length > 200) {
     errors.push('Message must be between 10 and 200 characters.');
   }

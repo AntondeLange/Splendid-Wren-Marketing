@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import ContactForm from '../components/ContactForm.astro';
 import Container from '../components/primitives/Container.astro';
 import Section from '../components/primitives/Section.astro';
-import PageLayout from '../layouts/PageLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import swWorkingTwo from '../assets/images/sw-working-2.png';
 
 const meta = {
   title: 'Contact Us',
@@ -11,14 +13,21 @@ const meta = {
 };
 ---
 
-<PageLayout
-  meta={meta}
-  heroTitle="Let's Connect"
-  heroDescription="Whether you are ready to build your brand or just want to ask a few questions, we would love to hear from you."
->
-  <Section>
-    <Container class="max-w-3xl">
+<BaseLayout meta={meta}>
+  <Section tone="white" class="relative overflow-hidden">
+    <div class="absolute inset-0" aria-hidden="true">
+      <Image
+        src={swWorkingTwo}
+        alt=""
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        class="h-full w-full object-cover object-center"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-white/88"></div>
+    </div>
+    <Container class="relative max-w-6xl">
       <ContactForm />
     </Container>
   </Section>
-</PageLayout>
+</BaseLayout>

@@ -9,7 +9,35 @@ import Text from './primitives/Text.astro';
 import ContactFormEnhancer from './react/ContactFormEnhancer.tsx';
 ---
 
-<div class="space-y-8">
+<div class="grid gap-8 lg:grid-cols-2 lg:items-start">
+  <Card class="h-full">
+    <div class="flex h-full flex-col gap-10">
+      <section class="space-y-4">
+        <Heading level={1}>Let's Connect</Heading>
+        <Text class="text-body">
+          Whether you are ready to build your brand or just want to ask a few questions, we would love to hear
+          from you.
+        </Text>
+      </section>
+
+      <section class="space-y-4 lg:mt-auto">
+        <Heading level={2} class="text-2xl">What happens next</Heading>
+        <ul class="space-y-2 text-base text-neutral-700">
+          <li>We review your message and respond by email.</li>
+          <li>If it looks like a fit, we suggest a time to chat.</li>
+          <li>No pressure, just a clear next step.</li>
+        </ul>
+
+        <Text>
+          Or reach out directly via email at
+          <Link href={`mailto:${COMPANY_EMAIL}`} class="font-semibold no-underline">
+            {COMPANY_EMAIL}
+          </Link>.
+        </Text>
+      </section>
+    </div>
+  </Card>
+
   <Card>
     <div class="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
       This form is wired to the placeholder endpoint <code>/api/contact</code>. Deploy a serverless function
@@ -41,6 +69,15 @@ import ContactFormEnhancer from './react/ContactFormEnhancer.tsx';
           required
           autocomplete="email"
         />
+        <FormField
+          id="phone"
+          name="phone"
+          type="tel"
+          label="Phone Number"
+          placeholder="Your phone number"
+          required
+          autocomplete="tel"
+        />
         <div>
           <div class="mb-2 flex items-center justify-between gap-2">
             <label for="message" class="text-sm font-medium text-brand-900">Message <span class="text-red-700">*</span></label>
@@ -67,21 +104,5 @@ import ContactFormEnhancer from './react/ContactFormEnhancer.tsx';
       </div>
     </form>
   </Card>
-
-  <section class="space-y-4">
-    <Heading level={2} class="text-2xl">What happens next</Heading>
-    <ul class="space-y-2 text-base text-neutral-700">
-      <li>We review your message and respond by email.</li>
-      <li>If it looks like a fit, we suggest a time to chat.</li>
-      <li>No pressure, just a clear next step.</li>
-    </ul>
-
-    <Text>
-      Or reach out directly via email at
-      <Link href={`mailto:${COMPANY_EMAIL}`} class="font-semibold no-underline">
-        {COMPANY_EMAIL}
-      </Link>.
-    </Text>
-  </section>
 </div>
 <ContactFormEnhancer client:load />

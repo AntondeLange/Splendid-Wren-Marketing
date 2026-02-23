@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const FIELD_IDS = ['name', 'businessName', 'email', 'message'] as const;
+const PHONE_PATTERN = /^[\d\s()+-]{6,20}$/;
+const FIELD_IDS = ['name', 'businessName', 'email', 'phone', 'message'] as const;
 
 export default function ContactFormEnhancer() {
   useEffect(() => {
@@ -88,6 +89,7 @@ export default function ContactFormEnhancer() {
       const name = String(data.get('name') ?? '').trim();
       const businessName = String(data.get('businessName') ?? '').trim();
       const email = String(data.get('email') ?? '').trim();
+      const phone = String(data.get('phone') ?? '').trim();
       const message = String(data.get('message') ?? '').trim();
 
       let hasError = false;
@@ -104,6 +106,11 @@ export default function ContactFormEnhancer() {
 
       if (!EMAIL_PATTERN.test(email)) {
         setError('email', 'Please provide a valid email address.');
+        hasError = true;
+      }
+
+      if (!PHONE_PATTERN.test(phone)) {
+        setError('phone', 'Please provide a valid phone number.');
         hasError = true;
       }
 
