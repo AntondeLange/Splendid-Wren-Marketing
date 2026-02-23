@@ -70,14 +70,19 @@ const structuredData = {
         const currentUrl = new URL(window.location.href);
         const fromValue = currentUrl.searchParams.get('from');
 
-        if (fromValue !== 'loader') {
+        if (fromValue === 'loader') {
+          sessionStorage.setItem('loaderShown', 'true');
+          currentUrl.searchParams.delete('from');
+          const cleanPath = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
+          window.history.replaceState({}, document.title, cleanPath || '/');
           return;
         }
 
-        sessionStorage.setItem('loaderShown', 'true');
-        currentUrl.searchParams.delete('from');
-        const cleanPath = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
-        window.history.replaceState({}, document.title, cleanPath || '/');
+        if (sessionStorage.getItem('loaderShown') === 'true') {
+          return;
+        }
+
+        window.location.replace('/loader');
       })();
     </script>
   </Fragment>
