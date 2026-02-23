@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/primitives/Button.astro';
 import Card from '../components/primitives/Card.astro';
@@ -8,6 +9,7 @@ import Heading from '../components/primitives/Heading.astro';
 import Section from '../components/primitives/Section.astro';
 import Text from '../components/primitives/Text.astro';
 import heroPoster from '../assets/images/blue-wren-couple.webp';
+import swCoffee from '../assets/images/sw-coffee.png';
 
 const meta = {
   title: 'Splendid Wren Marketing | Small Business Marketing Consultancy',
@@ -153,8 +155,19 @@ const structuredData = {
     </Container>
   </Section>
 
-  <Section tone="white">
-    <Container>
+  <Section tone="white" class="relative overflow-hidden">
+    <div class="absolute inset-0" aria-hidden="true">
+      <Image
+        src={swCoffee}
+        alt=""
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        class="h-full w-full object-cover object-center"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-white/88 backdrop-blur-[1px]"></div>
+    </div>
+    <Container class="relative">
       <div class="mx-auto max-w-4xl text-center">
         <p class="font-accent text-3xl italic text-brand-900">
           "Marketing becomes simple when a business understands who they really are."
