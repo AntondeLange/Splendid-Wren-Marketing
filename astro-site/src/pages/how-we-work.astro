@@ -7,6 +7,8 @@ import ProcessStep from '../components/ProcessStep.astro';
 import Section from '../components/primitives/Section.astro';
 import Text from '../components/primitives/Text.astro';
 import PageLayout from '../layouts/PageLayout.astro';
+import blueWren from '../assets/images/blue-wren.webp';
+import blueWrenTwo from '../assets/images/blue-wren-2.webp';
 import blueWrenCouple from '../assets/images/blue-wren-couple.webp';
 
 const meta = {
@@ -56,6 +58,8 @@ const pricingCards = [
     price: '$110 per month',
     description:
       'A simple online starting point with practical tools and a supportive community to build momentum.',
+    image: blueWren,
+    imageAlt: 'Blue wren on branch',
     features: [
       'Six month brand audit',
       'AI prompt and platform library',
@@ -69,6 +73,8 @@ const pricingCards = [
     price: '$440 per month',
     description:
       'For businesses ready to shape a strong brand with clear strategy, messaging and direction.',
+    image: blueWrenTwo,
+    imageAlt: 'Blue wren portrait',
     features: [
       'All benefits of Wren Lite',
       'Personalised brand book and style guide',
@@ -81,6 +87,8 @@ const pricingCards = [
     price: '$770 per month',
     description:
       'For brands building momentum with AI systems that support execution without losing human voice.',
+    image: blueWrenCouple,
+    imageAlt: 'Blue wren pair',
     features: [
       'All benefits of Foundation',
       'Personalised AI agents aligned to your brand',
