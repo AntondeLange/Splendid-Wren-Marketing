@@ -24,9 +24,26 @@
 
 The contact form posts to `/api/contact`.
 
-- Current implementation is a placeholder validation endpoint.
-- In production, deploy this route as a serverless function and forward validated submissions to your email/CRM provider.
+- Current implementation validates, sanitizes, and sends email via SMTP.
+- Default destination inbox: `sarahm@splendidwrenmarketing.com.au`.
+- SMTP2GO defaults are configured in code:
+  - `SMTP_HOST=mail-au.smtp2go.com`
+  - `SMTP_PORT=2525`
+  - `SMTP_SECURE=false`
 - Keep all secrets (API keys, SMTP credentials, webhook secrets) in server environment variables only.
+
+Required Vercel environment variables:
+
+- `SMTP_USER`
+- `SMTP_PASS`
+
+Optional:
+
+- `SMTP_HOST` (override default SMTP2GO host)
+- `SMTP_PORT` (override default SMTP2GO port)
+- `SMTP_SECURE` (override default `false`)
+- `CONTACT_FROM_EMAIL` (defaults to SMTP user)
+- `CONTACT_TO_EMAIL` (defaults to `sarahm@splendidwrenmarketing.com.au`)
 
 Recommended server-side controls:
 
@@ -65,6 +82,7 @@ Adjust CSP sources as needed for analytics, forms, or third-party embeds.
 - [ ] `robots.txt` and `sitemap.xml` are served
 - [ ] Metadata (title/description/OG/Twitter) is correct per page
 - [ ] Contact form endpoint rejects invalid input
+- [ ] Contact form sends email to `sarahm@splendidwrenmarketing.com.au`
 - [ ] Keyboard navigation and visible focus states work
 - [ ] Mobile navigation and responsive layouts render correctly
 - [ ] No client-side secrets are exposed

@@ -40,5 +40,17 @@ npm run build
 
 The contact form submits to `/api/contact`.
 
-- Current route is a placeholder with validation/sanitization logic for future serverless integration.
-- Configure production email/CRM delivery in deployment environment.
+- Route validates and sanitizes input, then sends email via SMTP.
+- Default recipient is `sarahm@splendidwrenmarketing.com.au`.
+- SMTP2GO defaults are preconfigured:
+  - `SMTP_HOST=mail-au.smtp2go.com`
+  - `SMTP_PORT=2525`
+  - `SMTP_SECURE=false`
+- Configure these server environment variables in Vercel:
+  - `SMTP_USER`
+  - `SMTP_PASS`
+  - `SMTP_HOST` (optional override)
+  - `SMTP_PORT` (optional override)
+  - `SMTP_SECURE` (optional override)
+  - `CONTACT_FROM_EMAIL` (optional; defaults to SMTP user)
+  - `CONTACT_TO_EMAIL` (optional; defaults to `sarahm@splendidwrenmarketing.com.au`)
