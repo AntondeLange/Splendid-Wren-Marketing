@@ -18,17 +18,19 @@ interface Props {
 const { title, price, description, features, image, imageAlt = '' } = Astro.props;
 ---
 
-<Card class="flex h-full flex-col overflow-hidden p-0">
+<Card class="flex h-full flex-col p-0">
   {
     image && (
-      <Image
-        src={image}
-        alt={imageAlt}
-        widths={[520, 760]}
-        sizes="(min-width: 1280px) 384px, (min-width: 768px) 46vw, 92vw"
-        class="h-44 w-full object-cover"
-        loading="lazy"
-      />
+      <div class="px-6 pt-6">
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[520, 760]}
+          sizes="(min-width: 1280px) 384px, (min-width: 768px) 46vw, 92vw"
+          class="h-44 w-full rounded-2xl object-cover shadow-card"
+          loading="lazy"
+        />
+      </div>
     )
   }
   <div class="flex h-full flex-col p-8">

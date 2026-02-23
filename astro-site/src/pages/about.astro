@@ -6,8 +6,9 @@ import Heading from '../components/primitives/Heading.astro';
 import Section from '../components/primitives/Section.astro';
 import Text from '../components/primitives/Text.astro';
 import PageLayout from '../layouts/PageLayout.astro';
-import blueWren from '../assets/images/blue-wren.webp';
-import headshotBridge from '../assets/images/headshot-bridge.webp';
+import swAgree from '../assets/images/sw-agree.png';
+import swExplain from '../assets/images/sw-explain.png';
+import swWorkingTwo from '../assets/images/sw-working-2.png';
 import headshotCuppa from '../assets/images/headshot-cuppa.webp';
 
 const meta = {
@@ -22,7 +23,7 @@ const meta = {
   meta={meta}
   heroTitle="About"
   heroDescription="Splendid Wren Marketing was created from a simple belief: small businesses deserve brands that feel clear, confident and truly their own."
-  heroImage={{ src: blueWren, alt: 'Blue wren bird' }}
+  heroImage={{ src: swExplain, alt: 'Splendid Wren team discussing strategy' }}
 >
   <Section>
     <Container>
@@ -58,8 +59,19 @@ const meta = {
     </Container>
   </Section>
 
-  <Section tone="white">
-    <Container class="max-w-4xl">
+  <Section tone="white" class="relative overflow-hidden">
+    <div class="absolute inset-0" aria-hidden="true">
+      <Image
+        src={swWorkingTwo}
+        alt=""
+        widths={[768, 1280, 1600]}
+        sizes="100vw"
+        class="h-full w-full object-cover object-center"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-white/90"></div>
+    </div>
+    <Container class="relative max-w-4xl">
       <Heading level={2} class="text-center">Our Purpose</Heading>
       <div class="mt-6 space-y-4 text-body text-neutral-700">
         <p>We believe a business does not need to be big to deserve a brand that stands out.</p>
@@ -88,7 +100,7 @@ const meta = {
 
         <figure class="overflow-hidden rounded-xl border border-neutral-200 shadow-card">
           <Image
-            src={headshotBridge}
+            src={swAgree}
             alt="Splendid Wren brand imagery"
             widths={[560, 860]}
             sizes="(min-width: 1024px) 34vw, 100vw"

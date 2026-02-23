@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import CtaBanner from '../components/CtaBanner.astro';
 import Container from '../components/primitives/Container.astro';
 import Heading from '../components/primitives/Heading.astro';
@@ -10,6 +11,8 @@ import PageLayout from '../layouts/PageLayout.astro';
 import blueWren from '../assets/images/blue-wren.webp';
 import blueWrenTwo from '../assets/images/blue-wren-2.webp';
 import blueWrenCouple from '../assets/images/blue-wren-couple.webp';
+import swNotebook from '../assets/images/sw-notebook.png';
+import swTeam from '../assets/images/sw-team.png';
 
 const meta = {
   title: 'How We Work & Pricing',
@@ -103,7 +106,7 @@ const pricingCards = [
   meta={meta}
   heroTitle="How We Work"
   heroDescription="At Splendid Wren Marketing, how we work is as important as what we deliver. We listen, learn your brand, build strategy and give you practical tools to thrive."
-  heroImage={{ src: blueWrenCouple, alt: 'Blue wren couple' }}
+  heroImage={{ src: swTeam, alt: 'Splendid Wren team collaboration' }}
 >
   <Section>
     <Container class="max-w-5xl">
@@ -133,6 +136,16 @@ const pricingCards = [
 
   <Section>
     <Container class="max-w-5xl">
+      <figure class="mb-8 overflow-hidden rounded-2xl border border-neutral-200 shadow-card">
+        <Image
+          src={swNotebook}
+          alt="Notebook planning session"
+          widths={[760, 1200, 1600]}
+          sizes="(min-width: 1024px) 80vw, 94vw"
+          class="h-52 w-full object-cover md:h-72"
+          loading="lazy"
+        />
+      </figure>
       <Heading level={2} class="text-center">Working With Splendid Wren Marketing</Heading>
       <Text class="mx-auto mt-4 max-w-4xl text-center text-body">
         When you work with Splendid Wren Marketing, you work with a human first. Foundation packages and above
