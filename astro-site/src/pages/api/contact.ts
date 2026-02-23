@@ -1,6 +1,12 @@
 import type { APIRoute } from 'astro';
 import nodemailer from 'nodemailer';
 
+export const prerender = false;
+
+type EnvMap = Record<string, string | undefined>;
+const ENV = import.meta.env as EnvMap;
+const PROCESS_ENV = (globalThis as { process?: { env?: EnvMap } }).process?.env ?? {};
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[\d\s()+-]{6,20}$/;
 const DEFAULT_CONTACT_TO_EMAIL = 'sarahm@splendidwrenmarketing.com.au';
@@ -26,6 +32,20 @@ function isTrue(value: string | undefined): boolean {
   return value?.trim().toLowerCase() === 'true';
 }
 
+function getEnv(name: string): string | undefined {
+  const fromAstro = ENV[name]?.trim();
+  if (fromAstro) {
+    return fromAstro;
+  }
+
+  const fromProcess = PROCESS_ENV[name]?.trim();
+  if (fromProcess) {
+    return fromProcess;
+  }
+
+  return undefined;
+}
+
 interface SmtpConfig {
   host: string;
   port: number;
@@ -37,19 +57,20 @@ interface SmtpConfig {
 }
 
 function getSmtpConfig(): SmtpConfig | null {
-  const host = process.env.SMTP_HOST?.trim() || DEFAULT_SMTP_HOST;
-  const portRaw = process.env.SMTP_PORT?.trim() ?? String(DEFAULT_SMTP_PORT);
-  const user = process.env.SMTP_USER?.trim() ?? '';
-  const pass = process.env.SMTP_PASS?.trim() ?? '';
-  const to = process.env.CONTACT_TO_EMAIL?.trim() || DEFAULT_CONTACT_TO_EMAIL;
-  const fromBase = process.env.CONTACT_FROM_EMAIL?.trim() || user || to;
+  const host = getEnv('SMTP_HOST') || DEFAULT_SMTP_HOST;
+  const portRaw = getEnv('SMTP_PORT') ?? String(DEFAULT_SMTP_PORT);
+  const user = getEnv('SMTP_USER') ?? '';
+  const pass = getEnv('SMTP_PASS') ?? '';
+  const to = getEnv('CONTACT_TO_EMAIL') || DEFAULT_CONTACT_TO_EMAIL;
+  const fromBase = getEnv('CONTACT_FROM_EMAIL') || user || to;
   const port = Number(portRaw);
 
   if (!user || !pass || !Number.isFinite(port) || port <= 0) {
     return null;
   }
 
-  const secure = process.env.SMTP_SECURE ? isTrue(process.env.SMTP_SECURE) : port === 465;
+  const secureEnv = getEnv('SMTP_SECURE');
+  const secure = secureEnv ? isTrue(secureEnv) : port === 465;
   const from = fromBase.includes('<') ? fromBase : `Splendid Wren Website <${fromBase}>`;
 
   return { host, port, secure, user, pass, from, to };

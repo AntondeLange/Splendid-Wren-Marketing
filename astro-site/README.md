@@ -28,6 +28,8 @@ npm install
 npm run dev
 ```
 
+For local contact form testing, create `astro-site/.env.local` from `astro-site/.env.example` and set SMTP credentials.
+
 ## Quality Gates
 
 ```bash

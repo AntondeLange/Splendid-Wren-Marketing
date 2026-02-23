@@ -2,7 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
   "installCommand": "npm --prefix astro-site ci",
-  "buildCommand": "npm --prefix astro-site run build",
-  "outputDirectory": "astro-site/dist",
+  "buildCommand": "npm --prefix astro-site run build && rm -rf .vercel/output && cp -R astro-site/.vercel/output .vercel/output",
   "devCommand": "npm --prefix astro-site run dev"
 }
