@@ -28,7 +28,7 @@ const { title, description, image, eyebrow } = Astro.props;
       </div>
 
       {image && (
-        <figure class="overflow-hidden rounded-xl border border-neutral-200 shadow-card">
+        <figure class:list={['overflow-hidden rounded-xl border border-neutral-200 shadow-card', image.wrapperClass]}>
           <Image
             src={image.src}
             alt={image.alt}

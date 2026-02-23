@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -6,6 +8,8 @@ import Container from '../../components/primitives/Container.astro';
 import Heading from '../../components/primitives/Heading.astro';
 import Section from '../../components/primitives/Section.astro';
 import Text from '../../components/primitives/Text.astro';
+import swReady from '../../assets/images/sw-ready.png';
+import swTogether from '../../assets/images/sw-together.png';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -34,6 +38,19 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-AU', {
   month: 'long',
   year: 'numeric',
 });
+
+const postImages: Record<string, { image: ImageMetadata; imageAlt: string }> = {
+  'marketing-clarity-for-small-brands': {
+    image: swReady,
+    imageAlt: 'Team prepared and ready to start',
+  },
+  'human-first-marketing-in-an-ai-world': {
+    image: swTogether,
+    imageAlt: 'Team collaborating together',
+  },
+};
+
+const postImage = postImages[post.slug];
 ---
 
 <BaseLayout meta={meta}>
@@ -43,6 +60,18 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-AU', {
       <article class="mt-6">
         <Heading level={1}>{post.data.title}</Heading>
         <Text class="mt-3 text-sm" muted>{formattedDate}</Text>
+        {
+          postImage && (
+            <Image
+              src={postImage.image}
+              alt={postImage.imageAlt}
+              widths={[768, 1100]}
+              sizes="(min-width: 1024px) 768px, 100vw"
+              class="mt-6 w-full rounded-xl object-cover shadow-card"
+              loading="lazy"
+            />
+          )
+        }
         <Text class="mt-6 text-body">{post.data.description}</Text>
 
         <div

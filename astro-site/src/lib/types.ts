@@ -26,4 +26,5 @@ export interface SocialLink {
 export interface HeroImage {
   src: ImageMetadata;
   alt: string;
+  wrapperClass?: string;
 }

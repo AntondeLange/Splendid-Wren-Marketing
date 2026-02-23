@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Badge from './primitives/Badge.astro';
 import Card from './primitives/Card.astro';
 import Heading from './primitives/Heading.astro';
@@ -9,9 +11,11 @@ interface Props {
   description: string;
   href: string;
   publishDate: Date;
+  image?: ImageMetadata;
+  imageAlt?: string;
 }
 
-const { title, description, href, publishDate } = Astro.props;
+const { title, description, href, publishDate, image, imageAlt = '' } = Astro.props;
 
 const formattedDate = publishDate.toLocaleDateString('en-AU', {
   day: '2-digit',
@@ -21,6 +25,18 @@ const formattedDate = publishDate.toLocaleDateString('en-AU', {
 ---
 
 <Card class="h-full">
+  {
+    image && (
+      <Image
+        src={image}
+        alt={imageAlt}
+        widths={[560, 760]}
+        sizes="(min-width: 768px) 46vw, 92vw"
+        class="mb-6 h-44 w-full rounded-xl object-cover shadow-card"
+        loading="lazy"
+      />
+    )
+  }
   <Badge>{formattedDate}</Badge>
   <Heading level={3} class="mt-5 text-2xl">
     <a href={href} class="transition hover:text-brand-700">{title}</a>
