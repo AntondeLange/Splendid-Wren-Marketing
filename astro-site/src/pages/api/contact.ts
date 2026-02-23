@@ -48,13 +48,25 @@ function getEnv(name: string): string | undefined {
 }
 
 interface SmtpConfig {
-  host: string;
-  port: number;
-  secure: boolean;
   user: string;
   pass: string;
   from: string;
   to: string;
+  targets: SmtpTarget[];
+}
+
+interface SmtpTarget {
+  host: string;
+  port: number;
+  secure: boolean;
+}
+
+interface SmtpLikeError {
+  code?: string;
+  command?: string;
+  responseCode?: number;
+  response?: string;
+  message?: string;
 }
 
 function extractEmailAddress(value: string): string | null {
@@ -95,24 +107,106 @@ function resolveFromAddress(fromBase: string | undefined, user: string, to: stri
   return toDisplayAddress(DEFAULT_CONTACT_FROM_EMAIL);
 }
 
+function parsePort(value: string | undefined): number | null {
+  if (!value) {
+    return null;
+  }
+
+  const port = Number(value);
+  if (!Number.isInteger(port) || port <= 0 || port > 65535) {
+    return null;
+  }
+
+  return port;
+}
+
+function uniqueTargets(targets: SmtpTarget[]): SmtpTarget[] {
+  const seen = new Set<string>();
+  const result: SmtpTarget[] = [];
+
+  for (const target of targets) {
+    const key = `${target.host}:${target.port}:${target.secure ? 'secure' : 'starttls'}`;
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    result.push(target);
+  }
+
+  return result;
+}
+
+function resolveSmtpTargets(): SmtpTarget[] {
+  const explicitHost = getEnv('SMTP_HOST');
+  const explicitPort = parsePort(getEnv('SMTP_PORT'));
+  const explicitSecureRaw = getEnv('SMTP_SECURE');
+  const explicitSecure = explicitSecureRaw ? isTrue(explicitSecureRaw) : null;
+
+  const hosts = explicitHost ? [explicitHost] : [DEFAULT_SMTP_HOST, 'mail.smtp2go.com'];
+  const ports = explicitPort ? [explicitPort] : [DEFAULT_SMTP_PORT, 2525, 8025, 465];
+  const targets: SmtpTarget[] = [];
+
+  for (const host of hosts) {
+    for (const port of ports) {
+      const secure = explicitSecure ?? port === 465;
+      targets.push({ host, port, secure });
+    }
+  }
+
+  return uniqueTargets(targets);
+}
+
 function getSmtpConfig(): SmtpConfig | null {
-  const host = getEnv('SMTP_HOST') || DEFAULT_SMTP_HOST;
-  const portRaw = getEnv('SMTP_PORT') ?? String(DEFAULT_SMTP_PORT);
   const user = getEnv('SMTP_USER') ?? '';
   const pass = getEnv('SMTP_PASS') ?? '';
   const to = getEnv('CONTACT_TO_EMAIL') || DEFAULT_CONTACT_TO_EMAIL;
   const fromBase = getEnv('CONTACT_FROM_EMAIL');
-  const port = Number(portRaw);
+  const targets = resolveSmtpTargets();
 
-  if (!user || !pass || !Number.isFinite(port) || port <= 0) {
+  if (!user || !pass || targets.length === 0) {
     return null;
   }
 
-  const secureEnv = getEnv('SMTP_SECURE');
-  const secure = secureEnv ? isTrue(secureEnv) : port === 465;
   const from = resolveFromAddress(fromBase, user, to);
 
-  return { host, port, secure, user, pass, from, to };
+  return { user, pass, from, to, targets };
+}
+
+function normalizeSmtpError(error: unknown): SmtpLikeError {
+  if (typeof error !== 'object' || error === null) {
+    return {};
+  }
+
+  const maybe = error as Record<string, unknown>;
+  return {
+    code: typeof maybe.code === 'string' ? maybe.code : undefined,
+    command: typeof maybe.command === 'string' ? maybe.command : undefined,
+    responseCode: typeof maybe.responseCode === 'number' ? maybe.responseCode : undefined,
+    response: typeof maybe.response === 'string' ? maybe.response : undefined,
+    message: typeof maybe.message === 'string' ? maybe.message : undefined,
+  };
+}
+
+function mapClientFacingErrorMessage(error: SmtpLikeError): string {
+  const code = error.code?.toUpperCase() ?? '';
+
+  if (code === 'EAUTH' || error.responseCode === 535) {
+    return 'Email service authentication failed. Please contact support.';
+  }
+
+  if (
+    code === 'ETIMEDOUT' ||
+    code === 'ECONNECTION' ||
+    code === 'ECONNREFUSED' ||
+    code === 'ESOCKET' ||
+    code === 'EHOSTUNREACH' ||
+    code === 'ENOTFOUND'
+  ) {
+    return 'Email service is temporarily unreachable. Please try again shortly.';
+  }
+
+  return 'Unable to send your message right now. Please try again shortly.';
 }
 
 function json(data: unknown, status = 200): Response {
@@ -203,31 +297,54 @@ export const POST: APIRoute = async ({ request }) => {
     <p>${escapeHtml(message).replaceAll('\n', '<br />')}</p>
   `;
 
-  try {
-    const transporter = nodemailer.createTransport({
-      host: smtpConfig.host,
-      port: smtpConfig.port,
-      secure: smtpConfig.secure,
-      auth: {
-        user: smtpConfig.user,
-        pass: smtpConfig.pass,
-      },
-    });
+  let sendError: SmtpLikeError | null = null;
 
-    await transporter.sendMail({
-      from: smtpConfig.from,
-      to: smtpConfig.to,
-      replyTo: email,
-      subject: `Website enquiry: ${businessName}`,
-      text: textBody,
-      html: htmlBody,
-    });
-  } catch (error) {
-    console.error('Contact email send failed:', error);
+  for (const target of smtpConfig.targets) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: target.host,
+        port: target.port,
+        secure: target.secure,
+        auth: {
+          user: smtpConfig.user,
+          pass: smtpConfig.pass,
+        },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 12000,
+      });
+
+      await transporter.sendMail({
+        from: smtpConfig.from,
+        to: smtpConfig.to,
+        replyTo: email,
+        subject: `Website enquiry: ${businessName}`,
+        text: textBody,
+        html: htmlBody,
+      });
+
+      sendError = null;
+      break;
+    } catch (error) {
+      sendError = normalizeSmtpError(error);
+      console.error('Contact email send failed for SMTP target:', {
+        host: target.host,
+        port: target.port,
+        secure: target.secure,
+        code: sendError.code,
+        command: sendError.command,
+        responseCode: sendError.responseCode,
+        response: sendError.response,
+        message: sendError.message,
+      });
+    }
+  }
+
+  if (sendError) {
     return json(
       {
         ok: false,
-        message: 'Unable to send your message right now. Please try again shortly.',
+        message: mapClientFacingErrorMessage(sendError),
       },
       502,
     );
