@@ -190,9 +190,18 @@ function normalizeSmtpError(error: unknown): SmtpLikeError {
 
 function mapClientFacingErrorMessage(error: SmtpLikeError): string {
   const code = error.code?.toUpperCase() ?? '';
+  const details = `${error.response ?? ''} ${error.message ?? ''}`.toLowerCase();
 
   if (code === 'EAUTH' || error.responseCode === 535) {
     return 'Email service authentication failed. Please contact support.';
+  }
+
+  if (
+    details.includes('sender domain not verified') ||
+    details.includes('from header sender domain not verified') ||
+    details.includes('verified senders')
+  ) {
+    return 'Email sender is not verified in SMTP2GO. Please verify CONTACT_FROM_EMAIL or the sender domain.';
   }
 
   if (
