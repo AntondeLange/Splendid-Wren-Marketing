@@ -36,12 +36,108 @@
          height="54"
          id="rect2" />
     </clipPath>
+    <mask
+       id="reveal-mask-wren"
+       maskUnits="objectBoundingBox"
+       maskContentUnits="objectBoundingBox">
+      <rect
+         x="0"
+         y="0"
+         width="0"
+         height="1"
+         fill="#ffffff">
+        <animate
+           attributeName="width"
+           from="0"
+           to="1"
+           begin="0s"
+           dur="0.9s"
+           fill="freeze" />
+      </rect>
+    </mask>
+    <mask
+       id="reveal-mask-watermark"
+       maskUnits="objectBoundingBox"
+       maskContentUnits="objectBoundingBox">
+      <rect
+         x="0"
+         y="0"
+         width="0"
+         height="1"
+         fill="#ffffff">
+        <animate
+           attributeName="width"
+           from="0"
+           to="1"
+           begin="0.9s"
+           dur="0.8s"
+           fill="freeze" />
+      </rect>
+    </mask>
+    <mask
+       id="reveal-mask-marketing"
+       maskUnits="objectBoundingBox"
+       maskContentUnits="objectBoundingBox">
+      <rect
+         x="0"
+         y="0"
+         width="0"
+         height="1"
+         fill="#ffffff">
+        <animate
+           attributeName="width"
+           from="0"
+           to="1"
+           begin="1.7s"
+           dur="0.8s"
+           fill="freeze" />
+      </rect>
+    </mask>
+    <mask
+       id="reveal-mask-chirp"
+       maskUnits="objectBoundingBox"
+       maskContentUnits="objectBoundingBox">
+      <rect
+         x="0"
+         y="0"
+         width="0"
+         height="1"
+         fill="#ffffff">
+        <animate
+           attributeName="width"
+           from="0"
+           to="1"
+           begin="2.5s"
+           dur="0.55s"
+           fill="freeze" />
+      </rect>
+    </mask>
+    <mask
+       id="reveal-mask-copyright"
+       maskUnits="objectBoundingBox"
+       maskContentUnits="objectBoundingBox">
+      <rect
+         x="0"
+         y="0"
+         width="0"
+         height="1"
+         fill="#ffffff">
+        <animate
+           attributeName="width"
+           from="0"
+           to="1"
+           begin="3.05s"
+           dur="0.5s"
+           fill="freeze" />
+      </rect>
+    </mask>
   </defs>
   <g
      id="layer1"
      style="display:inline">
     <g
        clip-path="url(#91c2767566)"
+       mask="url(#reveal-mask-watermark)"
        id="watermark"
        style="display:inline"
        transform="translate(-0.390625,203.88672)">
@@ -55,6 +151,7 @@
        fill="#34a2d4"
        fill-opacity="1"
        id="marketing"
+       mask="url(#reveal-mask-marketing)"
        transform="translate(-25.390625,-34.113281)"
        style="display:inline">
       <path
@@ -65,6 +162,7 @@
     </g>
     <g
        id="wren"
+       mask="url(#reveal-mask-wren)"
        style="display:inline"
        transform="matrix(0.271484,0,0,0.271728,-51.724532,-27.905977)">
       <path
@@ -75,6 +173,7 @@
     <g
        clip-path="url(#b4a99ecf48)"
        id="copyright"
+       mask="url(#reveal-mask-copyright)"
        transform="translate(-25.390625,-34.113281)"
        style="display:inline">
       <path
@@ -85,6 +184,7 @@
     </g>
     <g
        id="chirp"
+       mask="url(#reveal-mask-chirp)"
        style="display:inline"
        transform="matrix(0.271484,0,0,0.271728,-51.724532,-27.905977)">
       <path
