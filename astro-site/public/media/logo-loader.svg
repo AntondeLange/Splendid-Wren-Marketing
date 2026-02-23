@@ -51,7 +51,7 @@
            from="0"
            to="1"
            begin="0s"
-           dur="0.9s"
+           dur="1.15s"
            fill="freeze" />
       </rect>
     </mask>
@@ -69,8 +69,8 @@
            attributeName="width"
            from="0"
            to="1"
-           begin="0.9s"
-           dur="0.8s"
+           begin="1.15s"
+           dur="1s"
            fill="freeze" />
       </rect>
     </mask>
@@ -88,8 +88,8 @@
            attributeName="width"
            from="0"
            to="1"
-           begin="1.7s"
-           dur="0.8s"
+           begin="2.15s"
+           dur="1s"
            fill="freeze" />
       </rect>
     </mask>
@@ -107,8 +107,8 @@
            attributeName="width"
            from="0"
            to="1"
-           begin="2.5s"
-           dur="0.55s"
+           begin="3.15s"
+           dur="0.75s"
            fill="freeze" />
       </rect>
     </mask>
@@ -126,8 +126,8 @@
            attributeName="width"
            from="0"
            to="1"
-           begin="3.05s"
-           dur="0.5s"
+           begin="3.9s"
+           dur="0.7s"
            fill="freeze" />
       </rect>
     </mask>
