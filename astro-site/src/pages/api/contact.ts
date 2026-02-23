@@ -10,8 +10,9 @@ const PROCESS_ENV = (globalThis as { process?: { env?: EnvMap } }).process?.env 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[\d\s()+-]{6,20}$/;
 const DEFAULT_CONTACT_TO_EMAIL = 'sarahm@splendidwrenmarketing.com.au';
+const DEFAULT_CONTACT_FROM_EMAIL = 'no-reply@splendidwrenmarketing.com.au';
 const DEFAULT_SMTP_HOST = 'mail-au.smtp2go.com';
-const DEFAULT_SMTP_PORT = 2525;
+const DEFAULT_SMTP_PORT = 587;
 
 function sanitize(value: FormDataEntryValue | null): string {
   return String(value ?? '')
@@ -56,13 +57,51 @@ interface SmtpConfig {
   to: string;
 }
 
+function extractEmailAddress(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const bracketMatch = trimmed.match(/<([^>]+)>/);
+  const candidate = (bracketMatch ? bracketMatch[1] : trimmed).trim();
+  return EMAIL_PATTERN.test(candidate) ? candidate : null;
+}
+
+function toDisplayAddress(email: string): string {
+  return `Splendid Wren Website <${email}>`;
+}
+
+function resolveFromAddress(fromBase: string | undefined, user: string, to: string): string {
+  const fromBaseEmail = fromBase ? extractEmailAddress(fromBase) : null;
+  if (fromBaseEmail) {
+    if (fromBase && fromBase.includes('<') && fromBase.includes('>')) {
+      return fromBase;
+    }
+
+    return toDisplayAddress(fromBaseEmail);
+  }
+
+  const userEmail = extractEmailAddress(user);
+  if (userEmail) {
+    return toDisplayAddress(userEmail);
+  }
+
+  const toEmail = extractEmailAddress(to);
+  if (toEmail) {
+    return toDisplayAddress(toEmail);
+  }
+
+  return toDisplayAddress(DEFAULT_CONTACT_FROM_EMAIL);
+}
+
 function getSmtpConfig(): SmtpConfig | null {
   const host = getEnv('SMTP_HOST') || DEFAULT_SMTP_HOST;
   const portRaw = getEnv('SMTP_PORT') ?? String(DEFAULT_SMTP_PORT);
   const user = getEnv('SMTP_USER') ?? '';
   const pass = getEnv('SMTP_PASS') ?? '';
   const to = getEnv('CONTACT_TO_EMAIL') || DEFAULT_CONTACT_TO_EMAIL;
-  const fromBase = getEnv('CONTACT_FROM_EMAIL') || user || to;
+  const fromBase = getEnv('CONTACT_FROM_EMAIL');
   const port = Number(portRaw);
 
   if (!user || !pass || !Number.isFinite(port) || port <= 0) {
@@ -71,7 +110,7 @@ function getSmtpConfig(): SmtpConfig | null {
 
   const secureEnv = getEnv('SMTP_SECURE');
   const secure = secureEnv ? isTrue(secureEnv) : port === 465;
-  const from = fromBase.includes('<') ? fromBase : `Splendid Wren Website <${fromBase}>`;
+  const from = resolveFromAddress(fromBase, user, to);
 
   return { host, port, secure, user, pass, from, to };
 }

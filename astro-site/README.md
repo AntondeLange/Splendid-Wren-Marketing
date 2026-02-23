@@ -46,7 +46,7 @@ The contact form submits to `/api/contact`.
 - Default recipient is `sarahm@splendidwrenmarketing.com.au`.
 - SMTP2GO defaults are preconfigured:
   - `SMTP_HOST=mail-au.smtp2go.com`
-  - `SMTP_PORT=2525`
+  - `SMTP_PORT=587`
   - `SMTP_SECURE=false`
 - Configure these server environment variables in Vercel:
   - `SMTP_USER`
@@ -54,5 +54,5 @@ The contact form submits to `/api/contact`.
   - `SMTP_HOST` (optional override)
   - `SMTP_PORT` (optional override)
   - `SMTP_SECURE` (optional override)
-  - `CONTACT_FROM_EMAIL` (optional; defaults to SMTP user)
+  - `CONTACT_FROM_EMAIL` (optional; defaults to `no-reply@splendidwrenmarketing.com.au`)
   - `CONTACT_TO_EMAIL` (optional; defaults to `sarahm@splendidwrenmarketing.com.au`)

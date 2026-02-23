@@ -28,7 +28,7 @@ The contact form posts to `/api/contact`.
 - Default destination inbox: `sarahm@splendidwrenmarketing.com.au`.
 - SMTP2GO defaults are configured in code:
   - `SMTP_HOST=mail-au.smtp2go.com`
-  - `SMTP_PORT=2525`
+  - `SMTP_PORT=587`
   - `SMTP_SECURE=false`
 - Keep all secrets (API keys, SMTP credentials, webhook secrets) in server environment variables only.
 
@@ -42,7 +42,7 @@ Optional:
 - `SMTP_HOST` (override default SMTP2GO host)
 - `SMTP_PORT` (override default SMTP2GO port)
 - `SMTP_SECURE` (override default `false`)
-- `CONTACT_FROM_EMAIL` (defaults to SMTP user)
+- `CONTACT_FROM_EMAIL` (defaults to `no-reply@splendidwrenmarketing.com.au`)
 - `CONTACT_TO_EMAIL` (defaults to `sarahm@splendidwrenmarketing.com.au`)
 
 Recommended server-side controls:
