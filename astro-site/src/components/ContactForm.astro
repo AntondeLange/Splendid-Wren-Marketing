@@ -10,17 +10,9 @@ import Text from './primitives/Text.astro';
 
 <div class="grid w-full gap-8 lg:grid-cols-2 lg:items-start">
   <Card class="h-full min-w-0">
-    <div class="flex h-full flex-col gap-10">
-      <section class="space-y-4">
-        <Heading level={1}>Let's Connect</Heading>
-        <Text class="text-body">
-          Whether you are ready to build your brand or just want to ask a few questions, we would love to hear
-          from you.
-        </Text>
-      </section>
-
+    <div class="flex h-full flex-col">
       <section class="space-y-4 lg:mt-auto">
-        <Heading level={2} class="text-2xl">What happens next</Heading>
+        <Heading level={2} class="text-2xl">What Happens Next</Heading>
         <ul class="space-y-2 text-base text-neutral-700">
           <li>We review your message and respond by email.</li>
           <li>If it looks like a fit, we suggest a time to chat.</li>
@@ -45,6 +37,15 @@ import Text from './primitives/Text.astro';
   </Card>
 
   <Card class="min-w-0">
+    <header class="mb-7 space-y-4">
+      <h1 class="font-accent text-[clamp(2.35rem,6vw,4.5rem)] leading-[0.95] text-brand-950">
+        Tell Us About Your Vision
+      </h1>
+      <p class="max-w-2xl text-[clamp(1.35rem,2.1vw,2.05rem)] leading-tight text-neutral-600">
+        Our team is ready to listen and guide every detail, big or small.
+      </p>
+    </header>
+
     <div class="mb-5 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900 break-words">
       Your enquiry will be sent securely to our team and delivered to
       <strong class="break-all"> sarahm@splendidwrenmarketing.com.au</strong>.
