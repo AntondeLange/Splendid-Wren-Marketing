@@ -1,47 +1,60 @@
 ---
-import { COMPANY_EMAIL } from '../lib/site';
+import { COMPANY_EMAIL, SOCIAL_LINKS } from '../lib/site';
 import Button from './primitives/Button.astro';
 import Card from './primitives/Card.astro';
 import FormField from './FormField.astro';
-import Heading from './primitives/Heading.astro';
-import Link from './primitives/Link.astro';
+import SocialIcon from './SocialIcon.astro';
 import Text from './primitives/Text.astro';
 ---
 
-<div class="grid w-full gap-8 lg:grid-cols-2 lg:items-start">
-  <Card class="h-full min-w-0">
-    <div class="flex h-full flex-col">
-      <section class="space-y-4 lg:mt-auto">
-        <Heading level={2} class="text-2xl">What Happens Next</Heading>
-        <ul class="space-y-2 text-base text-neutral-700">
-          <li>We review your message and respond by email.</li>
-          <li>If it looks like a fit, we suggest a time to chat.</li>
-          <li>No pressure, just a clear next step.</li>
-        </ul>
-
-        <Text>
-          Prefer to explore first? Start with
-          <Link href="/how-we-work" class="font-semibold no-underline">How We Work</Link>
-          {' '}or browse the
-          <Link href="/blog" class="font-semibold no-underline">Blog</Link>.
-        </Text>
-
-        <Text class="break-words">
-          Or reach out directly via email at
-          <Link href={`mailto:${COMPANY_EMAIL}`} class="font-semibold no-underline break-all">
-            {COMPANY_EMAIL}
-          </Link>.
-        </Text>
-      </section>
-    </div>
-  </Card>
-
-  <Card class="min-w-0">
-    <header class="mb-7 space-y-4">
-      <h1 class="font-accent text-[clamp(2.35rem,6vw,4.5rem)] leading-[0.95] text-brand-950">
-        Tell Us About Your Vision
+<div class="grid w-full gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] xl:items-start">
+  <aside class="flex min-w-0 flex-col justify-between rounded-3xl border border-white/20 bg-brand-950/30 p-6 text-white shadow-glow backdrop-blur-[2px] md:p-8 xl:min-h-[46rem]">
+    <div>
+      <h1 class="font-accent text-[clamp(2.45rem,5.4vw,5.2rem)] leading-[0.94] text-[#d1ac46]">
+        Let&apos;s Build A<br />
+        Remarkable Brand Together
       </h1>
-      <p class="max-w-2xl text-[clamp(1.35rem,2.1vw,2.05rem)] leading-tight text-neutral-600">
+      <p class="mt-6 max-w-xl text-[clamp(1.12rem,2vw,1.95rem)] leading-relaxed text-white/90">
+        Share your goals, current challenges, and where you want your business to go next. We will guide each step
+        with practical strategy and clear direction.
+      </p>
+      <p class="mt-10 text-xl text-white/90">Email us at <span class="font-semibold">{COMPANY_EMAIL}</span></p>
+    </div>
+
+    <div class="mt-10 grid gap-8 sm:grid-cols-2">
+      <div>
+        <h2 class="font-accent text-[2rem] italic text-[#d1ac46]">Location</h2>
+        <p class="mt-3 text-lg leading-relaxed text-white/90">
+          Based in Australia
+          <br />
+          Supporting small businesses nationwide
+        </p>
+      </div>
+      <div>
+        <h2 class="font-accent text-[2rem] italic text-[#d1ac46]">Social Media</h2>
+        <ul class="mt-4 flex items-center gap-3">
+          {SOCIAL_LINKS.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-label={item.label}
+                class="inline-flex size-12 items-center justify-center rounded-lg border border-[#d1ac46]/80 text-[#d1ac46] transition hover:bg-[#d1ac46]/12"
+              >
+                <SocialIcon icon={item.icon} class="size-6" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <Card class="min-w-0 rounded-3xl border border-[#c9a84f]/70 bg-[#f8f6f3] p-5 shadow-glow sm:p-8 md:p-10">
+    <header class="mb-7 space-y-4">
+      <h2 class="font-accent text-[clamp(2.4rem,5vw,4.8rem)] leading-[0.95] text-brand-950">
+        Tell Us About Your Vision
+      </h2>
+      <p class="max-w-2xl text-[clamp(1.25rem,2vw,1.95rem)] leading-tight text-neutral-600">
         Our team is ready to listen and guide every detail, big or small.
       </p>
     </header>
@@ -63,12 +76,12 @@ import Text from './primitives/Text.astro';
       <input type="hidden" name="formName" value="contact" />
 
       <div class="space-y-5">
-        <FormField id="name" name="name" label="Name" placeholder="Your name" required autocomplete="name" />
+        <FormField id="name" name="name" label="First Name" placeholder="First name" required autocomplete="name" />
         <FormField
           id="businessName"
           name="businessName"
-          label="Business Name"
-          placeholder="Your business name"
+          label="Company"
+          placeholder="Company or organisation"
           required
           autocomplete="organization"
         />
@@ -76,8 +89,8 @@ import Text from './primitives/Text.astro';
           id="email"
           name="email"
           type="email"
-          label="Email"
-          placeholder="you@example.com"
+          label="Email Address"
+          placeholder="Email address"
           required
           autocomplete="email"
         />
@@ -109,7 +122,13 @@ import Text from './primitives/Text.astro';
       </div>
 
       <div class="mt-7 flex flex-wrap items-center gap-4">
-        <Button type="submit" class="min-w-[10rem]" ariaLabel="Send contact message">Send Message</Button>
+        <Button
+          type="submit"
+          class="min-w-[11rem] border-[#c9a84f] bg-[#c9a84f] text-brand-950 hover:border-[#b58f31] hover:bg-[#b58f31] hover:text-brand-950"
+          ariaLabel="Send contact message"
+        >
+          Send Message
+        </Button>
         <Text as="p" class="text-sm" muted>
           We respect your privacy. Your details are only used to respond to your enquiry.
         </Text>

@@ -29,9 +29,9 @@ const isTextarea = type === 'textarea';
 ---
 
 <div class={className}>
-  <label for={id} class="mb-2 block text-sm font-medium text-brand-900">
+  <label for={id} class="mb-2 block text-[1.04rem] font-semibold tracking-[0.01em] text-brand-950">
     {label}
-    {required && <span class="text-red-700"> *</span>}
+    {required && <span class="text-[#c3a86f]"> *</span>}
   </label>
   {isTextarea ? (
     <textarea
@@ -42,7 +42,7 @@ const isTextarea = type === 'textarea';
       placeholder={placeholder}
       maxlength={maxLength}
       aria-describedby={`${id}-error`}
-      class="min-h-36 w-full rounded-lg border border-neutral-400 bg-white px-4 py-3 text-base text-neutral-700 shadow-sm transition placeholder:text-neutral-400 focus:border-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400/40"
+      class="min-h-36 w-full rounded-xl border border-[#c9a84f]/85 bg-[#f1f1ef] px-4 py-3 text-[1.08rem] text-neutral-700 shadow-sm transition placeholder:text-neutral-400 focus:border-[#b58f31] focus:outline-none focus:ring-2 focus:ring-[#c9a84f]/35"
     ></textarea>
   ) : (
     <input
@@ -54,7 +54,7 @@ const isTextarea = type === 'textarea';
       autocomplete={autocomplete}
       maxlength={maxLength}
       aria-describedby={`${id}-error`}
-      class="w-full rounded-lg border border-neutral-400 bg-white px-4 py-3 text-base text-neutral-700 shadow-sm transition placeholder:text-neutral-400 focus:border-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400/40"
+      class="w-full rounded-xl border border-[#c9a84f]/85 bg-[#f1f1ef] px-4 py-3 text-[1.08rem] text-neutral-700 shadow-sm transition placeholder:text-neutral-400 focus:border-[#b58f31] focus:outline-none focus:ring-2 focus:ring-[#c9a84f]/35"
     />
   )}
   <p id={`${id}-error`} data-error-for={id} class="mt-2 hidden text-sm text-red-700"></p>

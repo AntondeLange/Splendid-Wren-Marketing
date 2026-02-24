@@ -28,7 +28,7 @@ const structuredData = [
 ---
 
 <BaseLayout meta={meta} structuredData={structuredData}>
-  <Section tone="white" class="relative overflow-hidden">
+  <Section tone="white" class="relative overflow-hidden py-10 md:py-14">
     <div class="absolute inset-0" aria-hidden="true">
       <Image
         src={swWorkingTwo}
@@ -38,9 +38,10 @@ const structuredData = [
         class="h-full w-full object-cover object-center"
         loading="lazy"
       />
-      <div class="absolute inset-0 bg-white/88"></div>
+      <div class="absolute inset-0 bg-brand-950/62"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-950/75 via-brand-950/45 to-brand-950/72"></div>
     </div>
-    <Container class="relative max-w-6xl">
+    <Container class="relative max-w-[84rem]">
       <ContactForm />
     </Container>
   </Section>
