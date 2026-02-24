@@ -22,7 +22,15 @@ const meta = {
   title: 'Blog',
   description: 'Practical, thoughtful marketing insights for small businesses.',
   canonicalPath: '/blog',
+  keywords: [
+    'small business marketing blog australia',
+    'marketing strategy insights',
+    'human first marketing',
+    'ai marketing for small business',
+  ],
 };
+
+const blogUrl = `${SITE.siteUrl}/blog`;
 
 const postCardImages: Record<string, { image: ImageMetadata; imageAlt: string }> = {
   'marketing-clarity-for-small-brands': {
@@ -35,20 +43,66 @@ const postCardImages: Record<string, { image: ImageMetadata; imageAlt: string }>
   },
 };
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Blog',
-  name: `${SITE.name} Blog`,
-  url: `${SITE.siteUrl}/blog`,
-  inLanguage: 'en-AU',
-  blogPost: posts.map((post) => ({
-    '@type': 'BlogPosting',
-    headline: post.data.title,
-    datePublished: post.data.publishDate.toISOString(),
-    dateModified: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
-    url: `${SITE.siteUrl}/blog/${post.slug}`,
-  })),
-};
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${blogUrl}#blog`,
+    name: `${SITE.name} Blog`,
+    url: blogUrl,
+    inLanguage: 'en-AU',
+    publisher: {
+      '@id': `${SITE.siteUrl}/#business`,
+    },
+    blogPost: posts.map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.data.title,
+      datePublished: post.data.publishDate.toISOString(),
+      dateModified: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
+      url: `${SITE.siteUrl}/blog/${post.slug}`,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${blogUrl}#collection`,
+    name: `${SITE.name} Blog`,
+    url: blogUrl,
+    isPartOf: {
+      '@id': `${SITE.siteUrl}/#website`,
+    },
+    about: {
+      '@id': `${blogUrl}#blog`,
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: posts.map((post, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `${SITE.siteUrl}/blog/${post.slug}`,
+        name: post.data.title,
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: `${SITE.siteUrl}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: blogUrl,
+      },
+    ],
+  },
+];
 ---
 
 <PageLayout

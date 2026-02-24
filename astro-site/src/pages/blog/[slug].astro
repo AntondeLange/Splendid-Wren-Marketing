@@ -28,10 +28,20 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
+const canonicalUrl = buildAbsoluteUrl(`/blog/${post.slug}`);
+const postUpdatedAt = (post.data.updatedDate ?? post.data.publishDate).toISOString();
+const articleKeywords = [...new Set([...post.data.tags, 'small business marketing', 'australia'])];
+
 const meta = {
   title: post.data.title,
   description: post.data.description,
   canonicalPath: `/blog/${post.slug}`,
+  ogType: 'article' as const,
+  keywords: articleKeywords,
+  publishedTime: post.data.publishDate.toISOString(),
+  modifiedTime: postUpdatedAt,
+  articleSection: 'Blog',
+  articleTags: post.data.tags,
 };
 
 const formattedDate = post.data.publishDate.toLocaleDateString('en-AU', {
@@ -52,32 +62,61 @@ const postImages: Record<string, { image: ImageMetadata; imageAlt: string }> = {
 };
 
 const postImage = postImages[post.slug];
-const canonicalUrl = buildAbsoluteUrl(`/blog/${post.slug}`);
 const postImageUrl = postImage ? buildAbsoluteUrl(postImage.image.src) : buildAbsoluteUrl(SITE.defaultOgImage);
-const postUpdatedAt = (post.data.updatedDate ?? post.data.publishDate).toISOString();
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: post.data.title,
-  description: post.data.description,
-  datePublished: post.data.publishDate.toISOString(),
-  dateModified: postUpdatedAt,
-  mainEntityOfPage: canonicalUrl,
-  image: [postImageUrl],
-  author: {
-    '@type': 'Organization',
-    name: SITE.name,
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: SITE.name,
-    logo: {
-      '@type': 'ImageObject',
-      url: buildAbsoluteUrl('/favicon.png'),
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${canonicalUrl}#article`,
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.publishDate.toISOString(),
+    dateModified: postUpdatedAt,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalUrl,
+    },
+    image: [postImageUrl],
+    inLanguage: 'en-AU',
+    keywords: post.data.tags,
+    articleSection: 'Marketing',
+    author: {
+      '@type': 'Organization',
+      name: SITE.name,
+    },
+    publisher: {
+      '@id': `${SITE.siteUrl}/#business`,
+    },
+    isPartOf: {
+      '@id': `${SITE.siteUrl}/#website`,
     },
   },
-};
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: buildAbsoluteUrl('/'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: buildAbsoluteUrl('/blog'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.data.title,
+        item: canonicalUrl,
+      },
+    ],
+  },
+];
 ---
 
 <BaseLayout meta={meta} structuredData={structuredData}>

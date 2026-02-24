@@ -1,7 +1,18 @@
 import { getCollection } from 'astro:content';
 import { buildAbsoluteUrl } from '../lib/site';
 
-const STATIC_PATHS = ['/', '/about', '/how-we-work', '/blog', '/contact', '/terms', '/privacy'];
+const STATIC_PATHS = [
+  '/',
+  '/about',
+  '/how-we-work',
+  '/blog',
+  '/contact',
+  '/small-business-marketing-consultant-australia',
+  '/ai-marketing-support-small-business',
+  '/brand-strategy-small-business',
+  '/terms',
+  '/privacy',
+];
 
 function escapeXml(value: string): string {
   return value

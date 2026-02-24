@@ -1,5 +1,22 @@
 # SEO Content Outlines: Splendid Wren Marketing
 
+## Implemented (February 24, 2026)
+
+### New service pages published
+
+- `/small-business-marketing-consultant-australia`
+- `/ai-marketing-support-small-business`
+- `/brand-strategy-small-business`
+
+### New blog articles published
+
+- `/blog/7-marketing-priorities-for-australian-small-businesses`
+- `/blog/what-to-fix-first-when-your-marketing-feels-scattered`
+- `/blog/how-small-businesses-can-use-ai-without-losing-their-voice`
+- `/blog/ai-marketing-workflow-from-prompt-to-publish`
+- `/blog/brand-positioning-checklist-for-small-business-owners`
+- `/blog/how-to-describe-your-business-in-one-sentence`
+
 ## Priority Keyword Clusters
 
 1. `small business marketing consultant australia`

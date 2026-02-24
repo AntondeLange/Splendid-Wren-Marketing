@@ -1,0 +1,196 @@
+---
+import CtaBanner from '../components/CtaBanner.astro';
+import Container from '../components/primitives/Container.astro';
+import Heading from '../components/primitives/Heading.astro';
+import Section from '../components/primitives/Section.astro';
+import Text from '../components/primitives/Text.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE, buildAbsoluteUrl, getPrimaryBusinessSchema } from '../lib/site';
+import swTogether from '../assets/images/sw-together.png';
+
+const meta = {
+  title: 'AI Marketing Support for Small Business',
+  description:
+    'Human-first AI marketing support for small businesses in Australia. Build faster workflows without losing your brand voice.',
+  canonicalPath: '/ai-marketing-support-small-business',
+  keywords: [
+    'ai marketing support for small business',
+    'ai marketing consultant australia',
+    'human first ai marketing',
+    'small business ai content workflow',
+  ],
+};
+
+const capabilityItems = [
+  'Brand-safe prompt frameworks for repeatable quality.',
+  'Workflow design from planning to publish.',
+  'Review checkpoints that protect tone and accuracy.',
+  'Simple governance for team-wide consistency.',
+];
+
+const guardrailItems = [
+  'AI drafts ideas quickly, but humans approve final messaging.',
+  'AI can speed structure, but strategic decisions stay with people.',
+  'Automation handles repeatable tasks, while your brand voice remains intentional.',
+];
+
+const faqItems = [
+  {
+    question: 'Will AI make our content sound generic?',
+    answer:
+      'Not if the system is built correctly. We define your voice guardrails first, then build prompts and review loops that preserve tone and quality.',
+  },
+  {
+    question: 'Can a small team actually maintain an AI workflow?',
+    answer:
+      'Yes. We design workflows for small business capacity with practical templates, clear roles, and sustainable publishing cadence.',
+  },
+  {
+    question: 'Do you replace our current tools?',
+    answer:
+      'Usually no. We map your current stack first and then add AI where it improves speed and consistency without unnecessary complexity.',
+  },
+];
+
+const structuredData = [
+  getPrimaryBusinessSchema(),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Human-First AI Marketing Support for Small Businesses',
+    serviceType: 'AI marketing consulting for small businesses',
+    provider: {
+      '@id': `${SITE.siteUrl}/#business`,
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Australia',
+    },
+    audience: {
+      '@type': 'Audience',
+      audienceType: 'Small business owners and lean marketing teams',
+    },
+    description:
+      'AI-supported marketing systems for Australian small businesses, designed to improve speed while protecting brand voice and quality.',
+    url: buildAbsoluteUrl('/ai-marketing-support-small-business'),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: buildAbsoluteUrl('/'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'AI Marketing Support for Small Business',
+        item: buildAbsoluteUrl('/ai-marketing-support-small-business'),
+      },
+    ],
+  },
+];
+---
+
+<PageLayout
+  meta={meta}
+  structuredData={structuredData}
+  heroTitle="Human-First AI Marketing Support"
+  heroDescription="Use AI to move faster without losing the voice, trust, and strategic clarity that make your brand valuable."
+  heroImage={{ src: swTogether, alt: 'Collaborative AI-supported marketing workflow planning' }}
+>
+  <Section>
+    <Container class="max-w-5xl">
+      <div class="space-y-4 text-body text-neutral-700">
+        <p>
+          AI can reduce production time, but speed alone does not create trust. We help small businesses build AI
+          marketing workflows that stay aligned with brand voice, audience needs, and strategic priorities.
+        </p>
+        <p>
+          This is practical implementation support, not hype. You get clear systems your team can actually run week
+          after week.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="white">
+    <Container class="max-w-5xl">
+      <Heading level={2}>What Is Included</Heading>
+      <ul class="mt-5 space-y-2 pl-5 text-base text-neutral-700">
+        {capabilityItems.map((item) => (
+          <li class="list-disc">{item}</li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <Section>
+    <Container class="max-w-5xl">
+      <Heading level={2}>What AI Can and Cannot Do</Heading>
+      <ul class="mt-5 space-y-2 pl-5 text-base text-neutral-700">
+        {guardrailItems.map((item) => (
+          <li class="list-disc">{item}</li>
+        ))}
+      </ul>
+      <Text class="mt-6 text-body">
+        Compare package pathways on
+        <a href="/how-we-work" class="font-semibold text-brand-800 underline decoration-brand-300 underline-offset-4 hover:text-brand-950">
+          {' '}How We Work
+        </a>
+        , or start planning your rollout through
+        <a href="/contact" class="font-semibold text-brand-800 underline decoration-brand-300 underline-offset-4 hover:text-brand-950">
+          {' '}Contact
+        </a>
+        .
+      </Text>
+      <Text class="mt-4 text-body">
+        You can also read
+        <a href="/blog/human-first-marketing-in-an-ai-world" class="font-semibold text-brand-800 underline decoration-brand-300 underline-offset-4 hover:text-brand-950">
+          {' '}Human-First Marketing in an AI World
+        </a>
+        {' '}and
+        <a href="/blog/how-small-businesses-can-use-ai-without-losing-their-voice" class="font-semibold text-brand-800 underline decoration-brand-300 underline-offset-4 hover:text-brand-950">
+          {' '}How Small Businesses Can Use AI Without Losing Their Voice
+        </a>
+        {' '}for implementation examples.
+      </Text>
+    </Container>
+  </Section>
+
+  <Section tone="white">
+    <Container class="max-w-4xl">
+      <Heading level={2} class="text-center">Frequently Asked Questions</Heading>
+      <dl class="mt-8 space-y-6">
+        {faqItems.map((item) => (
+          <div class="surface-card p-6">
+            <dt class="text-lg font-semibold text-brand-900">{item.question}</dt>
+            <dd class="mt-3 text-base leading-relaxed text-neutral-700">{item.answer}</dd>
+          </div>
+        ))}
+      </dl>
+    </Container>
+  </Section>
+
+  <CtaBanner
+    title="Build your AI workflow the right way"
+    description="Get a practical plan for faster marketing output without sacrificing quality or trust."
+    ctaLabel="Contact Us"
+    ctaHref="/contact"
+  />
+</PageLayout>

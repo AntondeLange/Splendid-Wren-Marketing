@@ -44,6 +44,8 @@ Optional:
 - `SMTP_SECURE` (override default `false`)
 - `CONTACT_FROM_EMAIL` (defaults to `no-reply@splendidwrenmarketing.com.au`)
 - `CONTACT_TO_EMAIL` (defaults to `sarahm@splendidwrenmarketing.com.au`)
+- `PUBLIC_GOOGLE_SITE_VERIFICATION` (Google Search Console verification token)
+- `PUBLIC_ENABLE_SPEED_INSIGHTS` (set to `true` to enable Vercel Speed Insights)
 
 Recommended server-side controls:
 
@@ -80,6 +82,7 @@ Adjust CSP sources as needed for analytics, forms, or third-party embeds.
 
 - [ ] All routes return `200` (or expected redirects)
 - [ ] `robots.txt` and `sitemap.xml` are served
+- [ ] Search Console has `https://splendidwrenmarketing.com.au/sitemap.xml` submitted
 - [ ] `www` redirects to canonical apex host
 - [ ] Metadata (title/description/OG/Twitter) is correct per page
 - [ ] Contact form endpoint rejects invalid input

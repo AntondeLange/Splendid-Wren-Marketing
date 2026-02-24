@@ -7,6 +7,12 @@ export interface PageMeta {
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
+  ogType?: 'website' | 'article';
+  keywords?: string[];
+  publishedTime?: string;
+  modifiedTime?: string;
+  articleSection?: string;
+  articleTags?: string[];
   noindex?: boolean;
 }
 

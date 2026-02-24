@@ -21,6 +21,12 @@ const resolvedMeta: PageMeta = {
   ogTitle: meta?.ogTitle,
   ogDescription: meta?.ogDescription,
   ogImage: meta?.ogImage,
+  ogType: meta?.ogType ?? 'website',
+  keywords: meta?.keywords,
+  publishedTime: meta?.publishedTime,
+  modifiedTime: meta?.modifiedTime,
+  articleSection: meta?.articleSection,
+  articleTags: meta?.articleTags,
   noindex: meta?.noindex,
 };
 
@@ -31,6 +37,8 @@ const ogDescription = resolvedMeta.ogDescription ?? resolvedMeta.description;
 const ogImage = buildAbsoluteUrl(resolvedMeta.ogImage ?? SITE.defaultOgImage);
 const ogImageAlt = `${SITE.name} brand image`;
 const robots = resolvedMeta.noindex ? 'noindex, nofollow' : 'index, follow';
+const keywords = resolvedMeta.keywords?.filter(Boolean).join(', ') ?? '';
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'true';
 ---
 
@@ -44,9 +52,13 @@ const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'tr
     <meta name="theme-color" content="#1e3a5f" />
     <title>{title}</title>
     <meta name="description" content={resolvedMeta.description} />
+    {keywords && <meta name="keywords" content={keywords} />}
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en-au" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
     <meta name="robots" content={robots} />
-    <meta property="og:type" content="website" />
+    {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
+    <meta property="og:type" content={resolvedMeta.ogType} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:locale" content={SITE.locale} />
     <meta property="og:title" content={ogTitle} />
@@ -58,6 +70,16 @@ const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'tr
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
+    {
+      resolvedMeta.ogType === 'article' && (
+        <>
+          {resolvedMeta.publishedTime && <meta property="article:published_time" content={resolvedMeta.publishedTime} />}
+          {resolvedMeta.modifiedTime && <meta property="article:modified_time" content={resolvedMeta.modifiedTime} />}
+          {resolvedMeta.articleSection && <meta property="article:section" content={resolvedMeta.articleSection} />}
+          {resolvedMeta.articleTags?.map((tag) => <meta property="article:tag" content={tag} />)}
+        </>
+      )
+    }
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
