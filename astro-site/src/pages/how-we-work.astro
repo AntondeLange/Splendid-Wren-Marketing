@@ -8,6 +8,7 @@ import ProcessStep from '../components/ProcessStep.astro';
 import Section from '../components/primitives/Section.astro';
 import Text from '../components/primitives/Text.astro';
 import PageLayout from '../layouts/PageLayout.astro';
+import { SITE, buildAbsoluteUrl, getPrimaryBusinessSchema } from '../lib/site';
 import blueWren from '../assets/images/blue-wren.webp';
 import blueWrenTwo from '../assets/images/blue-wren-2.webp';
 import blueWrenCouple from '../assets/images/blue-wren-couple.webp';
@@ -100,10 +101,77 @@ const pricingCards = [
     ],
   },
 ];
+
+const faqItems = [
+  {
+    question: 'What types of businesses do you work with?',
+    answer:
+      'We work mainly with Australian small businesses that need clearer positioning, practical marketing systems, and ongoing support that fits real-world budgets.',
+  },
+  {
+    question: 'How long does it take to see progress?',
+    answer:
+      'Most clients see early clarity and execution improvements in the first month, then stronger momentum over three to six months as systems and messaging are refined.',
+  },
+  {
+    question: 'Do you help with AI tools and implementation?',
+    answer:
+      'Yes. We help you use AI responsibly for planning and execution while keeping your brand voice human, consistent, and aligned with your strategy.',
+  },
+  {
+    question: 'Can I start with a smaller package and upgrade later?',
+    answer:
+      'Yes. Many clients begin with Wren Lite or Foundation, then move up as their priorities and capacity grow.',
+  },
+  {
+    question: 'How do I get started?',
+    answer:
+      'Start with the contact form and share your business context. We will review your goals, recommend a practical starting point, and outline clear next steps.',
+  },
+];
+
+const structuredData = [
+  getPrimaryBusinessSchema(),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Small business marketing consultancy',
+    name: 'Small Business Marketing Consulting Services',
+    provider: {
+      '@id': `${SITE.siteUrl}/#business`,
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Australia',
+    },
+    url: buildAbsoluteUrl('/how-we-work'),
+    offers: pricingCards.map((plan) => ({
+      '@type': 'Offer',
+      name: plan.title,
+      price: plan.price.replace(/[^\d.]/g, ''),
+      priceCurrency: 'AUD',
+      availability: 'https://schema.org/InStock',
+      url: buildAbsoluteUrl('/how-we-work'),
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+];
 ---
 
 <PageLayout
   meta={meta}
+  structuredData={structuredData}
   heroTitle="How We Work"
   heroDescription="At Splendid Wren Marketing, how we work is as important as what we deliver. We listen, learn your brand, build strategy and give you practical tools to thrive."
   heroImage={{ src: swTeam, alt: 'Splendid Wren team collaboration', wrapperClass: 'mx-auto w-3/5' }}
@@ -129,6 +197,16 @@ const pricingCards = [
         <p>
           The toolkit is always expanding based on client and community demand, with each tool designed for real
           small business life.
+        </p>
+        <p>
+          For implementation examples, visit our
+          <a href="/blog" class="font-semibold text-brand-800 underline decoration-brand-300 underline-offset-4 hover:text-brand-950">
+            {' '}marketing blog
+          </a>
+          {' '}or learn more
+          <a href="/about" class="font-semibold text-brand-800 underline decoration-brand-300 underline-offset-4 hover:text-brand-950">
+            {' '}about our approach
+          </a>.
         </p>
       </div>
     </Container>
@@ -174,8 +252,27 @@ const pricingCards = [
 
       <Text class="mx-auto mt-7 max-w-4xl text-center text-sm md:text-base" muted>
         Pricing shown is for 12-month subscription packages. Looking for something different? Fill in the
-        contact form and let's chat about what you need.
+        <a href="/contact" class="font-semibold text-brand-700 underline decoration-brand-300 underline-offset-4 hover:text-brand-950">
+          {' '}contact form
+        </a>
+        {' '}and let's chat about what you need.
       </Text>
+    </Container>
+  </Section>
+
+  <Section>
+    <Container class="max-w-4xl">
+      <header class="mx-auto text-center">
+        <Heading level={2}>Frequently Asked Questions</Heading>
+      </header>
+      <dl class="mt-8 space-y-6">
+        {faqItems.map((item) => (
+          <div class="surface-card p-6">
+            <dt class="text-lg font-semibold text-brand-900">{item.question}</dt>
+            <dd class="mt-3 text-base leading-relaxed text-neutral-700">{item.answer}</dd>
+          </div>
+        ))}
+      </dl>
     </Container>
   </Section>
 

@@ -45,6 +45,37 @@ export function buildAbsoluteUrl(pathname: string): string {
   return new URL(pathname, SITE.siteUrl).toString();
 }
 
+export function getPrimaryBusinessSchema(): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${SITE.siteUrl}/#business`,
+    name: SITE.name,
+    url: `${SITE.siteUrl}/`,
+    logo: buildAbsoluteUrl('/favicon.png'),
+    image: buildAbsoluteUrl('/favicon.png'),
+    description: SITE.defaultDescription,
+    email: COMPANY_EMAIL,
+    areaServed: {
+      '@type': 'Country',
+      name: 'Australia',
+    },
+    serviceType: [
+      'Marketing strategy consulting',
+      'Brand positioning',
+      'Small business marketing support',
+      'AI-assisted marketing systems',
+    ],
+    sameAs: SOCIAL_LINKS.map((item) => item.href),
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      email: COMPANY_EMAIL,
+      availableLanguage: ['en'],
+    },
+  };
+}
+
 export function withSiteTitle(title: string): string {
   if (title.includes(SITE.name)) {
     return title;

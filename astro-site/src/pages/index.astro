@@ -10,7 +10,7 @@ import Section from '../components/primitives/Section.astro';
 import Text from '../components/primitives/Text.astro';
 import heroPoster from '../assets/images/blue-wren-couple.webp';
 import swCoffee from '../assets/images/sw-coffee.png';
-import { SITE, SOCIAL_LINKS } from '../lib/site';
+import { SITE, getPrimaryBusinessSchema } from '../lib/site';
 
 const meta = {
   title: 'Splendid Wren Marketing | Small Business Marketing Consultancy',
@@ -39,34 +39,30 @@ const helpItems = [
     title: 'Clear Strategy',
     description:
       'We cut through the noise and bring focus to what actually matters. Together, we uncover the heart of your brand and build a clear direction so every decision, message and action makes sense.',
+    href: '/how-we-work',
   },
   {
     title: 'Practical Guidance',
     description:
       'No jargon. No overwhelm. Just real advice and simple tools that are useful. We break ideas into practical steps so your marketing feels doable.',
+    href: '/contact',
   },
   {
     title: 'Human-Centered',
     description:
       'Your brand is built by a real person. We learn your story, values and goals, then shape marketing that sounds like you and connects with the right people.',
+    href: '/about',
   },
   {
     title: 'Long-Term Growth',
     description:
       'We are not here for quick fixes. We help you build strong foundations and steady momentum so your business stays relevant and resilient.',
+    href: '/blog',
   },
 ];
 
 const structuredData = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    '@id': `${SITE.siteUrl}/#organization`,
-    name: SITE.name,
-    url: `${SITE.siteUrl}/`,
-    logo: `${SITE.siteUrl}/favicon.png`,
-    sameAs: SOCIAL_LINKS.map((item) => item.href),
-  },
+  getPrimaryBusinessSchema(),
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -75,7 +71,7 @@ const structuredData = [
     name: SITE.name,
     inLanguage: 'en-AU',
     publisher: {
-      '@id': `${SITE.siteUrl}/#organization`,
+      '@id': `${SITE.siteUrl}/#business`,
     },
   },
 ];
@@ -165,8 +161,42 @@ const structuredData = [
           <Card class="h-full">
             <Heading level={3} class="text-2xl">{item.title}</Heading>
             <Text class="mt-4">{item.description}</Text>
+            <a href={item.href} class="mt-5 inline-flex text-sm font-semibold text-brand-800 hover:text-brand-950">
+              Learn more
+            </a>
           </Card>
         ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="soft">
+    <Container class="max-w-5xl">
+      <div class="grid gap-5 text-center md:grid-cols-3">
+        <a
+          href="/how-we-work"
+          class="surface-card p-6 text-left transition hover:-translate-y-0.5 hover:shadow-glow"
+        >
+          <p class="text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">Services</p>
+          <p class="mt-2 text-lg font-semibold text-brand-900">Explore How We Work and Pricing</p>
+          <p class="mt-2 text-sm text-neutral-700">See process details, package options, and implementation steps.</p>
+        </a>
+        <a
+          href="/about"
+          class="surface-card p-6 text-left transition hover:-translate-y-0.5 hover:shadow-glow"
+        >
+          <p class="text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">About</p>
+          <p class="mt-2 text-lg font-semibold text-brand-900">Read The Founder Story</p>
+          <p class="mt-2 text-sm text-neutral-700">Learn who we help and why our approach is human-first.</p>
+        </a>
+        <a
+          href="/blog"
+          class="surface-card p-6 text-left transition hover:-translate-y-0.5 hover:shadow-glow"
+        >
+          <p class="text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">Insights</p>
+          <p class="mt-2 text-lg font-semibold text-brand-900">Browse The Marketing Blog</p>
+          <p class="mt-2 text-sm text-neutral-700">Practical guides for small business marketing in Australia.</p>
+        </a>
       </div>
     </Container>
   </Section>

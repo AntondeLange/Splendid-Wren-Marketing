@@ -4,6 +4,7 @@ import ContactForm from '../components/ContactForm.astro';
 import Container from '../components/primitives/Container.astro';
 import Section from '../components/primitives/Section.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, buildAbsoluteUrl, getPrimaryBusinessSchema } from '../lib/site';
 import swWorkingTwo from '../assets/images/sw-working-2.png';
 
 const meta = {
@@ -11,9 +12,22 @@ const meta = {
   description: 'Contact Splendid Wren Marketing for guidance for your small business.',
   canonicalPath: '/contact',
 };
+
+const structuredData = [
+  getPrimaryBusinessSchema(),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: `Contact ${SITE.name}`,
+    url: buildAbsoluteUrl('/contact'),
+    mainEntity: {
+      '@id': `${SITE.siteUrl}/#business`,
+    },
+  },
+];
 ---
 
-<BaseLayout meta={meta}>
+<BaseLayout meta={meta} structuredData={structuredData}>
   <Section tone="white" class="relative overflow-hidden">
     <div class="absolute inset-0" aria-hidden="true">
       <Image

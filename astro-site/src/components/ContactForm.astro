@@ -27,6 +27,13 @@ import Text from './primitives/Text.astro';
           <li>No pressure, just a clear next step.</li>
         </ul>
 
+        <Text>
+          Prefer to explore first? Start with
+          <Link href="/how-we-work" class="font-semibold no-underline">How We Work</Link>
+          {' '}or browse the
+          <Link href="/blog" class="font-semibold no-underline">Blog</Link>.
+        </Text>
+
         <Text class="break-words">
           Or reach out directly via email at
           <Link href={`mailto:${COMPANY_EMAIL}`} class="font-semibold no-underline break-all">
