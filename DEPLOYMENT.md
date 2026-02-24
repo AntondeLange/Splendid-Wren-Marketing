@@ -2,7 +2,7 @@
 
 ## Project Sources
 
-- `astro-site/`: production source (Astro + Tailwind + TypeScript + React islands).
+- `astro-site/`: production source (Astro + Tailwind + TypeScript + minimal progressive enhancement JS).
 
 ## Build and Deploy (Astro)
 
@@ -18,7 +18,7 @@
    npm run build
    ```
 3. Deploy the generated static output from:
-   - `astro-site/dist/`
+   - `astro-site/.vercel/output/`
 
 ## Contact Form Endpoint
 
@@ -80,6 +80,7 @@ Adjust CSP sources as needed for analytics, forms, or third-party embeds.
 
 - [ ] All routes return `200` (or expected redirects)
 - [ ] `robots.txt` and `sitemap.xml` are served
+- [ ] `www` redirects to canonical apex host
 - [ ] Metadata (title/description/OG/Twitter) is correct per page
 - [ ] Contact form endpoint rejects invalid input
 - [ ] Contact form sends email to `sarahm@splendidwrenmarketing.com.au`

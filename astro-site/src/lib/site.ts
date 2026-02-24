@@ -25,7 +25,7 @@ export const FOOTER_LEGAL_ITEMS: NavItem[] = [
 export const SOCIAL_LINKS: SocialLink[] = [
   { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61586855053532', icon: 'facebook' },
   { label: 'Instagram', href: 'https://www.instagram.com/splendidwrenmarketing/', icon: 'instagram' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/111485312/admin/dashboard/', icon: 'linkedin' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/111485312/', icon: 'linkedin' },
 ];
 
 export const COMPANY_EMAIL = 'hello@splendidwrenmarketing.com.au';

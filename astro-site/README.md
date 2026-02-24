@@ -1,6 +1,6 @@
 # Splendid Wren Marketing (Astro)
 
-Production site built with Astro + Tailwind + TypeScript, using Astro components and targeted React islands.
+Production site built with Astro + Tailwind + TypeScript, using Astro components and targeted vanilla JS enhancement where needed.
 
 ## Stack
 
@@ -9,17 +9,15 @@ Production site built with Astro + Tailwind + TypeScript, using Astro components
 - TypeScript (strict)
 - Astro Content Collections for blog content
 - Astro image optimization (`astro:assets`)
-- React islands (`@astrojs/react`)
 
 ## Project Structure
 
 - `src/pages/` routes
 - `src/layouts/` shared page layouts
 - `src/components/` Astro UI components
-- `src/components/react/` React islands for client-side interaction where needed
 - `src/lib/` typed constants/helpers
 - `src/content/` blog content collections
-- `public/` static assets (`robots.txt`, `sitemap.xml`, media)
+- `public/` static assets (`robots.txt`, media)
 
 ## Local Development
 

@@ -1,11 +1,11 @@
 # Splendid Wren Marketing Website
 
-Marketing website for Splendid Wren Marketing, built with Astro, Tailwind CSS, strict TypeScript, Astro components, and React islands.
+Marketing website for Splendid Wren Marketing, built with Astro, Tailwind CSS, strict TypeScript, and targeted vanilla JS for progressive enhancement.
 
 ## Project Structure
 
 ```txt
-├── astro-site/   # Production app (Astro + Tailwind + TypeScript + React islands)
+├── astro-site/   # Production app (Astro + Tailwind + TypeScript)
 └── ...
 ```
 
@@ -14,8 +14,8 @@ Marketing website for Splendid Wren Marketing, built with Astro, Tailwind CSS, s
 - Astro
 - Tailwind CSS
 - TypeScript (strict)
-- React islands (`@astrojs/react`)
-- Static output (`astro-site/dist`)
+- Progressive enhancement with minimal client JS
+- Vercel adapter output (`astro-site/.vercel/output`)
 
 ## Routes
 
@@ -45,5 +45,5 @@ npm run build
 
 ## Deployment
 
-- Deploy the built static output from `astro-site/dist`.
+- Deploy with Vercel using `vercel.json`.
 - See `DEPLOYMENT.md` for security headers, contact endpoint notes, and post-deploy checks.

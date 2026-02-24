@@ -13,6 +13,10 @@ const DEFAULT_CONTACT_TO_EMAIL = 'sarahm@splendidwrenmarketing.com.au';
 const DEFAULT_CONTACT_FROM_EMAIL = 'no-reply@splendidwrenmarketing.com.au';
 const DEFAULT_SMTP_HOST = 'mail-au.smtp2go.com';
 const DEFAULT_SMTP_PORT = 587;
+const MAX_FORM_BYTES = 12_000;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 6;
+const rateLimitBuckets = new Map<string, { count: number; startedAt: number }>();
 
 function sanitize(value: FormDataEntryValue | null): string {
   return String(value ?? '')
@@ -218,13 +222,70 @@ function mapClientFacingErrorMessage(error: SmtpLikeError): string {
   return 'Unable to send your message right now. Please try again shortly.';
 }
 
-function json(data: unknown, status = 200): Response {
+function getClientIp(request: Request): string {
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  if (forwardedFor) {
+    const first = forwardedFor.split(',')[0]?.trim();
+    if (first) {
+      return first;
+    }
+  }
+
+  const realIp = request.headers.get('x-real-ip')?.trim();
+  if (realIp) {
+    return realIp;
+  }
+
+  return 'unknown';
+}
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const bucket = rateLimitBuckets.get(ip);
+
+  if (!bucket || now - bucket.startedAt >= RATE_LIMIT_WINDOW_MS) {
+    rateLimitBuckets.set(ip, { count: 1, startedAt: now });
+    return false;
+  }
+
+  if (bucket.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return true;
+  }
+
+  bucket.count += 1;
+  return false;
+}
+
+function isAllowedOrigin(request: Request): boolean {
+  const originHeader = request.headers.get('origin');
+  if (!originHeader) {
+    return true;
+  }
+
+  try {
+    const origin = new URL(originHeader);
+    const requestUrl = new URL(request.url);
+    return origin.host === requestUrl.host;
+  } catch {
+    return false;
+  }
+}
+
+function json(data: unknown, status = 200, extraHeaders?: Record<string, string>): Response {
+  const headers = new Headers({
+    'content-type': 'application/json; charset=utf-8',
+    'cache-control': 'no-store',
+  });
+
+  if (extraHeaders) {
+    for (const [key, value] of Object.entries(extraHeaders)) {
+      headers.set(key, value);
+    }
+  }
+
   return new Response(JSON.stringify(data), {
     status,
-    headers: {
-      'content-type': 'application/json; charset=utf-8',
-      'cache-control': 'no-store',
-    },
+    headers,
   });
 }
 
@@ -236,6 +297,31 @@ export const GET: APIRoute = async () => {
 };
 
 export const POST: APIRoute = async ({ request }) => {
+  if (!isAllowedOrigin(request)) {
+    return json({ ok: false, message: 'Origin is not allowed.' }, 403);
+  }
+
+  const contentLengthHeader = request.headers.get('content-length');
+  if (contentLengthHeader) {
+    const contentLength = Number(contentLengthHeader);
+    if (!Number.isInteger(contentLength) || contentLength < 0) {
+      return json({ ok: false, message: 'Invalid content length.' }, 400);
+    }
+
+    if (contentLength > MAX_FORM_BYTES) {
+      return json({ ok: false, message: 'Request is too large.' }, 413);
+    }
+  }
+
+  const clientIp = getClientIp(request);
+  if (isRateLimited(clientIp)) {
+    return json(
+      { ok: false, message: 'Too many requests. Please wait a minute and try again.' },
+      429,
+      { 'retry-after': '60' },
+    );
+  }
+
   const contentType = request.headers.get('content-type') ?? '';
   if (
     !contentType.includes('application/x-www-form-urlencoded') &&

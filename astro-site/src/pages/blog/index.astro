@@ -9,6 +9,7 @@ import Section from '../../components/primitives/Section.astro';
 import SocialLinks from '../../components/SocialLinks.astro';
 import Text from '../../components/primitives/Text.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE } from '../../lib/site';
 import headshotBridge from '../../assets/images/headshot-bridge.webp';
 import swReady from '../../assets/images/sw-ready.png';
 import swTogether from '../../assets/images/sw-together.png';
@@ -33,10 +34,26 @@ const postCardImages: Record<string, { image: ImageMetadata; imageAlt: string }>
     imageAlt: 'Team collaborating together',
   },
 };
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: `${SITE.name} Blog`,
+  url: `${SITE.siteUrl}/blog`,
+  inLanguage: 'en-AU',
+  blogPost: posts.map((post) => ({
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    datePublished: post.data.publishDate.toISOString(),
+    dateModified: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
+    url: `${SITE.siteUrl}/blog/${post.slug}`,
+  })),
+};
 ---
 
 <PageLayout
   meta={meta}
+  structuredData={structuredData}
   heroTitle="Blog"
   heroDescription="Practical, thoughtful marketing insights for small businesses."
   heroImage={{ src: headshotBridge, alt: 'Splendid Wren brand imagery', wrapperClass: 'mx-auto w-3/5' }}

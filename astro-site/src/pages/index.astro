@@ -10,6 +10,7 @@ import Section from '../components/primitives/Section.astro';
 import Text from '../components/primitives/Text.astro';
 import heroPoster from '../assets/images/blue-wren-couple.webp';
 import swCoffee from '../assets/images/sw-coffee.png';
+import { SITE, SOCIAL_LINKS } from '../lib/site';
 
 const meta = {
   title: 'Splendid Wren Marketing | Small Business Marketing Consultancy',
@@ -56,13 +57,28 @@ const helpItems = [
   },
 ];
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Splendid Wren Marketing',
-  url: 'https://splendidwrenmarketing.com.au/',
-  logo: 'https://splendidwrenmarketing.com.au/favicon.png',
-};
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE.siteUrl}/#organization`,
+    name: SITE.name,
+    url: `${SITE.siteUrl}/`,
+    logo: `${SITE.siteUrl}/favicon.png`,
+    sameAs: SOCIAL_LINKS.map((item) => item.href),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE.siteUrl}/#website`,
+    url: `${SITE.siteUrl}/`,
+    name: SITE.name,
+    inLanguage: 'en-AU',
+    publisher: {
+      '@id': `${SITE.siteUrl}/#organization`,
+    },
+  },
+];
 ---
 
 <BaseLayout meta={meta} structuredData={structuredData}>
@@ -196,7 +212,7 @@ const structuredData = {
         const prefersReducedData = window.matchMedia('(prefers-reduced-data: reduce)').matches;
         const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-        if (prefersReducedMotion || prefersReducedData || !hasFinePointer) {
+        if (prefersReducedMotion || prefersReducedData) {
           return;
         }
 
@@ -347,10 +363,13 @@ const structuredData = {
 
         document.addEventListener('pointerdown', tryUnlockAudio, { once: true, passive: true });
         document.addEventListener('keydown', tryUnlockAudio, { once: true });
-        heroSection.addEventListener('pointerenter', handlePointerEnter);
-        heroSection.addEventListener('pointermove', handlePointerMove, { passive: true });
-        heroSection.addEventListener('pointerleave', handlePointerLeave);
         heroSection.addEventListener('pointerdown', handlePointerDown, { passive: true });
+
+        if (hasFinePointer) {
+          heroSection.addEventListener('pointerenter', handlePointerEnter);
+          heroSection.addEventListener('pointermove', handlePointerMove, { passive: true });
+          heroSection.addEventListener('pointerleave', handlePointerLeave);
+        }
       };
 
       if (document.readyState === 'loading') {

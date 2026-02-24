@@ -8,6 +8,7 @@ import Container from '../../components/primitives/Container.astro';
 import Heading from '../../components/primitives/Heading.astro';
 import Section from '../../components/primitives/Section.astro';
 import Text from '../../components/primitives/Text.astro';
+import { SITE, buildAbsoluteUrl } from '../../lib/site';
 import swReady from '../../assets/images/sw-ready.png';
 import swTogether from '../../assets/images/sw-together.png';
 
@@ -51,9 +52,35 @@ const postImages: Record<string, { image: ImageMetadata; imageAlt: string }> = {
 };
 
 const postImage = postImages[post.slug];
+const canonicalUrl = buildAbsoluteUrl(`/blog/${post.slug}`);
+const postImageUrl = postImage ? buildAbsoluteUrl(postImage.image.src) : buildAbsoluteUrl(SITE.defaultOgImage);
+const postUpdatedAt = (post.data.updatedDate ?? post.data.publishDate).toISOString();
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.publishDate.toISOString(),
+  dateModified: postUpdatedAt,
+  mainEntityOfPage: canonicalUrl,
+  image: [postImageUrl],
+  author: {
+    '@type': 'Organization',
+    name: SITE.name,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: buildAbsoluteUrl('/favicon.png'),
+    },
+  },
+};
 ---
 
-<BaseLayout meta={meta}>
+<BaseLayout meta={meta} structuredData={structuredData}>
   <Section tone="white">
     <Container class="max-w-3xl">
       <a href="/blog" class="text-sm font-medium text-brand-700 hover:text-brand-900">Back to Blog</a>
