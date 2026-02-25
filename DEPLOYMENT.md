@@ -47,6 +47,8 @@ Optional:
 - `UPSTASH_REDIS_REST_URL` (optional distributed rate-limit backend URL)
 - `UPSTASH_REDIS_REST_TOKEN` (optional distributed rate-limit backend token)
 - `PUBLIC_GA_MEASUREMENT_ID` (optional Google Analytics measurement ID override)
+- `GA4_MEASUREMENT_ID` (optional server-side GA4 measurement ID override)
+- `GA4_API_SECRET` (optional server-side GA4 API secret for lead fallback events)
 - `PUBLIC_GOOGLE_SITE_VERIFICATION` (Google Search Console verification token)
 - `PUBLIC_ENABLE_SPEED_INSIGHTS` (set to `true` to enable Vercel Speed Insights)
 
@@ -58,6 +60,7 @@ Recommended server-side controls:
 - Distributed rate limiting for multi-instance traffic (Upstash Redis when configured)
 - Request size limits
 - Structured error handling with no stack traces in responses
+- Structured `contact_outcome` logs for contact API monitoring
 
 ## Security Headers (Recommended)
 
@@ -97,3 +100,6 @@ Keep executable browser scripts external (for example, under `astro-site/public/
 - [ ] Keyboard navigation and visible focus states work
 - [ ] Mobile navigation and responsive layouts render correctly
 - [ ] No client-side secrets are exposed
+- [ ] `PUBLIC_GA_MEASUREMENT_ID` is set in production
+- [ ] Optional: `GA4_API_SECRET` is set if server-side lead fallback events are required
+- [ ] Analytics events validated against `docs/analytics-event-contract.md`

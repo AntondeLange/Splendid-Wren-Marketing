@@ -54,3 +54,10 @@ The contact form submits to `/api/contact`.
   - `SMTP_SECURE` (optional override)
   - `CONTACT_FROM_EMAIL` (optional; defaults to `no-reply@splendidwrenmarketing.com.au`)
   - `CONTACT_TO_EMAIL` (optional; defaults to `sarahm@splendidwrenmarketing.com.au`)
+  - `PUBLIC_GA_MEASUREMENT_ID` (optional GA4 browser tracking)
+  - `GA4_MEASUREMENT_ID` and `GA4_API_SECRET` (optional server-side lead fallback event)
+
+## Analytics Contract
+
+- Event naming, payload rules, and QA checklist live in:
+  - `../docs/analytics-event-contract.md`

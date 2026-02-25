@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { randomUUID } from 'node:crypto';
 import { isIP } from 'node:net';
 import nodemailer from 'nodemailer';
 
@@ -30,6 +31,7 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_WINDOW_SECONDS = Math.ceil(RATE_LIMIT_WINDOW_MS / 1000);
 const RATE_LIMIT_MAX_REQUESTS = 6;
 const RATE_LIMIT_BACKEND_TIMEOUT_MS = 2_500;
+const GA4_EVENT_TIMEOUT_MS = 1_500;
 const ALLOWED_FORM_FIELDS = new Set([
   'website',
   'formName',
@@ -442,6 +444,76 @@ function logContactOutcome(outcome: string, details: Record<string, string | num
   });
 }
 
+function sanitizeAnalyticsValue(value: string): string {
+  return value.trim().replace(/\s+/g, '_').toLowerCase().slice(0, 64) || 'unknown';
+}
+
+function getGa4MeasurementId(): string | null {
+  const explicit = getEnv('GA4_MEASUREMENT_ID');
+  if (explicit) {
+    return explicit;
+  }
+
+  const publicMeasurementId = getEnv('PUBLIC_GA_MEASUREMENT_ID');
+  if (publicMeasurementId) {
+    return publicMeasurementId;
+  }
+
+  return null;
+}
+
+async function sendServerLeadAcceptedEvent(serviceFocus: string): Promise<void> {
+  const measurementId = getGa4MeasurementId();
+  const apiSecret = getEnv('GA4_API_SECRET');
+  if (!measurementId || !apiSecret) {
+    return;
+  }
+
+  const endpoint =
+    `https://www.google-analytics.com/mp/collect?measurement_id=${encodeURIComponent(measurementId)}` +
+    `&api_secret=${encodeURIComponent(apiSecret)}`;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), GA4_EVENT_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({
+        client_id: randomUUID(),
+        non_personalized_ads: true,
+        events: [
+          {
+            name: 'lead_accepted_server',
+            params: {
+              event_source: 'server',
+              lead_type: 'contact_form',
+              service_focus: sanitizeAnalyticsValue(serviceFocus || 'not_specified'),
+              engagement_time_msec: 1,
+            },
+          },
+        ],
+      }),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      console.error('Server analytics event failed.', { status: response.status });
+    }
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      console.error('Server analytics event timed out.');
+      return;
+    }
+
+    console.error('Server analytics event request failed.', error);
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 export const GET: APIRoute = async () => {
   return json({
     ok: true,
@@ -641,6 +713,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   logContactOutcome('accepted');
+  void sendServerLeadAcceptedEvent(serviceFocus);
   return json(
     {
       ok: true,
