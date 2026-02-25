@@ -1,6 +1,7 @@
 ---
 import CtaBanner from '../components/CtaBanner.astro';
 import Container from '../components/primitives/Container.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
 import Heading from '../components/primitives/Heading.astro';
 import Section from '../components/primitives/Section.astro';
 import Text from '../components/primitives/Text.astro';
@@ -177,14 +178,7 @@ const structuredData = [
   <Section tone="white">
     <Container class="max-w-4xl">
       <Heading level={2} class="text-center">Frequently Asked Questions</Heading>
-      <dl class="mt-8 space-y-6">
-        {faqItems.map((item) => (
-          <div class="surface-card p-6">
-            <dt class="text-lg font-semibold text-brand-900">{item.question}</dt>
-            <dd class="mt-3 text-base leading-relaxed text-neutral-700">{item.answer}</dd>
-          </div>
-        ))}
-      </dl>
+      <FaqAccordion items={faqItems} />
     </Container>
   </Section>
 
