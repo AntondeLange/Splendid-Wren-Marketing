@@ -69,9 +69,11 @@ const isActive = (href: string): boolean => {
         </Button>
       </div>
 
-      <details class="group md:hidden">
+      <details class="group md:hidden" data-mobile-nav>
         <summary
           aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-nav-panel"
           class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/20 text-white [&::-webkit-details-marker]:hidden"
         >
           <span class="sr-only">Toggle navigation menu</span>
@@ -81,7 +83,7 @@ const isActive = (href: string): boolean => {
             <span class="block h-0.5 w-5 bg-current"></span>
           </span>
         </summary>
-        <div class="absolute right-0 top-[calc(100%+0.5rem)] w-[17rem] rounded-xl border border-brand-200 bg-white p-4 shadow-glow">
+        <div id="mobile-nav-panel" class="absolute right-0 top-[calc(100%+0.5rem)] w-[17rem] rounded-xl border border-brand-200 bg-white p-4 shadow-glow">
           <nav aria-label="Mobile navigation">
             <ul class="space-y-2">
               {NAV_ITEMS.map((item) => (
@@ -107,4 +109,5 @@ const isActive = (href: string): boolean => {
       </details>
     </div>
   </Container>
+  <script is:inline src="/scripts/mobile-nav-a11y.js"></script>
 </header>

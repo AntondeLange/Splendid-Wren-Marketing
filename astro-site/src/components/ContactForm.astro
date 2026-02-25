@@ -130,8 +130,17 @@ const serviceFocusOptions = [
         <div>
           <div class="mb-2 flex items-center justify-between gap-2">
             <label for="message" class="text-sm font-medium text-brand-900">Message <span class="text-red-700">*</span></label>
-            <span class="text-xs font-medium text-neutral-400" data-char-count id="message-char-count">0/200</span>
+            <span
+              class="text-xs font-medium text-neutral-600"
+              data-char-count
+              id="message-char-count"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              0/200
+            </span>
           </div>
+          <p id="message-guidance" class="mb-2 text-xs text-neutral-600">Write between 10 and 200 characters.</p>
           <FormField
             id="message"
             name="message"

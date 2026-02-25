@@ -37,11 +37,11 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
-    <div class="mt-10 border-t border-neutral-200 pt-5 text-center text-xs text-neutral-400">
+    <div class="mt-10 border-t border-neutral-200 pt-5 text-center text-xs text-neutral-600">
       {FOOTER_LEGAL_ITEMS.map((item, index) => (
         <>
           {index > 0 && <span aria-hidden="true"> | </span>}
-          <a href={item.href} class="text-neutral-400 transition hover:text-brand-800">{item.label}</a>
+          <a href={item.href} class="text-neutral-600 transition hover:text-brand-800">{item.label}</a>
         </>
       ))}
       <span aria-hidden="true"> | </span>

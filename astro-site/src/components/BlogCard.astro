@@ -42,7 +42,7 @@ const formattedDate = publishDate.toLocaleDateString('en-AU', {
     <a href={href} class="transition hover:text-brand-700">{title}</a>
   </Heading>
   <Text class="mt-3">{description}</Text>
-  <a href={href} class="mt-6 inline-flex text-sm font-semibold text-brand-800 hover:text-brand-950">
-    Read article ->
+  <a href={href} aria-label={`Read article: ${title}`} class="mt-6 inline-flex text-sm font-semibold text-brand-800 hover:text-brand-950">
+    Read article
   </a>
 </Card>

@@ -90,6 +90,8 @@ const structuredData = [
       playsinline
       preload="none"
       poster={heroPoster.src}
+      aria-hidden="true"
+      tabindex="-1"
     >
       <source src="/media/hero-wren.webm" type="video/webm" />
     </video>
@@ -114,7 +116,7 @@ const structuredData = [
     </Container>
   </section>
 
-  <Section tone="white" class="border-y border-neutral-200">
+  <Section as="div" tone="white" class="border-y border-neutral-200">
     <Container>
       <div class="grid gap-8 text-center md:grid-cols-3">
         {trustItems.map((item) => (
@@ -142,7 +144,11 @@ const structuredData = [
           <Card class="h-full">
             <Heading level={3} class="text-2xl">{item.title}</Heading>
             <Text class="mt-4">{item.description}</Text>
-            <a href={item.href} class="mt-5 inline-flex text-sm font-semibold text-brand-800 hover:text-brand-950">
+            <a
+              href={item.href}
+              aria-label={`Learn more about ${item.title}`}
+              class="mt-5 inline-flex text-sm font-semibold text-brand-800 hover:text-brand-950"
+            >
               Learn more
             </a>
           </Card>
@@ -151,7 +157,7 @@ const structuredData = [
     </Container>
   </Section>
 
-  <Section tone="soft">
+  <Section as="div" tone="soft">
     <Container class="max-w-5xl">
       <div class="grid gap-5 text-center md:grid-cols-3">
         <a
@@ -182,7 +188,7 @@ const structuredData = [
     </Container>
   </Section>
 
-  <Section tone="white" class="relative overflow-hidden">
+  <Section as="div" tone="white" class="relative overflow-hidden">
     <div class="absolute inset-0" aria-hidden="true">
       <Image
         src={swCoffee}

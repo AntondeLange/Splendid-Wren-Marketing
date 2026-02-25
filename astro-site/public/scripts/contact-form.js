@@ -185,7 +185,7 @@
 
   if (messageField instanceof HTMLTextAreaElement) {
     messageField.addEventListener('input', updateCharCount);
-    messageField.setAttribute('aria-describedby', 'message-char-count message-error');
+    messageField.setAttribute('aria-describedby', 'message-guidance message-char-count message-error');
   }
 
   form.addEventListener('submit', onSubmit);
