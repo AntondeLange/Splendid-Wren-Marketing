@@ -1,7 +1,13 @@
 (() => {
   const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const PHONE_PATTERN = /^[\d\s()+-]{6,20}$/;
-  const FIELD_IDS = ['name', 'businessName', 'email', 'phone', 'message'];
+  const ALLOWED_SERVICE_FOCUS = new Set([
+    'small-business-marketing-consulting',
+    'ai-marketing-support',
+    'brand-strategy',
+    'not-sure-yet',
+  ]);
+  const FIELD_IDS = ['name', 'businessName', 'email', 'phone', 'serviceFocus', 'message'];
 
   const form = document.querySelector('[data-contact-form]');
   if (!(form instanceof HTMLFormElement)) {
@@ -95,6 +101,7 @@
     const businessName = String(data.get('businessName') ?? '').trim();
     const email = String(data.get('email') ?? '').trim();
     const phone = String(data.get('phone') ?? '').trim();
+    const serviceFocus = String(data.get('serviceFocus') ?? '').trim();
     const message = String(data.get('message') ?? '').trim();
 
     let hasError = false;
@@ -114,8 +121,13 @@
       hasError = true;
     }
 
-    if (!PHONE_PATTERN.test(phone)) {
-      setError('phone', 'Please provide a valid phone number.');
+    if (phone && !PHONE_PATTERN.test(phone)) {
+      setError('phone', 'Please provide a valid phone number, or leave this blank.');
+      hasError = true;
+    }
+
+    if (serviceFocus && !ALLOWED_SERVICE_FOCUS.has(serviceFocus)) {
+      setError('serviceFocus', 'Please choose a valid option.');
       hasError = true;
     }
 

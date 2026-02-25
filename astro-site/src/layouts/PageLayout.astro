@@ -9,13 +9,31 @@ interface Props {
   heroDescription: string;
   heroImage?: HeroImage;
   heroEyebrow?: string;
+  heroCtaLabel?: string;
+  heroCtaHref?: string;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
-const { meta, heroTitle, heroDescription, heroImage, heroEyebrow, structuredData } = Astro.props;
+const {
+  meta,
+  heroTitle,
+  heroDescription,
+  heroImage,
+  heroEyebrow,
+  heroCtaLabel,
+  heroCtaHref,
+  structuredData,
+} = Astro.props;
 ---
 
 <BaseLayout meta={meta} structuredData={structuredData}>
-  <PageHero title={heroTitle} description={heroDescription} image={heroImage} eyebrow={heroEyebrow} />
+  <PageHero
+    title={heroTitle}
+    description={heroDescription}
+    image={heroImage}
+    eyebrow={heroEyebrow}
+    ctaLabel={heroCtaLabel}
+    ctaHref={heroCtaHref}
+  />
   <slot />
 </BaseLayout>

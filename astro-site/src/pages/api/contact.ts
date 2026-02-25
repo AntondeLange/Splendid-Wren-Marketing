@@ -9,6 +9,12 @@ const PROCESS_ENV = (globalThis as { process?: { env?: EnvMap } }).process?.env 
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[\d\s()+-]{6,20}$/;
+const SERVICE_FOCUS_OPTIONS: Record<string, string> = {
+  'small-business-marketing-consulting': 'Small Business Marketing Consulting',
+  'ai-marketing-support': 'AI Marketing Support',
+  'brand-strategy': 'Brand Strategy',
+  'not-sure-yet': 'Not sure yet',
+};
 const DEFAULT_CONTACT_TO_EMAIL = 'sarahm@splendidwrenmarketing.com.au';
 const DEFAULT_CONTACT_FROM_EMAIL = 'no-reply@splendidwrenmarketing.com.au';
 const DEFAULT_SMTP_HOST = 'mail-au.smtp2go.com';
@@ -51,6 +57,10 @@ function getEnv(name: string): string | undefined {
   }
 
   return undefined;
+}
+
+function getServiceFocusLabel(value: string): string | null {
+  return SERVICE_FOCUS_OPTIONS[value] ?? null;
 }
 
 interface SmtpConfig {
@@ -438,14 +448,17 @@ export const POST: APIRoute = async ({ request }) => {
   const businessName = sanitize(formData.get('businessName'));
   const email = sanitize(formData.get('email'));
   const phone = sanitize(formData.get('phone'));
+  const serviceFocus = sanitize(formData.get('serviceFocus'));
   const message = sanitize(formData.get('message'));
+  const serviceFocusLabel = serviceFocus ? getServiceFocusLabel(serviceFocus) : null;
 
   const errors: string[] = [];
 
   if (!name) errors.push('Name is required.');
   if (!businessName) errors.push('Business name is required.');
   if (!EMAIL_PATTERN.test(email)) errors.push('Valid email is required.');
-  if (!PHONE_PATTERN.test(phone)) errors.push('Valid phone number is required.');
+  if (phone && !PHONE_PATTERN.test(phone)) errors.push('Valid phone number is required.');
+  if (serviceFocus && !serviceFocusLabel) errors.push('Valid service focus is required.');
   if (message.length < 10 || message.length > 200) {
     errors.push('Message must be between 10 and 200 characters.');
   }
@@ -472,7 +485,8 @@ export const POST: APIRoute = async ({ request }) => {
     `Name: ${name}`,
     `Business Name: ${businessName}`,
     `Email: ${email}`,
-    `Phone: ${phone}`,
+    `Phone: ${phone || 'Not provided'}`,
+    `Service Focus: ${serviceFocusLabel ?? 'Not specified'}`,
     `Submitted: ${submittedAt}`,
     '',
     'Message:',
@@ -484,7 +498,8 @@ export const POST: APIRoute = async ({ request }) => {
     <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     <p><strong>Business Name:</strong> ${escapeHtml(businessName)}</p>
     <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-    <p><strong>Phone:</strong> ${escapeHtml(phone)}</p>
+    <p><strong>Phone:</strong> ${escapeHtml(phone || 'Not provided')}</p>
+    <p><strong>Service Focus:</strong> ${escapeHtml(serviceFocusLabel ?? 'Not specified')}</p>
     <p><strong>Submitted:</strong> ${escapeHtml(submittedAt)}</p>
     <p><strong>Message:</strong></p>
     <p>${escapeHtml(message).replaceAll('\n', '<br />')}</p>
