@@ -15,7 +15,9 @@ const DEFAULT_SMTP_HOST = 'mail-au.smtp2go.com';
 const DEFAULT_SMTP_PORT = 587;
 const MAX_FORM_BYTES = 12_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_WINDOW_SECONDS = Math.ceil(RATE_LIMIT_WINDOW_MS / 1000);
 const RATE_LIMIT_MAX_REQUESTS = 6;
+const RATE_LIMIT_BACKEND_TIMEOUT_MS = 2_500;
 const rateLimitBuckets = new Map<string, { count: number; startedAt: number }>();
 
 function sanitize(value: FormDataEntryValue | null): string {
@@ -71,6 +73,11 @@ interface SmtpLikeError {
   responseCode?: number;
   response?: string;
   message?: string;
+}
+
+interface RateLimitDecision {
+  limited: boolean;
+  retryAfterSeconds: number;
 }
 
 function extractEmailAddress(value: string): string | null {
@@ -239,36 +246,126 @@ function getClientIp(request: Request): string {
   return 'unknown';
 }
 
-function isRateLimited(ip: string): boolean {
+function checkRateLimitInMemory(ip: string): RateLimitDecision {
   const now = Date.now();
   const bucket = rateLimitBuckets.get(ip);
 
   if (!bucket || now - bucket.startedAt >= RATE_LIMIT_WINDOW_MS) {
     rateLimitBuckets.set(ip, { count: 1, startedAt: now });
-    return false;
+    return {
+      limited: false,
+      retryAfterSeconds: RATE_LIMIT_WINDOW_SECONDS,
+    };
   }
 
   if (bucket.count >= RATE_LIMIT_MAX_REQUESTS) {
-    return true;
+    return {
+      limited: true,
+      retryAfterSeconds: RATE_LIMIT_WINDOW_SECONDS,
+    };
   }
 
   bucket.count += 1;
-  return false;
+  return {
+    limited: false,
+    retryAfterSeconds: RATE_LIMIT_WINDOW_SECONDS,
+  };
 }
 
-function isAllowedOrigin(request: Request): boolean {
-  const originHeader = request.headers.get('origin');
-  if (!originHeader) {
-    return true;
+async function checkRateLimitWithRedis(ip: string): Promise<RateLimitDecision | null> {
+  const redisUrl = getEnv('UPSTASH_REDIS_REST_URL');
+  const redisToken = getEnv('UPSTASH_REDIS_REST_TOKEN');
+
+  if (!redisUrl || !redisToken || ip === 'unknown') {
+    return null;
   }
 
+  const normalizedUrl = redisUrl.replace(/\/$/, '');
+  const key = `contact-rate-limit:${ip}`;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), RATE_LIMIT_BACKEND_TIMEOUT_MS);
+
   try {
-    const origin = new URL(originHeader);
-    const requestUrl = new URL(request.url);
-    return origin.host === requestUrl.host;
+    const response = await fetch(`${normalizedUrl}/pipeline`, {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${redisToken}`,
+        'content-type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify([
+        ['INCR', key],
+        ['EXPIRE', key, RATE_LIMIT_WINDOW_SECONDS],
+      ]),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      console.error('Contact rate-limit backend returned non-OK status.', { status: response.status });
+      return null;
+    }
+
+    const payload = (await response.json()) as Array<{ result?: unknown }> | null;
+    const count = Number(payload?.[0]?.result);
+
+    if (!Number.isFinite(count)) {
+      console.error('Contact rate-limit backend returned an invalid counter value.', {
+        result: payload?.[0]?.result,
+      });
+      return null;
+    }
+
+    return {
+      limited: count > RATE_LIMIT_MAX_REQUESTS,
+      retryAfterSeconds: RATE_LIMIT_WINDOW_SECONDS,
+    };
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      console.error('Contact rate-limit backend request timed out.');
+      return null;
+    }
+
+    console.error('Contact rate-limit backend request failed.', error);
+    return null;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+async function checkRateLimit(ip: string): Promise<RateLimitDecision> {
+  const distributedDecision = await checkRateLimitWithRedis(ip);
+  if (distributedDecision) {
+    return distributedDecision;
+  }
+
+  return checkRateLimitInMemory(ip);
+}
+
+function hasMatchingHost(rawUrl: string, expectedHost: string): boolean {
+  try {
+    return new URL(rawUrl).host === expectedHost;
   } catch {
     return false;
   }
+}
+
+function isAllowedOrigin(request: Request): boolean {
+  const requestHost = new URL(request.url).host;
+  const originHeader = request.headers.get('origin');
+  if (originHeader) {
+    return hasMatchingHost(originHeader, requestHost);
+  }
+
+  const refererHeader = request.headers.get('referer');
+  if (refererHeader) {
+    return hasMatchingHost(refererHeader, requestHost);
+  }
+
+  const fetchSite = request.headers.get('sec-fetch-site')?.toLowerCase();
+  if (fetchSite) {
+    return fetchSite === 'same-origin' || fetchSite === 'same-site' || fetchSite === 'none';
+  }
+
+  return true;
 }
 
 function json(data: unknown, status = 200, extraHeaders?: Record<string, string>): Response {
@@ -314,11 +411,12 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const clientIp = getClientIp(request);
-  if (isRateLimited(clientIp)) {
+  const rateLimitDecision = await checkRateLimit(clientIp);
+  if (rateLimitDecision.limited) {
     return json(
       { ok: false, message: 'Too many requests. Please wait a minute and try again.' },
       429,
-      { 'retry-after': '60' },
+      { 'retry-after': String(rateLimitDecision.retryAfterSeconds) },
     );
   }
 

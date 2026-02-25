@@ -1,4 +1,6 @@
 ---
+import { GOOGLE_ANALYTICS_MEASUREMENT_ID } from '../lib/site';
+
 const refreshDelaySeconds = 5;
 ---
 
@@ -8,16 +10,8 @@ const refreshDelaySeconds = 5;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-TBWM98H36R"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-
-      gtag('config', 'G-TBWM98H36R');
-    </script>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_MEASUREMENT_ID}`}></script>
+    <script is:inline defer src="/scripts/ga-init.js" data-ga-id={GOOGLE_ANALYTICS_MEASUREMENT_ID}></script>
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -46,11 +40,7 @@ const refreshDelaySeconds = 5;
         height: auto;
       }
     </style>
-    <script is:inline>
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        window.location.replace('/?from=loader');
-      }
-    </script>
+    <script is:inline src="/scripts/loader-reduced-motion.js"></script>
   </head>
   <body>
     <div class="loader">

@@ -1,5 +1,8 @@
 import type { NavItem, SocialLink } from './types';
 
+export const GOOGLE_ANALYTICS_MEASUREMENT_ID =
+  import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim() || 'G-TBWM98H36R';
+
 export const SITE = {
   name: 'Splendid Wren Marketing',
   siteUrl: 'https://splendidwrenmarketing.com.au',

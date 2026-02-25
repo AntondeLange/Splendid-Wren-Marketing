@@ -1,7 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { buildAbsoluteUrl, SITE, withSiteTitle } from '../lib/site';
+import { buildAbsoluteUrl, GOOGLE_ANALYTICS_MEASUREMENT_ID, SITE, withSiteTitle } from '../lib/site';
 import type { PageMeta } from '../lib/types';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
@@ -88,16 +88,8 @@ const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'tr
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-TBWM98H36R"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-
-      gtag('config', 'G-TBWM98H36R');
-    </script>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_MEASUREMENT_ID}`}></script>
+    <script is:inline defer src="/scripts/ga-init.js" data-ga-id={GOOGLE_ANALYTICS_MEASUREMENT_ID}></script>
     {
       structuredData && (
         <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
