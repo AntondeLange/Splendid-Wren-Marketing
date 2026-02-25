@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /loader
 
 Sitemap: https://splendidwrenmarketing.com.au/sitemap.xml

@@ -7,6 +7,11 @@ import Container from './primitives/Container.astro';
 import SocialLinks from './SocialLinks.astro';
 
 const year = new Date().getFullYear();
+const serviceLinks = [
+  { label: 'Marketing Consultant', href: '/small-business-marketing-consultant-australia' },
+  { label: 'AI Marketing Support', href: '/ai-marketing-support-small-business' },
+  { label: 'Brand Strategy', href: '/brand-strategy-small-business' },
+];
 ---
 
 <footer class="mt-20 border-t border-neutral-200 bg-white py-14 md:mt-24">
@@ -22,6 +27,14 @@ const year = new Date().getFullYear();
         <h2 class="text-sm font-semibold uppercase tracking-[0.08em] text-brand-900">Navigation</h2>
         <ul class="mt-4 space-y-2">
           {NAV_ITEMS.map((item) => (
+            <li>
+              <a href={item.href} class="text-sm text-neutral-700 transition hover:text-brand-900">{item.label}</a>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 text-sm font-semibold uppercase tracking-[0.08em] text-brand-900">Services</p>
+        <ul class="mt-3 space-y-2">
+          {serviceLinks.map((item) => (
             <li>
               <a href={item.href} class="text-sm text-neutral-700 transition hover:text-brand-900">{item.label}</a>
             </li>
