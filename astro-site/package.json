@@ -18,6 +18,11 @@
     "nodemailer": "^8.0.1",
     "tailwindcss": "^4.1.18"
   },
+  "overrides": {
+    "@vercel/routing-utils": {
+      "path-to-regexp": "6.3.0"
+    }
+  },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
     "@types/nodemailer": "^7.0.11",

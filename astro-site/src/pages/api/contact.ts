@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { isIP } from 'node:net';
 import nodemailer from 'nodemailer';
 
 export const prerender = false;
@@ -20,10 +21,25 @@ const DEFAULT_CONTACT_FROM_EMAIL = 'no-reply@splendidwrenmarketing.com.au';
 const DEFAULT_SMTP_HOST = 'mail-au.smtp2go.com';
 const DEFAULT_SMTP_PORT = 587;
 const MAX_FORM_BYTES = 12_000;
+const MAX_NAME_CHARS = 80;
+const MAX_BUSINESS_NAME_CHARS = 120;
+const MAX_EMAIL_CHARS = 254;
+const MAX_PHONE_CHARS = 20;
+const MAX_SUBJECT_BUSINESS_NAME_CHARS = 80;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_WINDOW_SECONDS = Math.ceil(RATE_LIMIT_WINDOW_MS / 1000);
 const RATE_LIMIT_MAX_REQUESTS = 6;
 const RATE_LIMIT_BACKEND_TIMEOUT_MS = 2_500;
+const ALLOWED_FORM_FIELDS = new Set([
+  'website',
+  'formName',
+  'name',
+  'businessName',
+  'email',
+  'phone',
+  'serviceFocus',
+  'message',
+]);
 const rateLimitBuckets = new Map<string, { count: number; startedAt: number }>();
 
 function sanitize(value: FormDataEntryValue | null): string {
@@ -39,6 +55,10 @@ function escapeHtml(value: string): string {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+}
+
+function sanitizeHeaderValue(value: string): string {
+  return value.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 function isTrue(value: string | undefined): boolean {
@@ -211,19 +231,6 @@ function normalizeSmtpError(error: unknown): SmtpLikeError {
 
 function mapClientFacingErrorMessage(error: SmtpLikeError): string {
   const code = error.code?.toUpperCase() ?? '';
-  const details = `${error.response ?? ''} ${error.message ?? ''}`.toLowerCase();
-
-  if (code === 'EAUTH' || error.responseCode === 535) {
-    return 'Email service authentication failed. Please contact support.';
-  }
-
-  if (
-    details.includes('sender domain not verified') ||
-    details.includes('from header sender domain not verified') ||
-    details.includes('verified senders')
-  ) {
-    return 'Email sender is not verified in SMTP2GO. Please verify CONTACT_FROM_EMAIL or the sender domain.';
-  }
 
   if (
     code === 'ETIMEDOUT' ||
@@ -239,21 +246,53 @@ function mapClientFacingErrorMessage(error: SmtpLikeError): string {
   return 'Unable to send your message right now. Please try again shortly.';
 }
 
+function parseClientIp(rawValue: string | null): string | null {
+  if (!rawValue) {
+    return null;
+  }
+
+  const first = rawValue.split(',')[0]?.trim();
+  if (!first) {
+    return null;
+  }
+
+  const bracketedIpv6 = first.match(/^\[([0-9a-fA-F:]+)\]:(\d+)$/);
+  const ipv4WithPort = first.match(/^(\d{1,3}(?:\.\d{1,3}){3}):(\d+)$/);
+  const normalizedCandidate = bracketedIpv6?.[1] ?? ipv4WithPort?.[1] ?? first;
+  return isIP(normalizedCandidate) ? normalizedCandidate : null;
+}
+
 function getClientIp(request: Request): string {
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  if (forwardedFor) {
-    const first = forwardedFor.split(',')[0]?.trim();
-    if (first) {
-      return first;
+  const candidates = [
+    request.headers.get('x-vercel-forwarded-for'),
+    request.headers.get('x-real-ip'),
+    request.headers.get('x-forwarded-for'),
+  ];
+
+  for (const candidate of candidates) {
+    const parsedIp = parseClientIp(candidate);
+    if (parsedIp) {
+      return parsedIp;
     }
   }
 
-  const realIp = request.headers.get('x-real-ip')?.trim();
-  if (realIp) {
-    return realIp;
+  return 'unknown';
+}
+
+function estimateFormDataBytes(formData: FormData): number {
+  const encoder = new TextEncoder();
+  let total = 0;
+
+  for (const [key, value] of formData.entries()) {
+    total += encoder.encode(key).length;
+    if (typeof value === 'string') {
+      total += encoder.encode(value).length;
+    } else {
+      total += value.size;
+    }
   }
 
-  return 'unknown';
+  return total;
 }
 
 function checkRateLimitInMemory(ip: string): RateLimitDecision {
@@ -375,7 +414,7 @@ function isAllowedOrigin(request: Request): boolean {
     return fetchSite === 'same-origin' || fetchSite === 'same-site' || fetchSite === 'none';
   }
 
-  return true;
+  return false;
 }
 
 function json(data: unknown, status = 200, extraHeaders?: Record<string, string>): Response {
@@ -440,6 +479,20 @@ export const POST: APIRoute = async ({ request }) => {
 
   const formData = await request.formData();
 
+  if (estimateFormDataBytes(formData) > MAX_FORM_BYTES) {
+    return json({ ok: false, message: 'Request is too large.' }, 413);
+  }
+
+  for (const [fieldName, value] of formData.entries()) {
+    if (!ALLOWED_FORM_FIELDS.has(fieldName)) {
+      return json({ ok: false, message: 'Unsupported form field.' }, 400);
+    }
+
+    if (typeof value !== 'string') {
+      return json({ ok: false, message: 'File uploads are not supported.' }, 415);
+    }
+  }
+
   if (String(formData.get('website') ?? '').trim()) {
     return json({ ok: true }, 202);
   }
@@ -455,8 +508,14 @@ export const POST: APIRoute = async ({ request }) => {
   const errors: string[] = [];
 
   if (!name) errors.push('Name is required.');
+  if (name.length > MAX_NAME_CHARS) errors.push(`Name must be ${MAX_NAME_CHARS} characters or fewer.`);
   if (!businessName) errors.push('Business name is required.');
+  if (businessName.length > MAX_BUSINESS_NAME_CHARS) {
+    errors.push(`Business name must be ${MAX_BUSINESS_NAME_CHARS} characters or fewer.`);
+  }
+  if (email.length > MAX_EMAIL_CHARS) errors.push(`Email must be ${MAX_EMAIL_CHARS} characters or fewer.`);
   if (!EMAIL_PATTERN.test(email)) errors.push('Valid email is required.');
+  if (phone.length > MAX_PHONE_CHARS) errors.push(`Phone number must be ${MAX_PHONE_CHARS} characters or fewer.`);
   if (phone && !PHONE_PATTERN.test(phone)) errors.push('Valid phone number is required.');
   if (serviceFocus && !serviceFocusLabel) errors.push('Valid service focus is required.');
   if (message.length < 10 || message.length > 200) {
@@ -479,6 +538,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const submittedAt = new Date().toISOString();
+  const subjectBusinessName = sanitizeHeaderValue(businessName).slice(0, MAX_SUBJECT_BUSINESS_NAME_CHARS);
   const textBody = [
     'New contact form enquiry',
     '',
@@ -526,7 +586,7 @@ export const POST: APIRoute = async ({ request }) => {
         from: smtpConfig.from,
         to: smtpConfig.to,
         replyTo: email,
-        subject: `Website enquiry: ${businessName}`,
+        subject: `Website enquiry: ${subjectBusinessName || 'New enquiry'}`,
         text: textBody,
         html: htmlBody,
       });
