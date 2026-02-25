@@ -8,6 +8,7 @@ interface Props {
   rel?: string;
   disabled?: boolean;
   ariaLabel?: string;
+  ctaLocation?: string;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   rel,
   disabled = false,
   ariaLabel,
+  ctaLocation,
 } = Astro.props;
 
 const baseClasses =
@@ -39,6 +41,7 @@ const variantClasses: Record<NonNullable<Props['variant']>, string> = {
     rel={rel}
     aria-label={ariaLabel}
     aria-disabled={disabled ? 'true' : undefined}
+    data-cta-location={ctaLocation}
     class:list={[
       baseClasses,
       variantClasses[variant],

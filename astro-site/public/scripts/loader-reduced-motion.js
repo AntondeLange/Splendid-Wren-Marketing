@@ -1,9 +1,18 @@
 (() => {
   const HOME_URL = '/?from=loader';
   const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+  const track = (eventName, params = {}) => {
+    const analytics = window.SWMAnalytics;
+    if (!analytics || typeof analytics.track !== 'function') {
+      return;
+    }
+
+    analytics.track(eventName, params);
+  };
 
   const initLoaderRedirect = () => {
     if (window.matchMedia(REDUCED_MOTION_QUERY).matches) {
+      track('loader_action', { action: 'reduced_motion_redirect' });
       window.location.replace(HOME_URL);
       return;
     }
@@ -29,6 +38,7 @@
       updateStatus();
 
       timeoutId = window.setTimeout(() => {
+        track('loader_action', { action: 'auto_redirect' });
         window.location.replace(HOME_URL);
       }, redirectDelaySeconds * 1000);
     };
@@ -41,6 +51,7 @@
 
     extendControl.addEventListener('click', () => {
       redirectDelaySeconds += 10;
+      track('loader_action', { action: 'extend', seconds_added: 10 });
       scheduleRedirect();
     });
   };

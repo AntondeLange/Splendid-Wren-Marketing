@@ -18,6 +18,25 @@
   const charCount = form.querySelector('[data-char-count]');
   const messageField = form.querySelector('#message');
   const submitButton = form.querySelector('button[type="submit"]');
+  let formStartTracked = false;
+
+  const track = (eventName, params = {}, options = undefined) => {
+    const analytics = window.SWMAnalytics;
+    if (!analytics || typeof analytics.track !== 'function') {
+      return;
+    }
+
+    analytics.track(eventName, params, options);
+  };
+
+  const trackFormStart = () => {
+    if (formStartTracked) {
+      return;
+    }
+
+    formStartTracked = true;
+    track('contact_form_start', { form_id: 'contact' }, { onceKey: 'contact_form_start' });
+  };
 
   const clearError = (id) => {
     const errorEl = form.querySelector(`[data-error-for="${id}"]`);
@@ -137,10 +156,25 @@
     }
 
     if (hasError) {
+      const invalidFieldsCount = FIELD_IDS.reduce((count, fieldId) => {
+        const field = form.querySelector(`#${fieldId}`);
+        if (field instanceof HTMLElement && field.getAttribute('aria-invalid') === 'true') {
+          return count + 1;
+        }
+
+        return count;
+      }, 0);
+
+      track('contact_form_error', {
+        error_type: 'validation',
+        invalid_fields_count: invalidFieldsCount,
+      });
       setStatus('Please correct the highlighted fields and try again.', 'error');
       focusFirstErrorField();
       return;
     }
+
+    track('contact_form_submit', { form_id: 'contact' });
 
     if (submitButton instanceof HTMLButtonElement) {
       submitButton.disabled = true;
@@ -149,6 +183,7 @@
 
     setStatus('Submitting your message securely...', 'ok');
 
+    let responseStatus = 0;
     try {
       const response = await fetch(form.action, {
         method: 'POST',
@@ -157,6 +192,7 @@
           Accept: 'application/json',
         },
       });
+      responseStatus = response.status;
 
       const payload = await response.json().catch(() => null);
       if (!response.ok || !payload?.ok) {
@@ -167,8 +203,16 @@
 
       form.reset();
       updateCharCount();
+      track('generate_lead', {
+        lead_type: 'contact_form',
+        service_focus: serviceFocus || 'not_specified',
+      });
       setStatus('Thanks, your message has been sent. We will reply by email soon.', 'ok');
     } catch (error) {
+      track('contact_form_error', {
+        error_type: 'api',
+        status_code: responseStatus,
+      });
       setStatus(
         error instanceof Error ? error.message : 'Unable to submit your message right now. Please try again.',
         'error',
@@ -182,6 +226,9 @@
   };
 
   updateCharCount();
+
+  form.addEventListener('input', trackFormStart, { once: true });
+  form.addEventListener('change', trackFormStart, { once: true });
 
   if (messageField instanceof HTMLTextAreaElement) {
     messageField.addEventListener('input', updateCharCount);

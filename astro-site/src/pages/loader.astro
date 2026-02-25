@@ -10,8 +10,7 @@ const refreshDelaySeconds = 5;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
-    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_MEASUREMENT_ID}`}></script>
-    <script is:inline defer src="/scripts/ga-init.js" data-ga-id={GOOGLE_ANALYTICS_MEASUREMENT_ID}></script>
+    {GOOGLE_ANALYTICS_MEASUREMENT_ID && <script is:inline src="/scripts/ga-init.js" data-ga-id={GOOGLE_ANALYTICS_MEASUREMENT_ID}></script>}
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -99,7 +98,7 @@ const refreshDelaySeconds = 5;
         <img src="/media/logo-loader.svg" alt="Splendid Wren Marketing" width="431" height="357" />
       </div>
       <div class="loader-actions">
-        <a href="/?from=loader" class="loader-link">Skip intro</a>
+        <a href="/?from=loader" class="loader-link" data-loader-action="skip">Skip intro</a>
         <button type="button" class="loader-link" data-loader-extend>Stay longer</button>
       </div>
     </main>

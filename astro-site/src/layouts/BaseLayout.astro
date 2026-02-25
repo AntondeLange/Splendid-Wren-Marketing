@@ -88,8 +88,7 @@ const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'tr
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_MEASUREMENT_ID}`}></script>
-    <script is:inline defer src="/scripts/ga-init.js" data-ga-id={GOOGLE_ANALYTICS_MEASUREMENT_ID}></script>
+    {GOOGLE_ANALYTICS_MEASUREMENT_ID && <script is:inline src="/scripts/ga-init.js" data-ga-id={GOOGLE_ANALYTICS_MEASUREMENT_ID}></script>}
     {
       structuredData && (
         <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />

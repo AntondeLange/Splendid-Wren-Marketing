@@ -435,6 +435,13 @@ function json(data: unknown, status = 200, extraHeaders?: Record<string, string>
   });
 }
 
+function logContactOutcome(outcome: string, details: Record<string, string | number | boolean> = {}): void {
+  console.info('contact_outcome', {
+    outcome,
+    ...details,
+  });
+}
+
 export const GET: APIRoute = async () => {
   return json({
     ok: true,
@@ -444,6 +451,7 @@ export const GET: APIRoute = async () => {
 
 export const POST: APIRoute = async ({ request }) => {
   if (!isAllowedOrigin(request)) {
+    logContactOutcome('blocked_origin');
     return json({ ok: false, message: 'Origin is not allowed.' }, 403);
   }
 
@@ -451,10 +459,12 @@ export const POST: APIRoute = async ({ request }) => {
   if (contentLengthHeader) {
     const contentLength = Number(contentLengthHeader);
     if (!Number.isInteger(contentLength) || contentLength < 0) {
+      logContactOutcome('invalid_content_length');
       return json({ ok: false, message: 'Invalid content length.' }, 400);
     }
 
     if (contentLength > MAX_FORM_BYTES) {
+      logContactOutcome('payload_too_large', { source: 'content_length' });
       return json({ ok: false, message: 'Request is too large.' }, 413);
     }
   }
@@ -462,6 +472,7 @@ export const POST: APIRoute = async ({ request }) => {
   const clientIp = getClientIp(request);
   const rateLimitDecision = await checkRateLimit(clientIp);
   if (rateLimitDecision.limited) {
+    logContactOutcome('rate_limited', { retry_after: rateLimitDecision.retryAfterSeconds });
     return json(
       { ok: false, message: 'Too many requests. Please wait a minute and try again.' },
       429,
@@ -474,26 +485,31 @@ export const POST: APIRoute = async ({ request }) => {
     !contentType.includes('application/x-www-form-urlencoded') &&
     !contentType.includes('multipart/form-data')
   ) {
+    logContactOutcome('unsupported_content_type');
     return json({ ok: false, message: 'Unsupported content type.' }, 415);
   }
 
   const formData = await request.formData();
 
   if (estimateFormDataBytes(formData) > MAX_FORM_BYTES) {
+    logContactOutcome('payload_too_large', { source: 'form_data' });
     return json({ ok: false, message: 'Request is too large.' }, 413);
   }
 
   for (const [fieldName, value] of formData.entries()) {
     if (!ALLOWED_FORM_FIELDS.has(fieldName)) {
+      logContactOutcome('unsupported_form_field');
       return json({ ok: false, message: 'Unsupported form field.' }, 400);
     }
 
     if (typeof value !== 'string') {
+      logContactOutcome('rejected_file_upload');
       return json({ ok: false, message: 'File uploads are not supported.' }, 415);
     }
   }
 
   if (String(formData.get('website') ?? '').trim()) {
+    logContactOutcome('honeypot_triggered');
     return json({ ok: true }, 202);
   }
 
@@ -523,11 +539,13 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   if (errors.length > 0) {
+    logContactOutcome('validation_failed', { error_count: errors.length });
     return json({ ok: false, errors }, 400);
   }
 
   const smtpConfig = getSmtpConfig();
   if (!smtpConfig) {
+    logContactOutcome('service_not_configured');
     return json(
       {
         ok: false,
@@ -609,6 +627,10 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   if (sendError) {
+    logContactOutcome('delivery_failed', {
+      error_code: sendError.code ?? 'unknown',
+      response_code: sendError.responseCode ?? 0,
+    });
     return json(
       {
         ok: false,
@@ -618,6 +640,7 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  logContactOutcome('accepted');
   return json(
     {
       ok: true,

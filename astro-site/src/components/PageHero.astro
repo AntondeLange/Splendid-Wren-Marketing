@@ -28,7 +28,7 @@ const { title, description, image, eyebrow, ctaLabel, ctaHref } = Astro.props;
         )}
         <Heading level={1}>{title}</Heading>
         <Text class="mt-5 text-body">{description}</Text>
-        {ctaLabel && ctaHref && <Button href={ctaHref} class="mt-7">{ctaLabel}</Button>}
+        {ctaLabel && ctaHref && <Button href={ctaHref} class="mt-7" ctaLocation="page_hero">{ctaLabel}</Button>}
       </div>
 
       {image && (
