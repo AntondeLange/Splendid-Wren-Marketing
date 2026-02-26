@@ -15,6 +15,32 @@
       ],
       "destination": "https://splendidwrenmarketing.com.au/$1",
       "permanent": true
+    },
+    {
+      "source": "/amp",
+      "destination": "https://splendidwrenmarketing.com.au/",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)/amp",
+      "destination": "https://splendidwrenmarketing.com.au/$1",
+      "permanent": true
+    },
+    {
+      "source": "/amp/(.*)",
+      "destination": "https://splendidwrenmarketing.com.au/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "query",
+          "key": "amp"
+        }
+      ],
+      "destination": "https://splendidwrenmarketing.com.au/$1",
+      "permanent": true
     }
   ],
   "headers": [
