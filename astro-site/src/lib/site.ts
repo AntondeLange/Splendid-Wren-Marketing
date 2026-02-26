@@ -1,7 +1,9 @@
 import type { NavItem, SocialLink } from './types';
 
+const DEFAULT_GOOGLE_ANALYTICS_MEASUREMENT_ID = 'G-TBWM98H36R';
+
 export const GOOGLE_ANALYTICS_MEASUREMENT_ID =
-  import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim() || '';
+  import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim() || DEFAULT_GOOGLE_ANALYTICS_MEASUREMENT_ID;
 
 export const SITE = {
   name: 'Splendid Wren Marketing',
