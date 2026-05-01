@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import type { ImageMetadata } from 'astro';
 import BlogCard from '../../components/BlogCard.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
 import Container from '../../components/primitives/Container.astro';
@@ -9,16 +8,9 @@ import Section from '../../components/primitives/Section.astro';
 import SocialLinks from '../../components/SocialLinks.astro';
 import Text from '../../components/primitives/Text.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
+import { BLOG_IMAGES } from '../../lib/blogImages';
 import { SITE } from '../../lib/site';
 import headshotBridge from '../../assets/images/headshot-bridge.webp';
-import swAgree from '../../assets/images/sw-agree.png';
-import swCoffee from '../../assets/images/sw-coffee.png';
-import swExplain from '../../assets/images/sw-explain.png';
-import swNotebook from '../../assets/images/sw-notebook.png';
-import swReady from '../../assets/images/sw-ready.png';
-import swTeam from '../../assets/images/sw-team.png';
-import swTogether from '../../assets/images/sw-together.png';
-import swWorkingTwo from '../../assets/images/sw-working-2.png';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
@@ -26,52 +18,17 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 
 const meta = {
   title: 'Blog',
-  description: 'Practical, thoughtful marketing insights for small businesses.',
+  description: 'Launch stories, brand strategy insights, and practical marketing advice for small businesses.',
   canonicalPath: '/blog',
   keywords: [
     'small business marketing blog australia',
+    'brand foundation',
+    'small business marketing support',
     'marketing strategy insights',
-    'human first marketing',
-    'ai marketing for small business',
   ],
 };
 
 const blogUrl = `${SITE.siteUrl}/blog`;
-
-const postCardImages: Record<string, { image: ImageMetadata; imageAlt: string }> = {
-  '7-marketing-priorities-for-australian-small-businesses': {
-    image: swNotebook,
-    imageAlt: 'Notebook and planning materials on a desk',
-  },
-  'ai-marketing-workflow-from-prompt-to-publish': {
-    image: swWorkingTwo,
-    imageAlt: 'Team workflow and planning session',
-  },
-  'brand-positioning-checklist-for-small-business-owners': {
-    image: swExplain,
-    imageAlt: 'Person explaining brand strategy concepts',
-  },
-  'how-small-businesses-can-use-ai-without-losing-their-voice': {
-    image: swTeam,
-    imageAlt: 'Small team collaborating closely',
-  },
-  'how-to-describe-your-business-in-one-sentence': {
-    image: swCoffee,
-    imageAlt: 'Coffee and notes during a messaging workshop',
-  },
-  'what-to-fix-first-when-your-marketing-feels-scattered': {
-    image: swAgree,
-    imageAlt: 'Two people aligned on next priorities',
-  },
-  'marketing-clarity-for-small-brands': {
-    image: swReady,
-    imageAlt: 'Team prepared and ready to start',
-  },
-  'human-first-marketing-in-an-ai-world': {
-    image: swTogether,
-    imageAlt: 'Team collaborating together',
-  },
-};
 
 const structuredData = [
   {
@@ -139,7 +96,7 @@ const structuredData = [
   meta={meta}
   structuredData={structuredData}
   heroTitle="Blog"
-  heroDescription="Practical, thoughtful marketing insights for small businesses."
+  heroDescription="Launch stories, brand strategy insights, and practical marketing advice for small businesses."
   heroCtaLabel="Contact Us"
   heroCtaHref="/contact"
   heroImage={{ src: headshotBridge, alt: 'Splendid Wren brand imagery', wrapperClass: 'mx-auto w-3/5' }}
@@ -154,8 +111,8 @@ const structuredData = [
               description={post.data.description}
               href={`/blog/${post.slug}`}
               publishDate={post.data.publishDate}
-              image={postCardImages[post.slug]?.image}
-              imageAlt={postCardImages[post.slug]?.imageAlt}
+              image={BLOG_IMAGES[post.slug]?.image}
+              imageAlt={BLOG_IMAGES[post.slug]?.imageAlt}
             />
           ))}
         </div>

@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -8,15 +7,8 @@ import Container from '../../components/primitives/Container.astro';
 import Heading from '../../components/primitives/Heading.astro';
 import Section from '../../components/primitives/Section.astro';
 import Text from '../../components/primitives/Text.astro';
+import { BLOG_IMAGES } from '../../lib/blogImages';
 import { SITE, buildAbsoluteUrl } from '../../lib/site';
-import swAgree from '../../assets/images/sw-agree.png';
-import swCoffee from '../../assets/images/sw-coffee.png';
-import swExplain from '../../assets/images/sw-explain.png';
-import swNotebook from '../../assets/images/sw-notebook.png';
-import swReady from '../../assets/images/sw-ready.png';
-import swTeam from '../../assets/images/sw-team.png';
-import swTogether from '../../assets/images/sw-together.png';
-import swWorkingTwo from '../../assets/images/sw-working-2.png';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -56,42 +48,7 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-AU', {
   year: 'numeric',
 });
 
-const postImages: Record<string, { image: ImageMetadata; imageAlt: string }> = {
-  '7-marketing-priorities-for-australian-small-businesses': {
-    image: swNotebook,
-    imageAlt: 'Notebook and planning materials on a desk',
-  },
-  'ai-marketing-workflow-from-prompt-to-publish': {
-    image: swWorkingTwo,
-    imageAlt: 'Team workflow and planning session',
-  },
-  'brand-positioning-checklist-for-small-business-owners': {
-    image: swExplain,
-    imageAlt: 'Person explaining brand strategy concepts',
-  },
-  'how-small-businesses-can-use-ai-without-losing-their-voice': {
-    image: swTeam,
-    imageAlt: 'Small team collaborating closely',
-  },
-  'how-to-describe-your-business-in-one-sentence': {
-    image: swCoffee,
-    imageAlt: 'Coffee and notes during a messaging workshop',
-  },
-  'what-to-fix-first-when-your-marketing-feels-scattered': {
-    image: swAgree,
-    imageAlt: 'Two people aligned on next priorities',
-  },
-  'marketing-clarity-for-small-brands': {
-    image: swReady,
-    imageAlt: 'Team prepared and ready to start',
-  },
-  'human-first-marketing-in-an-ai-world': {
-    image: swTogether,
-    imageAlt: 'Team collaborating together',
-  },
-};
-
-const postImage = postImages[post.slug];
+const postImage = BLOG_IMAGES[post.slug];
 const postImageUrl = postImage ? buildAbsoluteUrl(postImage.image.src) : buildAbsoluteUrl(SITE.defaultOgImage);
 
 const structuredData = [
