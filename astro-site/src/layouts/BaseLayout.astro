@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { buildAbsoluteUrl, GOOGLE_ANALYTICS_MEASUREMENT_ID, SITE, withSiteTitle } from '../lib/site';
 import type { PageMeta } from '../lib/types';
+import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
 
@@ -109,6 +110,7 @@ const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'tr
       <slot />
     </main>
     <Footer />
+    <Analytics />
     {enableSpeedInsights && <SpeedInsights />}
   </body>
 </html>
