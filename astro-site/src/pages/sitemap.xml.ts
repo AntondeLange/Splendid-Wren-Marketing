@@ -34,7 +34,7 @@ export async function GET() {
       lastmod: null as string | null,
     })),
     ...posts.map((post) => ({
-      loc: buildAbsoluteUrl(`/blog/${post.slug}`),
+      loc: buildAbsoluteUrl(`/blog/${post.id}`),
       lastmod: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
     })),
   ];

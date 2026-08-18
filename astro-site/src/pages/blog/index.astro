@@ -46,7 +46,7 @@ const structuredData = [
       headline: post.data.title,
       datePublished: post.data.publishDate.toISOString(),
       dateModified: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
-      url: `${SITE.siteUrl}/blog/${post.slug}`,
+      url: `${SITE.siteUrl}/blog/${post.id}`,
     })),
   },
   {
@@ -66,7 +66,7 @@ const structuredData = [
       itemListElement: posts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: `${SITE.siteUrl}/blog/${post.slug}`,
+        url: `${SITE.siteUrl}/blog/${post.id}`,
         name: post.data.title,
       })),
     },
@@ -109,10 +109,10 @@ const structuredData = [
             <BlogCard
               title={post.data.title}
               description={post.data.description}
-              href={`/blog/${post.slug}`}
+              href={`/blog/${post.id}`}
               publishDate={post.data.publishDate}
-              image={BLOG_IMAGES[post.slug]?.image}
-              imageAlt={BLOG_IMAGES[post.slug]?.imageAlt}
+              image={BLOG_IMAGES[post.id]?.image}
+              imageAlt={BLOG_IMAGES[post.id]?.imageAlt}
             />
           ))}
         </div>
