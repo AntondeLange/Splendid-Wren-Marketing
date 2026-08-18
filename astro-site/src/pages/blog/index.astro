@@ -8,6 +8,7 @@ import Section from '../../components/primitives/Section.astro';
 import SocialLinks from '../../components/SocialLinks.astro';
 import Text from '../../components/primitives/Text.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
+import { getPostSlug } from '../../lib/blog';
 import { BLOG_IMAGES } from '../../lib/blogImages';
 import { SITE } from '../../lib/site';
 import headshotBridge from '../../assets/images/headshot-bridge.webp';
@@ -46,7 +47,7 @@ const structuredData = [
       headline: post.data.title,
       datePublished: post.data.publishDate.toISOString(),
       dateModified: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
-      url: `${SITE.siteUrl}/blog/${post.slug}`,
+      url: `${SITE.siteUrl}/blog/${getPostSlug(post)}`,
     })),
   },
   {
@@ -66,7 +67,7 @@ const structuredData = [
       itemListElement: posts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: `${SITE.siteUrl}/blog/${post.slug}`,
+        url: `${SITE.siteUrl}/blog/${getPostSlug(post)}`,
         name: post.data.title,
       })),
     },
@@ -109,10 +110,10 @@ const structuredData = [
             <BlogCard
               title={post.data.title}
               description={post.data.description}
-              href={`/blog/${post.slug}`}
+              href={`/blog/${getPostSlug(post)}`}
               publishDate={post.data.publishDate}
-              image={BLOG_IMAGES[post.slug]?.image}
-              imageAlt={BLOG_IMAGES[post.slug]?.imageAlt}
+              image={BLOG_IMAGES[getPostSlug(post)]?.image}
+              imageAlt={BLOG_IMAGES[getPostSlug(post)]?.imageAlt}
             />
           ))}
         </div>

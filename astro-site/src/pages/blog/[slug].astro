@@ -1,12 +1,13 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/primitives/Container.astro';
 import Heading from '../../components/primitives/Heading.astro';
 import Section from '../../components/primitives/Section.astro';
 import Text from '../../components/primitives/Text.astro';
+import { getPostSlug } from '../../lib/blog';
 import { BLOG_IMAGES } from '../../lib/blogImages';
 import { SITE, buildAbsoluteUrl } from '../../lib/site';
 
@@ -18,22 +19,23 @@ export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
 
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: getPostSlug(post) },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
+const postSlug = getPostSlug(post);
 
-const canonicalUrl = buildAbsoluteUrl(`/blog/${post.slug}`);
+const canonicalUrl = buildAbsoluteUrl(`/blog/${postSlug}`);
 const postUpdatedAt = (post.data.updatedDate ?? post.data.publishDate).toISOString();
 const articleKeywords = [...new Set([...post.data.tags, 'small business marketing', 'australia'])];
 
 const meta = {
   title: post.data.title,
   description: post.data.description,
-  canonicalPath: `/blog/${post.slug}`,
+  canonicalPath: `/blog/${postSlug}`,
   ogType: 'article' as const,
   keywords: articleKeywords,
   publishedTime: post.data.publishDate.toISOString(),
@@ -48,7 +50,7 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-AU', {
   year: 'numeric',
 });
 
-const postImage = BLOG_IMAGES[post.slug];
+const postImage = BLOG_IMAGES[postSlug];
 const postImageUrl = postImage ? buildAbsoluteUrl(postImage.image.src) : buildAbsoluteUrl(SITE.defaultOgImage);
 
 const structuredData = [
