@@ -1,3 +1,4 @@
+import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import { buildAbsoluteUrl } from '../lib/site';
 
@@ -13,6 +14,8 @@ const STATIC_PATHS = [
   '/terms',
   '/privacy',
 ];
+
+const getPostSlug = (post: CollectionEntry<'blog'>) => post.id.replace(/\.(md|mdx)$/i, '');
 
 function escapeXml(value: string): string {
   return value
@@ -34,7 +37,7 @@ export async function GET() {
       lastmod: null as string | null,
     })),
     ...posts.map((post) => ({
-      loc: buildAbsoluteUrl(`/blog/${post.id}`),
+      loc: buildAbsoluteUrl(`/blog/${getPostSlug(post)}`),
       lastmod: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
     })),
   ];

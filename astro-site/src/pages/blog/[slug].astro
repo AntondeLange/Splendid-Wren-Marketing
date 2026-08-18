@@ -14,26 +14,29 @@ interface Props {
   post: CollectionEntry<'blog'>;
 }
 
+const getPostSlug = (post: CollectionEntry<'blog'>) => post.id.replace(/\.(md|mdx)$/i, '');
+
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
 
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: { slug: post.id.replace(/\.(md|mdx)$/i, '') },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const postSlug = getPostSlug(post);
 
-const canonicalUrl = buildAbsoluteUrl(`/blog/${post.id}`);
+const canonicalUrl = buildAbsoluteUrl(`/blog/${postSlug}`);
 const postUpdatedAt = (post.data.updatedDate ?? post.data.publishDate).toISOString();
 const articleKeywords = [...new Set([...post.data.tags, 'small business marketing', 'australia'])];
 
 const meta = {
   title: post.data.title,
   description: post.data.description,
-  canonicalPath: `/blog/${post.id}`,
+  canonicalPath: `/blog/${postSlug}`,
   ogType: 'article' as const,
   keywords: articleKeywords,
   publishedTime: post.data.publishDate.toISOString(),
@@ -48,7 +51,7 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-AU', {
   year: 'numeric',
 });
 
-const postImage = BLOG_IMAGES[post.id];
+const postImage = BLOG_IMAGES[postSlug];
 const postImageUrl = postImage ? buildAbsoluteUrl(postImage.image.src) : buildAbsoluteUrl(SITE.defaultOgImage);
 
 const structuredData = [
