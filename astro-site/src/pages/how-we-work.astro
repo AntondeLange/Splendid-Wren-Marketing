@@ -60,45 +60,47 @@ const processSteps = [
 const pricingCards = [
   {
     title: 'Wren Lite',
-    price: '$110 per month',
+    price: 'FREE',
+    priceAmount: '0',
     description:
-      'A simple online starting point with practical tools and a supportive community to build momentum.',
+      'A simple online starting point with practical tools and a monthly marketing toolbox.',
     image: blueWren,
     imageAlt: 'Blue wren on branch',
     features: [
-      'Six month brand audit',
-      'AI prompt and platform library',
-      'Entry-level Splendid Wren Marketing Toolkit access',
-      'Private think tank community chat room',
-      'Monthly online group check-in',
+      'Unlimited access to the Splendid Wren Marketing brand audit',
+      'Monthly toolbox newsletter with trend updates',
+      'Marketing hacks and online support',
     ],
   },
   {
-    title: 'Foundation',
+    title: 'Momentum',
     price: '$440 per month',
+    priceAmount: '440',
+    priceNote: 'Includes GST. Minimum 12-month commitment.',
     description:
-      'For businesses ready to shape a strong brand with clear strategy, messaging and direction.',
+      'For businesses ready to shape a strong brand with clear strategy, and back it with practical marketing tools.',
     image: blueWrenTwo,
     imageAlt: 'Blue wren portrait',
     features: [
       'All benefits of Wren Lite',
       'Personalised brand book and style guide',
-      'Splendid Wren Marketing Toolkit access',
-      'Six monthly one-on-one check-in',
+      'Tailor-made tools that streamline the marketing process',
+      'Monthly one-on-one check-in',
     ],
   },
   {
-    title: 'Growth',
+    title: 'Elevate',
     price: '$770 per month',
+    priceAmount: '770',
+    priceNote: 'Includes GST. Minimum 12-month commitment.',
     description:
-      'For brands building momentum with AI systems that support execution without losing human voice.',
+      'A done-for-you approach for businesses who want to focus on business, rather than marketing.',
     image: blueWrenCouple,
     imageAlt: 'Blue wren pair',
     features: [
-      'All benefits of Foundation',
-      'Personalised AI agents aligned to your brand',
-      'Human implementation support',
-      'Monthly one-on-one check-in',
+      'All benefits of Momentum',
+      'Hands-on implementation of all marketing activities',
+      'Monthly reporting and one-on-one check-in',
     ],
   },
 ];
@@ -122,7 +124,7 @@ const faqItems = [
   {
     question: 'Can I start with a smaller package and upgrade later?',
     answer:
-      'Yes. Many clients begin with Wren Lite or Foundation, then move up as their priorities and capacity grow.',
+      'Yes. Many clients begin with Wren Lite or Momentum, then move up as their priorities and capacity grow.',
   },
   {
     question: 'How do I get started?',
@@ -149,7 +151,7 @@ const structuredData = [
     offers: pricingCards.map((plan) => ({
       '@type': 'Offer',
       name: plan.title,
-      price: plan.price.replace(/[^\d.]/g, ''),
+      price: plan.priceAmount,
       priceCurrency: 'AUD',
       availability: 'https://schema.org/InStock',
       url: buildAbsoluteUrl('/how-we-work'),
@@ -244,7 +246,7 @@ const structuredData = [
       </figure>
       <Heading level={2} class="text-center">Working With Splendid Wren Marketing</Heading>
       <Text class="mx-auto mt-4 max-w-4xl text-center text-body">
-        When you work with Splendid Wren Marketing, you work with a human first. Foundation packages and above
+        When you work with Splendid Wren Marketing, you work with a human first. Momentum and Elevate packages
         follow a practical four-step process.
       </Text>
 
@@ -260,7 +262,7 @@ const structuredData = [
         <Heading level={2}>Pricing Guide</Heading>
         <Text class="mt-4 text-body">
           We keep pricing simple and transparent. Every package is designed to meet you at your stage of growth.
-          All pricing includes GST.
+          Paid pricing includes GST.
         </Text>
       </header>
 
@@ -269,7 +271,7 @@ const structuredData = [
       </div>
 
       <Text class="mx-auto mt-7 max-w-4xl text-center text-sm md:text-base" muted>
-        Pricing shown is for 12-month subscription packages. Looking for something different? Fill in the
+        Momentum and Elevate pricing is for 12-month subscription packages. Looking for something different? Fill in the
         <a href="/contact" class="font-semibold text-brand-700 underline decoration-brand-300 underline-offset-4 hover:text-brand-950">
           {' '}contact form
         </a>

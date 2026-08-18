@@ -35,6 +35,8 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const COMPANY_EMAIL = 'hello@splendidwrenmarketing.com.au';
 
+export const BRAND_AUDIT_URL = 'https://443253477.hs-sites-ap1.com/splendid-wren-marketing-brand-audit';
+
 export const LAND_ACKNOWLEDGEMENT =
   'Splendid Wren Marketing acknowledges the traditional owners of the land on which we live and work. We pay our respects to elders past, present and emerging.';
 
@@ -42,8 +44,8 @@ export const DEFAULT_CTA = {
   title: 'Ready to get started?',
   description:
     'Start with our FREE brand audit. A fresh, honest look at your brand and a clearer sense of what to do next.',
-  label: 'Contact Us',
-  href: '/contact',
+  label: 'Start my FREE brand audit',
+  href: BRAND_AUDIT_URL,
 };
 
 export function buildAbsoluteUrl(pathname: string): string {

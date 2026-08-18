@@ -1,7 +1,9 @@
 import type { ImageMetadata } from 'astro';
+import avoidTheShameSpiral from '../assets/images/blog-avoid-the-shame-spiral.png';
 import brandBestie from '../assets/images/blog-brand-bestie.png';
 import mafs from '../assets/images/blog-mafs.png';
 import noMoreMarketingMayhem from '../assets/images/blog-no-more-marketing-mayhem.png';
+import onAgainOffAgainAffair from '../assets/images/blog-on-again-off-again-affair.png';
 import swAgree from '../assets/images/sw-agree.png';
 import swCoffee from '../assets/images/sw-coffee.png';
 import swExplain from '../assets/images/sw-explain.png';
@@ -17,6 +19,14 @@ export interface BlogImageEntry {
 }
 
 export const BLOG_IMAGES: Record<string, BlogImageEntry> = {
+  'avoiding-the-ai-shame-spiral': {
+    image: avoidTheShameSpiral,
+    imageAlt: 'Woman covering her face while sitting at a laptop',
+  },
+  'my-on-again-off-again-love-affair-with-ai': {
+    image: onAgainOffAgainAffair,
+    imageAlt: 'Hands typing on a laptop at a wooden desk',
+  },
   '7-marketing-priorities-for-australian-small-businesses': {
     image: swNotebook,
     imageAlt: 'Notebook and planning materials on a desk',

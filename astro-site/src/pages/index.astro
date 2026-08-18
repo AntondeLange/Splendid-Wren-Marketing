@@ -10,7 +10,7 @@ import Section from '../components/primitives/Section.astro';
 import Text from '../components/primitives/Text.astro';
 import heroPoster from '../assets/images/blue-wren-couple.webp';
 import swCoffee from '../assets/images/sw-coffee.png';
-import { SITE, getPrimaryBusinessSchema } from '../lib/site';
+import { BRAND_AUDIT_URL, SITE, getPrimaryBusinessSchema } from '../lib/site';
 
 const meta = {
   title: 'Splendid Wren Marketing | Small Business Marketing Consultancy',
@@ -104,7 +104,9 @@ const structuredData = [
           Building clear, confident, human brands that thrive in an AI-powered world.
         </Text>
         <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Button href="/contact" variant="inverse" class="sm:min-w-[12rem]" ctaLocation="hero_primary">Contact Us</Button>
+          <Button href={BRAND_AUDIT_URL} variant="inverse" class="sm:min-w-[12rem]" ctaLocation="hero_primary">
+            Start my FREE brand audit
+          </Button>
           <Button href="/how-we-work" variant="outline" class="border-white text-white hover:border-white hover:bg-white hover:text-brand-900 sm:min-w-[12rem]">
             Learn More
           </Button>

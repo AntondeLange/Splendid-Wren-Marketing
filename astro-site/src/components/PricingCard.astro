@@ -9,13 +9,15 @@ import Text from './primitives/Text.astro';
 interface Props {
   title: string;
   price: string;
+  priceAmount?: string;
+  priceNote?: string;
   description: string;
   features: string[];
   image?: ImageMetadata;
   imageAlt?: string;
 }
 
-const { title, price, description, features, image, imageAlt = '' } = Astro.props;
+const { title, price, priceNote, description, features, image, imageAlt = '' } = Astro.props;
 ---
 
 <Card class="flex h-full flex-col p-0">
@@ -36,6 +38,7 @@ const { title, price, description, features, image, imageAlt = '' } = Astro.prop
   <div class="flex h-full flex-col p-8">
     <Heading level={3}>{title}</Heading>
     <p class="mt-3 text-lg font-semibold text-brand-900">{price}</p>
+    {priceNote && <p class="mt-1 text-xs font-medium uppercase tracking-[0.08em] text-neutral-500">{priceNote}</p>}
     <Text class="mt-3">{description}</Text>
     <ul class="mt-4 space-y-2 text-sm leading-relaxed text-neutral-700">
       {features.map((feature) => (
