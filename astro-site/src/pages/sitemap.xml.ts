@@ -1,5 +1,5 @@
-import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import { getPostSlug } from '../lib/blog';
 import { buildAbsoluteUrl } from '../lib/site';
 
 const STATIC_PATHS = [
@@ -14,8 +14,6 @@ const STATIC_PATHS = [
   '/terms',
   '/privacy',
 ];
-
-const getPostSlug = (post: CollectionEntry<'blog'>) => post.id.replace(/\.(md|mdx)$/i, '');
 
 function escapeXml(value: string): string {
   return value

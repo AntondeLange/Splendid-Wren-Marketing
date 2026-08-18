@@ -7,14 +7,13 @@ import Container from '../../components/primitives/Container.astro';
 import Heading from '../../components/primitives/Heading.astro';
 import Section from '../../components/primitives/Section.astro';
 import Text from '../../components/primitives/Text.astro';
+import { getPostSlug } from '../../lib/blog';
 import { BLOG_IMAGES } from '../../lib/blogImages';
 import { SITE, buildAbsoluteUrl } from '../../lib/site';
 
 interface Props {
   post: CollectionEntry<'blog'>;
 }
-
-const getPostSlug = (post: CollectionEntry<'blog'>) => post.id.replace(/\.(md|mdx)$/i, '');
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
