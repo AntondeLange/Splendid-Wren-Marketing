@@ -19,7 +19,7 @@ export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
 
   return posts.map((post) => ({
-    params: { slug: post.id.replace(/\.(md|mdx)$/i, '') },
+    params: { slug: getPostSlug(post) },
     props: { post },
   }));
 }
