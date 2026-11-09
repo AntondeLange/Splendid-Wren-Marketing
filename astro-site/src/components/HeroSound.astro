@@ -1,0 +1,17 @@
+<audio data-hero-audio src="/media/blue-wren-audio.mp3" loop preload="none"></audio>
+<button
+  type="button"
+  data-hero-sound-toggle
+  hidden
+  aria-label="Turn sound on"
+  aria-pressed="false"
+  class="absolute right-4 bottom-4 z-20 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/70 bg-brand-950/90 px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-900 sm:right-6 sm:bottom-6"
+>
+  <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+    <path data-sound-on-icon class="hidden" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" />
+    <path data-sound-off-icon d="m16 9 5 6m0-6-5 6" />
+  </svg>
+  <span data-sound-label>Enable sound</span>
+</button>
+<script is:inline src="/scripts/hero-sound.js"></script>

@@ -53,18 +53,11 @@
     rippleContainer.className = 'hero-ripple-container';
     heroSection.appendChild(rippleContainer);
 
-    const chirpAudio = new Audio('/media/blue-wren-audio.mp3');
-    chirpAudio.preload = 'metadata';
-    chirpAudio.volume = 0.28;
-
     const RIPPLE_INTERVAL_MS = 140;
-    const CHIRP_INTERVAL_MS = 1800;
     const MAX_RIPPLES = 8;
 
-    let audioUnlocked = false;
     let pointerInside = false;
     let lastRippleAt = 0;
-    let lastChirpAt = 0;
     let pendingX = 0;
     let pendingY = 0;
     let rafId = 0;
@@ -80,36 +73,6 @@
       ripple.style.top = `${y}px`;
       rippleContainer.appendChild(ripple);
       ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
-    };
-
-    const tryUnlockAudio = () => {
-      if (audioUnlocked) {
-        return;
-      }
-
-      chirpAudio
-        .play()
-        .then(() => {
-          chirpAudio.pause();
-          chirpAudio.currentTime = 0;
-          audioUnlocked = true;
-        })
-        .catch(() => {});
-    };
-
-    const maybePlayChirp = () => {
-      if (!audioUnlocked) {
-        return;
-      }
-
-      const now = performance.now();
-      if (now - lastChirpAt < CHIRP_INTERVAL_MS) {
-        return;
-      }
-
-      lastChirpAt = now;
-      chirpAudio.currentTime = 0;
-      chirpAudio.play().catch(() => {});
     };
 
     const maybeRenderRipple = () => {
@@ -136,10 +99,8 @@
 
     const handlePointerEnter = (event) => {
       pointerInside = true;
-      tryUnlockAudio();
       updatePointerPosition(event);
       addRipple(pendingX, pendingY);
-      maybePlayChirp();
     };
 
     const handlePointerMove = (event) => {
@@ -150,18 +111,14 @@
     };
 
     const handlePointerDown = (event) => {
-      tryUnlockAudio();
       updatePointerPosition(event);
       addRipple(pendingX, pendingY);
-      maybePlayChirp();
     };
 
     const handlePointerLeave = () => {
       pointerInside = false;
     };
 
-    document.addEventListener('pointerdown', tryUnlockAudio, { once: true, passive: true });
-    document.addEventListener('keydown', tryUnlockAudio, { once: true });
     heroSection.addEventListener('pointerdown', handlePointerDown, { passive: true });
 
     if (hasFinePointer) {
