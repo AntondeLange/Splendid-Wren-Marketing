@@ -18,6 +18,8 @@
   const charCount = form.querySelector('[data-char-count]');
   const messageField = form.querySelector('#message');
   const submitButton = form.querySelector('button[type="submit"]');
+  form.noValidate = true;
+  const messageLimit = messageField?.maxLength || 2000;
   let formStartTracked = false;
 
   const track = (eventName, params = {}, options = undefined) => {
@@ -96,7 +98,7 @@
       return;
     }
 
-    charCount.textContent = `${messageField.value.length}/200`;
+    charCount.textContent = `${messageField.value.length}/${messageLimit}`;
   };
 
   const focusFirstErrorField = () => {
@@ -115,6 +117,8 @@
       status.classList.add('hidden');
     }
 
+    const consent = form.elements.namedItem('analyticsConsent');
+    if (consent instanceof HTMLInputElement) consent.value = window.SWMAnalytics?.hasConsent() ? 'granted' : 'denied';
     const data = new FormData(form);
     const name = String(data.get('name') ?? '').trim();
     const businessName = String(data.get('businessName') ?? '').trim();
@@ -125,17 +129,17 @@
 
     let hasError = false;
 
-    if (!name) {
+    if (!name || name.length > 80) {
       setError('name', 'Please provide your name.');
       hasError = true;
     }
 
-    if (!businessName) {
+    if (!businessName || businessName.length > 120) {
       setError('businessName', 'Please provide your business name.');
       hasError = true;
     }
 
-    if (!EMAIL_PATTERN.test(email)) {
+    if (email.length > 254 || !EMAIL_PATTERN.test(email)) {
       setError('email', 'Please provide a valid email address.');
       hasError = true;
     }
@@ -150,8 +154,8 @@
       hasError = true;
     }
 
-    if (message.length < 10 || message.length > 200) {
-      setError('message', 'Please provide a message between 10 and 200 characters.');
+    if (message.length < 10 || message.length > messageLimit) {
+      setError('message', `Please provide a message between 10 and ${messageLimit} characters.`);
       hasError = true;
     }
 
@@ -196,25 +200,34 @@
 
       const payload = await response.json().catch(() => null);
       if (!response.ok || !payload?.ok) {
+        if (payload?.retrySafe) {
+          const submission = form.elements.namedItem('submissionId');
+          if (submission instanceof HTMLInputElement) submission.value = crypto.randomUUID();
+        }
         const errorMessage =
           payload?.errors?.join(' ') || payload?.message || 'Unable to submit your message right now.';
         throw new Error(errorMessage);
       }
 
+      const submission = form.elements.namedItem('submissionId');
       form.reset();
+      if (submission instanceof HTMLInputElement) submission.value = crypto.randomUUID();
       updateCharCount();
-      track('generate_lead', {
+      if (payload.confirmed && !payload.duplicate) track('generate_lead', {
         lead_type: 'contact_form',
         service_focus: serviceFocus || 'not_specified',
       });
-      setStatus('Thanks, your message has been sent. We will reply by email soon.', 'ok');
+      setStatus(payload.message || 'Thanks, your message has been received.', 'ok');
     } catch (error) {
+      // Keep the submission ID on failure: a network error may follow SMTP acceptance.
       track('contact_form_error', {
         error_type: 'api',
         status_code: responseStatus,
       });
       setStatus(
-        error instanceof Error ? error.message : 'Unable to submit your message right now. Please try again.',
+        responseStatus === 0
+          ? 'Delivery could not be confirmed because the connection was interrupted. Keep your message. Retrying this unchanged enquiry uses the same submission ID; contact us by email if you are unsure.'
+          : error instanceof Error ? error.message : 'Unable to submit your message right now. Please try again.',
         'error',
       );
     } finally {
@@ -227,6 +240,9 @@
 
   updateCharCount();
 
+  form.addEventListener('input', (event) => {
+    if (event.target instanceof HTMLElement && FIELD_IDS.includes(event.target.id)) clearError(event.target.id);
+  });
   form.addEventListener('input', trackFormStart, { once: true });
   form.addEventListener('change', trackFormStart, { once: true });
 

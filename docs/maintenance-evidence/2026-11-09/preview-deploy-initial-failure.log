@@ -1,0 +1,63 @@
+Vercel CLI 59.1.4 (Node.js 24.19.0)
+Deploying splendid-wren-marketing
+Uploading [--------------------] (0.0B/300.1KB)
+Uploading [=====---------------] (84.6KB/300.1KB)
+Uploading [==========----------] (164.7KB/300.1KB)
+Uploading [===============-----] (228.7KB/300.1KB)
+Uploading [====================] (300.1KB/300.1KB)
+  Inspect         https://vercel.com/antons-projects-978e1a78/splendid-wren-marketing/EUEQhg3KGqHrGXzb4f1wQ7vHVgDX
+  Preview         https://splendid-wren-marketing-5vwwh9upb-antons-projects-978e1a78.vercel.app
+Building…
+Building…
+Running build in Washington, D.C., USA (East) – iad1
+Build machine configuration: 2 cores, 8 GB
+Retrieving list of deployment files...
+Downloading 107 deployment files...
+Restored build cache from previous deployment (79JkCgXczdNbLCcJzr3kj8axyGwX)
+Running "vercel build"
+Vercel CLI 65.11.0
+Running "install" command: `npm --prefix astro-site ci`...
+npm warn Unknown env config "cache-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+added 376 packages, and audited 377 packages in 9s
+96 packages are looking for funding
+run `npm fund` for details
+1 high severity vulnerability
+To address all issues, run:
+npm audit fix
+Run `npm audit` for details.
+npm warn Unknown env config "cache-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+> astro-site@0.0.1 prebuild
+> node scripts/prepare-images.mjs
+> astro-site@0.0.1 build
+> astro build
+06:45:28 [content] Syncing content
+06:45:28 [content] Synced content
+06:45:28 [types] Generated 1.26s
+06:45:28 [build] output: "static"
+06:45:28 [build] mode: "server"
+06:45:28 [build] directory: /vercel/path0/astro-site/dist/
+06:45:28 [build] adapter: @astrojs/vercel
+06:45:28 [build] Collecting build info...
+06:45:28 [build] ✓ Completed in 1.43s.
+06:45:28 [build] Building server entrypoints...
+06:45:29 [ERROR] [vite] ✗ Build failed in 316ms
+Can't resolve '../../tailwind.config.ts' in '/vercel/path0/astro-site/src/styles'
+Stack trace:
+at finishWithoutResolve (/vercel/path0/astro-site/node_modules/enhanced-resolve/lib/Resolver.js:952:18)
+at /vercel/path0/astro-site/node_modules/enhanced-resolve/lib/Resolver.js:1132:5
+at /vercel/path0/astro-site/node_modules/enhanced-resolve/lib/Resolver.js:1132:5
+at /vercel/path0/astro-site/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:94:43
+at eval (eval at create (/vercel/path0/astro-site/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)
+Error: [BUILD_UTILS_SPAWN_1] Command "npm --prefix astro-site run build && rm -rf .vercel/output && cp -R astro-site/.vercel/output .vercel/output" exited with 1
+{
+  "status": "error",
+  "reason": "deploy_failed",
+  "message": "Command \"npm --prefix astro-site run build && rm -rf .vercel/output && cp -R astro-site/.vercel/output .vercel/output\" exited with 1",
+  "next": [
+    {
+      "command": "vercel deploy --cwd /var/folders/9c/q755ljsx4bgghkmrdsy8fgx40000gn/T/swm-preview-20261109-05cpnoq2 --scope antons-projects-978e1a78",
+      "when": "retry deploy"
+    }
+  ]
+}
+Error: Command "npm --prefix astro-site run build && rm -rf .vercel/output && cp -R astro-site/.vercel/output .vercel/output" exited with 1

@@ -1,0 +1,81 @@
+{
+  "checkedOn": "2026-11-09",
+  "project": {
+    "id": "prj_XQNkuOVJIIXdG9TEahawW2Hkc0wE",
+    "name": "splendid-wren-marketing",
+    "framework": "astro",
+    "accountId": "team_zEkHfvxHWKBOUSdHNxugblpE",
+    "createdAt": 1770706094097,
+    "updatedAt": 1792629087771,
+    "nodeVersion": "24.x",
+    "live": false,
+    "latestDeployment": {
+      "id": "dpl_79JkCgXczdNbLCcJzr3kj8axyGwX",
+      "url": "splendid-wren-marketing-gm7466ywd-antons-projects-978e1a78.vercel.app",
+      "createdAt": 1792630108981,
+      "readyState": "READY",
+      "target": null
+    },
+    "domains": [
+      "splendidwrenmarketing.com.au",
+      "www.splendidwrenmarketing.com.au",
+      "splendid-wren-marketing.vercel.app",
+      "splendid-wren-marketing-antons-projects-978e1a78.vercel.app",
+      "splendid-wren-marketing-git-main-antons-projects-978e1a78.vercel.app"
+    ],
+    "passwordProtection": {
+      "enabled": false,
+      "deploymentType": null
+    },
+    "ssoProtection": {
+      "enabled": true,
+      "deploymentType": "all_except_custom_domains"
+    },
+    "trustedIps": {
+      "enabled": false,
+      "deploymentType": null,
+      "addresses": [],
+      "protectionMode": null
+    }
+  },
+  "deployment": {
+    "id": "dpl_9CxZe76q2HyuRx5ubk6s7FEcNHAo",
+    "name": "splendid-wren-marketing",
+    "url": "splendid-wren-marketing-3yccslu8g-antons-projects-978e1a78.vercel.app",
+    "type": "LAMBDAS",
+    "state": "READY",
+    "createdAt": 1787046671403,
+    "creator": {
+      "uid": "tyBnpXp1DBpky4lKyn2uptIV",
+      "username": "antondelange"
+    },
+    "project": {
+      "id": "prj_XQNkuOVJIIXdG9TEahawW2Hkc0wE",
+      "name": "splendid-wren-marketing",
+      "framework": "astro"
+    },
+    "meta": {
+      "githubCommitRef": "main",
+      "githubCommitSha": "edf0d5e661facdbc5f3eb711ac8c7698e010c3ff",
+      "githubCommitMessage": "Add Vercel Analytics to the base layout",
+      "githubRepo": "Splendid-Wren-Marketing",
+      "githubOrg": "AntondeLange"
+    },
+    "alias": [
+      "splendidwrenmarketing.com.au",
+      "www.splendidwrenmarketing.com.au",
+      "splendid-wren-marketing.vercel.app",
+      "splendid-wren-marketing-antons-projects-978e1a78.vercel.app",
+      "splendid-wren-marketing-git-main-antons-projects-978e1a78.vercel.app"
+    ],
+    "target": "production",
+    "regions": [
+      "iad1"
+    ],
+    "buildingAt": 1787046672562,
+    "ready": 1787046702316,
+    "readyState": "READY",
+    "source": "git",
+    "aliasError": null
+  }
+}

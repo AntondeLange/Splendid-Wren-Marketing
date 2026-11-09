@@ -3,8 +3,6 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { buildAbsoluteUrl, GOOGLE_ANALYTICS_MEASUREMENT_ID, SITE, withSiteTitle } from '../lib/site';
 import type { PageMeta } from '../lib/types';
-import Analytics from '@vercel/analytics/astro';
-import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
 
 interface Props {
@@ -90,7 +88,7 @@ const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'tr
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    {GOOGLE_ANALYTICS_MEASUREMENT_ID && <script is:inline src="/scripts/ga-init.js" data-ga-id={GOOGLE_ANALYTICS_MEASUREMENT_ID}></script>}
+    <script is:inline defer src="/scripts/ga-init.js" data-ga-id={GOOGLE_ANALYTICS_MEASUREMENT_ID}></script>
     {
       structuredData && (
         <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
@@ -110,7 +108,29 @@ const enableSpeedInsights = import.meta.env.PUBLIC_ENABLE_SPEED_INSIGHTS === 'tr
       <slot />
     </main>
     <Footer />
-    <Analytics />
-    {enableSpeedInsights && <SpeedInsights />}
+    <div id="measurement-config" data-speed-insights={enableSpeedInsights ? 'true' : 'false'} hidden></div>
+    <script>
+      import { inject } from '@vercel/analytics';
+      import { injectSpeedInsights } from '@vercel/speed-insights';
+      let injected = false;
+      const cleanUrl = (value: string) => {
+        try { const url = new URL(value); return url.origin + url.pathname; } catch { return ''; }
+      };
+      const safeReferrer = () => {
+        try { const url = new URL(document.referrer); return !url.search && !url.hash && !url.username; } catch { return true; }
+      };
+      const enable = (event?: Event) => {
+        let granted = event instanceof CustomEvent && event.detail === 'granted';
+        try { granted ||= localStorage.getItem('swm_analytics_consent_v1') === 'granted'; } catch { /* Use this session's explicit choice. */ }
+        if (injected || !granted) return;
+        injected = true;
+        inject({ beforeSend: (event) => safeReferrer() ? ({ ...event, url: cleanUrl(event.url) }) : null });
+        if (document.querySelector<HTMLElement>('#measurement-config')?.dataset.speedInsights === 'true') {
+          injectSpeedInsights({ beforeSend: (event) => safeReferrer() ? ({ ...event, url: cleanUrl(event.url) }) : null });
+        }
+      };
+      window.addEventListener('swm:consent', enable);
+      try { enable(); } catch { /* Storage unavailable: measurement stays disabled. */ }
+    </script>
   </body>
 </html>

@@ -48,6 +48,6 @@ const { title, price, priceNote, description, features, image, imageAlt = '' } =
         </li>
       ))}
     </ul>
-    <Button href="/contact" variant="outline" class="mt-6 w-full justify-center">Get Started</Button>
+    <Button href={`/contact?package=${encodeURIComponent(title)}`} variant="outline" class="mt-6 w-full justify-center">Get Started</Button>
   </div>
 </Card>

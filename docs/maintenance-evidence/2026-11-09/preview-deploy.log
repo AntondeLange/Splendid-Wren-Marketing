@@ -1,0 +1,195 @@
+Vercel CLI 59.1.4 (Node.js 24.19.0)
+Deploying splendid-wren-marketing
+  Inspect         https://vercel.com/antons-projects-978e1a78/splendid-wren-marketing/GgprvDxo9wJmSVhpkjZSGeSH7YH8
+  Preview         https://splendid-wren-marketing-387i2n4ki-antons-projects-978e1a78.vercel.app
+Building…
+Building…
+Running build in Washington, D.C., USA (East) – iad1
+Build machine configuration: 2 cores, 8 GB
+Retrieving list of deployment files...
+Downloading 108 deployment files...
+Restored build cache from previous deployment (79JkCgXczdNbLCcJzr3kj8axyGwX)
+Running "vercel build"
+Vercel CLI 65.11.0
+Running "install" command: `npm --prefix astro-site ci`...
+npm warn Unknown env config "cache-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+added 376 packages, and audited 377 packages in 9s
+96 packages are looking for funding
+run `npm fund` for details
+1 high severity vulnerability
+To address all issues, run:
+npm audit fix
+Run `npm audit` for details.
+npm warn Unknown env config "cache-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+> astro-site@0.0.1 prebuild
+> node scripts/prepare-images.mjs
+> astro-site@0.0.1 build
+> astro build
+06:46:20 [content] Syncing content
+06:46:21 [content] Synced content
+06:46:21 [types] Generated 1.05s
+06:46:21 [build] output: "static"
+06:46:21 [build] mode: "server"
+06:46:21 [build] directory: /vercel/path0/astro-site/dist/
+06:46:21 [build] adapter: @astrojs/vercel
+06:46:21 [build] Collecting build info...
+06:46:21 [build] ✓ Completed in 1.21s.
+06:46:21 [build] Building server entrypoints...
+06:46:21 [vite] ✓ built in 716ms
+06:46:22 [vite] ✓ built in 308ms
+06:46:22 [vite] ✓ built in 38ms
+prerendering static routes
+06:46:22   ├─ /about/index.html (+39ms)
+06:46:22   ├─ /ai-marketing-support-small-business/index.html (+15ms)
+06:46:22   ├─ /blog/7-marketing-priorities-for-australian-small-businesses/index.html (+11ms)
+06:46:22   ├─ /blog/ai-marketing-workflow-from-prompt-to-publish/index.html (+7ms)
+06:46:22   ├─ /blog/avoiding-the-ai-shame-spiral/index.html (+7ms)
+06:46:22   ├─ /blog/brand-positioning-checklist-for-small-business-owners/index.html (+7ms)
+06:46:22   ├─ /blog/how-small-businesses-can-use-ai-without-losing-their-voice/index.html (+7ms)
+06:46:22   ├─ /blog/how-to-describe-your-business-in-one-sentence/index.html (+6ms)
+06:46:22   ├─ /blog/human-first-marketing-in-an-ai-world/index.html (+7ms)
+06:46:22   ├─ /blog/marketing-clarity-for-small-brands/index.html (+6ms)
+06:46:22   ├─ /blog/my-on-again-off-again-love-affair-with-ai/index.html (+5ms)
+06:46:22   ├─ /blog/no-more-marketing-mayhem/index.html (+7ms)
+06:46:22   ├─ /blog/what-marketing-and-mafs-have-in-common/index.html (+9ms)
+06:46:22   ├─ /blog/what-to-fix-first-when-your-marketing-feels-scattered/index.html (+6ms)
+06:46:22   ├─ /blog/why-small-business-owners-need-a-brand-bestie/index.html (+5ms)
+06:46:22   ├─ /blog/index.html (+16ms)
+06:46:22   ├─ /brand-strategy-small-business/index.html (+7ms)
+06:46:22   ├─ /how-we-work/index.html (+11ms)
+06:46:22   ├─ /loader/index.html (+3ms)
+06:46:22   ├─ /privacy/index.html (+45ms)
+06:46:22   ├─ /sitemap.xml (+4ms)
+06:46:22   ├─ /small-business-marketing-consultant-australia/index.html (+7ms)
+06:46:22   ├─ /terms/index.html (+5ms)
+06:46:22   ├─ /index.html (+9ms)
+06:46:22 ✓ Completed in 296ms.
+generating optimized images
+06:46:22 [vite] ✓ built in 23ms
+06:46:22   ▶ /_astro/logo-navbar.B6qOsS_7_17yhc1.webp (before: 22kB, after: 7kB) (+103ms) (1/90)
+06:46:22   ▶ /_astro/logo-navbar.B6qOsS_7_Z1WFgRY.webp (before: 22kB, after: 14kB) (+31ms) (2/90)
+06:46:22   ▶ /_astro/logo-navbar.B6qOsS_7_21E3nY.webp (before: 22kB, after: 21kB) (+42ms) (3/90)
+06:46:22   ▶ /_astro/sw-explain.BDfwiQty_Z1fNYoX.webp (before: 2245kB, after: 20kB) (+176ms) (4/90)
+06:46:22   ▶ /_astro/sw-explain.BDfwiQty_Z2kgbuL.webp (before: 2245kB, after: 33kB) (+151ms) (5/90)
+06:46:22   ▶ /_astro/headshot-cuppa.BYm_Y87H_1XlSpG.webp (before: 314kB, after: 54kB) (+160ms) (6/90)
+06:46:23   ▶ /_astro/sw-explain.BDfwiQty_1gfXlP.webp (before: 2245kB, after: 66kB) (+247ms) (7/90)
+06:46:23   ▶ /_astro/headshot-cuppa.BYm_Y87H_18mhBR.webp (before: 314kB, after: 100kB) (+281ms) (8/90)
+06:46:23   ▶ /_astro/sw-explain.BDfwiQty_jINU4.webp (before: 2245kB, after: 24kB) (+107ms) (9/90)
+06:46:23   ▶ /_astro/sw-explain.BDfwiQty_Z1yn3fe.webp (before: 2245kB, after: 39kB) (+177ms) (10/90)
+06:46:23   ▶ /_astro/sw-explain.BDfwiQty_1PbVlq.webp (before: 2245kB, after: 17kB) (+64ms) (11/90)
+06:46:23   ▶ /_astro/sw-explain.BDfwiQty_Z1sdR1a.webp (before: 2245kB, after: 24kB) (+79ms) (12/90)
+06:46:23   ▶ /_astro/sw-working-2.Dyed8kaU_FepVU.webp (before: 1559kB, after: 75kB) (+128ms) (13/90)
+06:46:23   ▶ /_astro/sw-working-2.Dyed8kaU_mWq3q.webp (before: 1559kB, after: 107kB) (+196ms) (14/90)
+06:46:23   ▶ /_astro/sw-working-2.Dyed8kaU_EnJxI.webp (before: 1559kB, after: 50kB) (+91ms) (15/90)
+06:46:24   ▶ /_astro/sw-working-2.Dyed8kaU_1XCuf6.webp (before: 1559kB, after: 74kB) (+153ms) (16/90)
+06:46:24   ▶ /_astro/sw-agree.BORCIVoi_Z1MuqxP.webp (before: 1969kB, after: 16kB) (+93ms) (17/90)
+06:46:24   ▶ /_astro/sw-agree.BORCIVoi_2gQxtU.webp (before: 1969kB, after: 29kB) (+113ms) (18/90)
+06:46:24   ▶ /_astro/headshot-cuppa.BYm_Y87H_1BgtF2.webp (before: 314kB, after: 321kB) (+1.19s) (19/90)
+06:46:24   ▶ /_astro/logo-footer.qP5BbXPC_ZkUleW.webp (before: 20kB, after: 9kB) (+23ms) (20/90)
+06:46:24   ▶ /_astro/logo-footer.qP5BbXPC_zItkf.webp (before: 20kB, after: 17kB) (+73ms) (21/90)
+06:46:24   ▶ /_astro/logo-footer.qP5BbXPC_1o3Eu5.webp (before: 20kB, after: 17kB) (+48ms) (22/90)
+06:46:24   ▶ /_astro/sw-agree.BORCIVoi_1LwjCW.webp (before: 1969kB, after: 61kB) (+213ms) (23/90)
+06:46:24   ▶ /_astro/sw-agree.BORCIVoi_10UUeh.webp (before: 1969kB, after: 25kB) (+106ms) (24/90)
+06:46:24   ▶ /_astro/sw-together.DuM1kRTK_Z12SPMQ.webp (before: 2011kB, after: 37kB) (+153ms) (25/90)
+06:46:24   ▶ /_astro/sw-agree.BORCIVoi_1fpuMH.webp (before: 1969kB, after: 40kB) (+139ms) (26/90)
+06:46:24   ▶ /_astro/sw-together.DuM1kRTK_Z1i8JvE.webp (before: 2011kB, after: 61kB) (+241ms) (27/90)
+06:46:24   ▶ /_astro/sw-agree.BORCIVoi_ZSTULG.webp (before: 1969kB, after: 24kB) (+124ms) (28/90)
+06:46:25   ▶ /_astro/sw-notebook.C8frNhYG_Z1xqv4N.webp (before: 1323kB, after: 36kB) (+137ms) (29/90)
+06:46:25   ▶ /_astro/sw-together.DuM1kRTK_2oMWOH.webp (before: 2011kB, after: 66kB) (+268ms) (30/90)
+06:46:25   ▶ /_astro/sw-notebook.C8frNhYG_19kfxu.webp (before: 1323kB, after: 50kB) (+188ms) (31/90)
+06:46:25   ▶ /_astro/sw-notebook.C8frNhYG_Z1VXyFE.webp (before: 1323kB, after: 24kB) (+97ms) (32/90)
+06:46:25   ▶ /_astro/sw-together.DuM1kRTK_21PwjM.webp (before: 2011kB, after: 47kB) (+207ms) (33/90)
+06:46:25   ▶ /_astro/sw-notebook.C8frNhYG_1qIguH.webp (before: 1323kB, after: 36kB) (+144ms) (34/90)
+06:46:25   ▶ /_astro/sw-together.DuM1kRTK_1svuNh.webp (before: 2011kB, after: 32kB) (+133ms) (35/90)
+06:46:25   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_Zl2l6g.webp (before: 978kB, after: 13kB) (+102ms) (36/90)
+06:46:25   ▶ /_astro/sw-together.DuM1kRTK_2icf4n.webp (before: 2011kB, after: 46kB) (+220ms) (37/90)
+06:46:25   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_ZX2KbG.webp (before: 978kB, after: 22kB) (+176ms) (38/90)
+06:46:25   ▶ /_astro/sw-team.J_h_iEn4_Z26ylY6.webp (before: 1539kB, after: 60kB) (+152ms) (39/90)
+06:46:25   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_EEesD.webp (before: 978kB, after: 31kB) (+143ms) (40/90)
+06:46:25   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_dfQAT.webp (before: 978kB, after: 8kB) (+66ms) (41/90)
+06:46:26   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_1ElLIF.webp (before: 978kB, after: 13kB) (+86ms) (42/90)
+06:46:26   ▶ /_astro/sw-team.J_h_iEn4_Z2gzpCL.webp (before: 1539kB, after: 87kB) (+191ms) (43/90)
+06:46:26   ▶ /_astro/sw-team.J_h_iEn4_2qsqkV.webp (before: 1539kB, after: 40kB) (+89ms) (44/90)
+06:46:26   ▶ /_astro/sw-coffee.BccRABhB_ZazmCR.webp (before: 2062kB, after: 30kB) (+122ms) (45/90)
+06:46:26   ▶ /_astro/sw-team.J_h_iEn4_2qnIos.webp (before: 1539kB, after: 59kB) (+129ms) (46/90)
+06:46:26   ▶ /_astro/sw-coffee.BccRABhB_1wzvjw.webp (before: 2062kB, after: 47kB) (+176ms) (47/90)
+06:46:26   ▶ /_astro/sw-team.J_h_iEn4_ZvFO1u.webp (before: 1539kB, after: 48kB) (+116ms) (48/90)
+06:46:26   ▶ /_astro/sw-team.J_h_iEn4_2qj1rY.webp (before: 1539kB, after: 80kB) (+188ms) (49/90)
+06:46:26   ▶ /_astro/sw-coffee.BccRABhB_nrId8.webp (before: 2062kB, after: 69kB) (+267ms) (50/90)
+06:46:26   ▶ /_astro/sw-coffee.BccRABhB_1qWRvO.webp (before: 2062kB, after: 21kB) (+84ms) (51/90)
+06:46:26   ▶ /_astro/sw-ready.CoMXpfQg_Z1PQ7Kf.webp (before: 1327kB, after: 39kB) (+142ms) (52/90)
+06:46:26   ▶ /_astro/sw-coffee.BccRABhB_1IspFB.webp (before: 2062kB, after: 31kB) (+120ms) (53/90)
+06:46:26   ▶ /_astro/sw-ready.CoMXpfQg_Z2op0LC.webp (before: 1327kB, after: 54kB) (+156ms) (54/90)
+06:46:26   ▶ /_astro/sw-ready.CoMXpfQg_Z19WJN2.webp (before: 1327kB, after: 27kB) (+88ms) (55/90)
+06:46:26   ▶ /_astro/sw-coffee.BccRABhB_Z2uQO75.webp (before: 2062kB, after: 56kB) (+173ms) (56/90)
+06:46:27   ▶ /_astro/sw-ready.CoMXpfQg_1Qic63.webp (before: 1327kB, after: 39kB) (+102ms) (57/90)
+06:46:27   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_Z24NieP.webp (before: 1130kB, after: 23kB) (+91ms) (58/90)
+06:46:27   ▶ /_astro/sw-ready.CoMXpfQg_Z9Mkpk.webp (before: 1327kB, after: 32kB) (+75ms) (59/90)
+06:46:27   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_zNmP8.webp (before: 1130kB, after: 36kB) (+142ms) (60/90)
+06:46:27   ▶ /_astro/sw-ready.CoMXpfQg_ZcCYNN.webp (before: 1327kB, after: 51kB) (+167ms) (61/90)
+06:46:27   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_1xRmng.webp (before: 1130kB, after: 46kB) (+167ms) (62/90)
+06:46:27   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_Z2kDOQa.webp (before: 2118kB, after: 46kB) (+116ms) (63/90)
+06:46:27   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_Z2aehkt.webp (before: 1130kB, after: 16kB) (+75ms) (64/90)
+06:46:27   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_2wGF8V.webp (before: 1130kB, after: 24kB) (+100ms) (65/90)
+06:46:27   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_23rzVl.webp (before: 2118kB, after: 77kB) (+182ms) (66/90)
+06:46:27   ▶ /_astro/blog-mafs.CX2HO7Rr_2uH0kQ.webp (before: 2608kB, after: 35kB) (+112ms) (67/90)
+06:46:27   ▶ /_astro/blog-mafs.CX2HO7Rr_ZdwwJf.webp (before: 2608kB, after: 60kB) (+151ms) (68/90)
+06:46:27   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_nTXpU.webp (before: 2118kB, after: 124kB) (+231ms) (69/90)
+06:46:27   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_HDCU.webp (before: 2118kB, after: 29kB) (+95ms) (70/90)
+06:46:28   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_2h5i0X.webp (before: 2118kB, after: 45kB) (+117ms) (71/90)
+06:46:28   ▶ /_astro/blog-mafs.CX2HO7Rr_21M2Gr.webp (before: 2608kB, after: 134kB) (+311ms) (72/90)
+06:46:28   ▶ /_astro/blog-brand-bestie.gYF_28U0_27hLv1.webp (before: 864kB, after: 45kB) (+100ms) (73/90)
+06:46:28   ▶ /_astro/blog-mafs.CX2HO7Rr_Z7MgE8.webp (before: 2608kB, after: 23kB) (+104ms) (74/90)
+06:46:28   ▶ /_astro/blog-brand-bestie.gYF_28U0_Z10su83.webp (before: 864kB, after: 58kB) (+109ms) (75/90)
+06:46:28   ▶ /_astro/blog-brand-bestie.gYF_28U0_ruc7I.webp (before: 864kB, after: 30kB) (+63ms) (76/90)
+06:46:28   ▶ /_astro/blog-mafs.CX2HO7Rr_Z1IzIL1.webp (before: 2608kB, after: 35kB) (+150ms) (77/90)
+06:46:28   ▶ /_astro/blog-brand-bestie.gYF_28U0_Z1qtrXz.webp (before: 864kB, after: 45kB) (+87ms) (78/90)
+06:46:28   ▶ /_astro/blue-wren.CDmHKc3C_ZsVTOC.webp (before: 94kB, after: 27kB) (+77ms) (79/90)
+06:46:28   ▶ /_astro/blue-wren.CDmHKc3C_ZmAzpB.webp (before: 94kB, after: 44kB) (+116ms) (80/90)
+06:46:28   ▶ /_astro/headshot-bridge._mVWdSrL_ZsBSVg.webp (before: 289kB, after: 61kB) (+217ms) (81/90)
+06:46:28   ▶ /_astro/blue-wren.CDmHKc3C_Z235wlb.webp (before: 94kB, after: 97kB) (+288ms) (82/90)
+06:46:28   ▶ /_astro/headshot-bridge._mVWdSrL_1f2mqw.webp (before: 289kB, after: 108kB) (+314ms) (83/90)
+06:46:28   ▶ /_astro/blue-wren-2.DAJRCo_t_16zxyD.webp (before: 79kB, after: 20kB) (+66ms) (84/90)
+06:46:29   ▶ /_astro/blue-wren-2.DAJRCo_t_S7oM3.webp (before: 79kB, after: 35kB) (+98ms) (85/90)
+06:46:29   ▶ /_astro/blue-wren-2.DAJRCo_t_ZyYggH.webp (before: 79kB, after: 82kB) (+193ms) (86/90)
+06:46:29   ▶ /_astro/blue-wren-couple.Cr3l1gOP_ZuzuYT.webp (before: 73kB, after: 22kB) (+49ms) (87/90)
+06:46:29   ▶ /_astro/blue-wren-couple.Cr3l1gOP_JS3TA.webp (before: 73kB, after: 35kB) (+84ms) (88/90)
+06:46:29   ▶ /_astro/blue-wren-couple.Cr3l1gOP_1LXzJJ.webp (before: 73kB, after: 76kB) (+240ms) (89/90)
+06:46:29   ▶ /_astro/headshot-bridge._mVWdSrL_ZCEoLw.webp (before: 289kB, after: 301kB) (+953ms) (90/90)
+06:46:29 ✓ Completed in 7.34s.
+06:46:29 [build] Rearranging server assets...
+06:46:29 [build] ✓ Completed in 8.81s.
+06:46:29 [@astrojs/vercel] Bundling function ../../server/entry.mjs
+06:46:32 [@astrojs/vercel] Copying static files to .vercel/output/static
+06:46:32 [build] Server built in 12.17s
+06:46:32 [build] Complete!
+Build Completed in /vercel/output [24s]
+Deploying outputs...
+[2K[1A[2K[G  Preview         https://splendid-wren-marketing-387i2n4ki-antons-projects-978e1a78.vercel.app
+Completing…
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_GgprvDxo9wJmSVhpkjZSGeSH7YH8",
+    "url": "https://splendid-wren-marketing-387i2n4ki-antons-projects-978e1a78.vercel.app",
+    "inspectorUrl": "https://vercel.com/antons-projects-978e1a78/splendid-wren-marketing/GgprvDxo9wJmSVhpkjZSGeSH7YH8",
+    "readyState": "READY",
+    "target": null,
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_GgprvDxo9wJmSVhpkjZSGeSH7YH8"
+  },
+  "message": "Deployment splendid-wren-marketing-387i2n4ki-antons-projects-978e1a78.vercel.app ready.",
+  "next": [
+    {
+      "command": "vercel curl https://splendid-wren-marketing-387i2n4ki-antons-projects-978e1a78.vercel.app",
+      "when": "Verify deployment, including when Deployment Protection is enabled"
+    },
+    {
+      "command": "vercel inspect splendid-wren-marketing-387i2n4ki-antons-projects-978e1a78.vercel.app --cwd /var/folders/9c/q755ljsx4bgghkmrdsy8fgx40000gn/T/swm-preview-20261109-05cpnoq2 --scope antons-projects-978e1a78",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod --cwd /var/folders/9c/q755ljsx4bgghkmrdsy8fgx40000gn/T/swm-preview-20261109-05cpnoq2 --scope antons-projects-978e1a78",
+      "when": "Promote to production"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { randomUUID } from 'node:crypto';
 import { isIP } from 'node:net';
 import nodemailer from 'nodemailer';
+import { reserveDelivery } from '../../lib/contact-delivery';
 
 export const prerender = false;
 
@@ -21,7 +22,8 @@ const DEFAULT_CONTACT_TO_EMAIL = 'sarahm@splendidwrenmarketing.com.au';
 const DEFAULT_CONTACT_FROM_EMAIL = 'no-reply@splendidwrenmarketing.com.au';
 const DEFAULT_SMTP_HOST = 'mail-au.smtp2go.com';
 const DEFAULT_SMTP_PORT = 587;
-const MAX_FORM_BYTES = 12_000;
+const MAX_FORM_BYTES = 32_000;
+const MAX_MESSAGE_CHARS = 2000;
 const MAX_NAME_CHARS = 80;
 const MAX_BUSINESS_NAME_CHARS = 120;
 const MAX_EMAIL_CHARS = 254;
@@ -33,6 +35,9 @@ const RATE_LIMIT_MAX_REQUESTS = 6;
 const RATE_LIMIT_BACKEND_TIMEOUT_MS = 2_500;
 const GA4_EVENT_TIMEOUT_MS = 1_500;
 const ALLOWED_FORM_FIELDS = new Set([
+  'submissionId',
+  'analyticsConsent',
+  'package',
   'website',
   'formName',
   'name',
@@ -68,17 +73,10 @@ function isTrue(value: string | undefined): boolean {
 }
 
 function getEnv(name: string): string | undefined {
-  const fromAstro = ENV[name]?.trim();
-  if (fromAstro) {
-    return fromAstro;
-  }
-
-  const fromProcess = PROCESS_ENV[name]?.trim();
-  if (fromProcess) {
-    return fromProcess;
-  }
-
-  return undefined;
+  // An explicit empty runtime override disables a build-time value as well.
+  // This is essential for email-disabled previews and local verification.
+  if (PROCESS_ENV[name] !== undefined) return PROCESS_ENV[name]?.trim() || undefined;
+  return ENV[name]?.trim() || undefined;
 }
 
 function getServiceFocusLabel(value: string): string | null {
@@ -299,6 +297,8 @@ function estimateFormDataBytes(formData: FormData): number {
 
 function checkRateLimitInMemory(ip: string): RateLimitDecision {
   const now = Date.now();
+  for (const [key, entry] of rateLimitBuckets) if (now - entry.startedAt >= RATE_LIMIT_WINDOW_MS) rateLimitBuckets.delete(key);
+  if (rateLimitBuckets.size >= 10000 && !rateLimitBuckets.has(ip)) return { limited: true, retryAfterSeconds: 60 };
   const bucket = rateLimitBuckets.get(ip);
 
   if (!bucket || now - bucket.startedAt >= RATE_LIMIT_WINDOW_MS) {
@@ -391,29 +391,29 @@ async function checkRateLimit(ip: string): Promise<RateLimitDecision> {
   return checkRateLimitInMemory(ip);
 }
 
-function hasMatchingHost(rawUrl: string, expectedHost: string): boolean {
+function hasMatchingOrigin(rawUrl: string, expectedOrigin: string): boolean {
   try {
-    return new URL(rawUrl).host === expectedHost;
+    return new URL(rawUrl).origin === expectedOrigin;
   } catch {
     return false;
   }
 }
 
 function isAllowedOrigin(request: Request): boolean {
-  const requestHost = new URL(request.url).host;
+  const requestOrigin = new URL(request.url).origin;
   const originHeader = request.headers.get('origin');
   if (originHeader) {
-    return hasMatchingHost(originHeader, requestHost);
+    return hasMatchingOrigin(originHeader, requestOrigin);
   }
 
   const refererHeader = request.headers.get('referer');
   if (refererHeader) {
-    return hasMatchingHost(refererHeader, requestHost);
+    return hasMatchingOrigin(refererHeader, requestOrigin);
   }
 
   const fetchSite = request.headers.get('sec-fetch-site')?.toLowerCase();
   if (fetchSite) {
-    return fetchSite === 'same-origin' || fetchSite === 'same-site' || fetchSite === 'none';
+    return fetchSite === 'same-origin';
   }
 
   return false;
@@ -521,7 +521,7 @@ export const GET: APIRoute = async () => {
   });
 };
 
-export const POST: APIRoute = async ({ request }) => {
+async function handlePost(request: Request): Promise<Response> {
   if (!isAllowedOrigin(request)) {
     logContactOutcome('blocked_origin');
     return json({ ok: false, message: 'Origin is not allowed.' }, 403);
@@ -561,7 +561,31 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ ok: false, message: 'Unsupported content type.' }, 415);
   }
 
-  const formData = await request.formData();
+  let formData: FormData;
+  try {
+    // Bound actual bytes before invoking the multipart parser, including chunked requests.
+    const reader = request.body?.getReader();
+    const chunks: Uint8Array[] = [];
+    let size = 0;
+    if (reader) {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        size += value.byteLength;
+        if (size > MAX_FORM_BYTES) {
+          await reader.cancel();
+          return json({ ok: false, message: 'Request is too large.' }, 413);
+        }
+        chunks.push(value);
+      }
+    }
+    const bytes = new Uint8Array(size);
+    let offset = 0;
+    for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
+    formData = await new Response(bytes, { headers: { 'content-type': contentType } }).formData();
+  } catch {
+    return json({ ok: false, message: 'Malformed form body.' }, 400);
+  }
 
   if (estimateFormDataBytes(formData) > MAX_FORM_BYTES) {
     logContactOutcome('payload_too_large', { source: 'form_data' });
@@ -569,6 +593,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   for (const [fieldName, value] of formData.entries()) {
+    if (formData.getAll(fieldName).length !== 1) return json({ ok: false, message: 'Duplicate form field.' }, 400);
     if (!ALLOWED_FORM_FIELDS.has(fieldName)) {
       logContactOutcome('unsupported_form_field');
       return json({ ok: false, message: 'Unsupported form field.' }, 400);
@@ -582,7 +607,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (String(formData.get('website') ?? '').trim()) {
     logContactOutcome('honeypot_triggered');
-    return json({ ok: true }, 202);
+    return json({ ok: true, confirmed: false, message: 'Thanks, your enquiry has been received.' }, 202);
   }
 
   const name = sanitize(formData.get('name'));
@@ -593,7 +618,11 @@ export const POST: APIRoute = async ({ request }) => {
   const message = sanitize(formData.get('message'));
   const serviceFocusLabel = serviceFocus ? getServiceFocusLabel(serviceFocus) : null;
 
+  const packageName = sanitize(formData.get('package'));
+  const submissionId = sanitize(formData.get('submissionId'));
   const errors: string[] = [];
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) errors.push('Please reopen the contact form before submitting.');
+  if (packageName && !['Wren Lite', 'Momentum', 'Elevate'].includes(packageName)) errors.push('Valid package is required.');
 
   if (!name) errors.push('Name is required.');
   if (name.length > MAX_NAME_CHARS) errors.push(`Name must be ${MAX_NAME_CHARS} characters or fewer.`);
@@ -606,8 +635,8 @@ export const POST: APIRoute = async ({ request }) => {
   if (phone.length > MAX_PHONE_CHARS) errors.push(`Phone number must be ${MAX_PHONE_CHARS} characters or fewer.`);
   if (phone && !PHONE_PATTERN.test(phone)) errors.push('Valid phone number is required.');
   if (serviceFocus && !serviceFocusLabel) errors.push('Valid service focus is required.');
-  if (message.length < 10 || message.length > 200) {
-    errors.push('Message must be between 10 and 200 characters.');
+  if (message.length < 10 || message.length > MAX_MESSAGE_CHARS) {
+    errors.push('Message must be between 10 and 2,000 characters.');
   }
 
   if (errors.length > 0) {
@@ -627,6 +656,16 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  let reservation: Awaited<ReturnType<typeof reserveDelivery>>;
+  try {
+    reservation = await reserveDelivery(submissionId, JSON.stringify([name, businessName, email, phone, serviceFocus, packageName, message]), getEnv);
+  } catch {
+    return json({ ok: false, message: 'Contact service temporarily unavailable. Please keep your message and try again later.' }, 503);
+  }
+  if (reservation.previous) {
+    if (reservation.previous === 'accepted') return json({ ok: true, confirmed: true, duplicate: true, message: 'Your message was already accepted. We will reply by email soon.' }, 202);
+    return json({ ok: false, message: reservation.previous === 'conflict' ? 'This submission has changed. Reopen the contact form to send a new enquiry.' : 'This enquiry has already been attempted. Delivery may be unconfirmed. Please contact us by email before sending it again.' }, 409);
+  }
   const submittedAt = new Date().toISOString();
   const subjectBusinessName = sanitizeHeaderValue(businessName).slice(0, MAX_SUBJECT_BUSINESS_NAME_CHARS);
   const textBody = [
@@ -636,6 +675,7 @@ export const POST: APIRoute = async ({ request }) => {
     `Business Name: ${businessName}`,
     `Email: ${email}`,
     `Phone: ${phone || 'Not provided'}`,
+    `Package: ${packageName || 'Not specified'}`,
     `Service Focus: ${serviceFocusLabel ?? 'Not specified'}`,
     `Submitted: ${submittedAt}`,
     '',
@@ -649,6 +689,7 @@ export const POST: APIRoute = async ({ request }) => {
     <p><strong>Business Name:</strong> ${escapeHtml(businessName)}</p>
     <p><strong>Email:</strong> ${escapeHtml(email)}</p>
     <p><strong>Phone:</strong> ${escapeHtml(phone || 'Not provided')}</p>
+    <p><strong>Package:</strong> ${escapeHtml(packageName || 'Not specified')}</p>
     <p><strong>Service Focus:</strong> ${escapeHtml(serviceFocusLabel ?? 'Not specified')}</p>
     <p><strong>Submitted:</strong> ${escapeHtml(submittedAt)}</p>
     <p><strong>Message:</strong></p>
@@ -657,7 +698,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   let sendError: SmtpLikeError | null = null;
 
-  for (const target of smtpConfig.targets) {
+  for (const target of smtpConfig.targets.slice(0, 2)) {
     try {
       const transporter = nodemailer.createTransport({
         host: target.host,
@@ -667,20 +708,22 @@ export const POST: APIRoute = async ({ request }) => {
           user: smtpConfig.user,
           pass: smtpConfig.pass,
         },
-        connectionTimeout: 8000,
-        greetingTimeout: 8000,
-        socketTimeout: 12000,
+        connectionTimeout: 4000,
+        greetingTimeout: 4000,
+        socketTimeout: 10000,
       });
 
-      await transporter.sendMail({
+      const receipt = await transporter.sendMail({
         from: smtpConfig.from,
         to: smtpConfig.to,
         replyTo: email,
+        messageId: `<${submissionId}@splendidwrenmarketing.com.au>`,
         subject: `Website enquiry: ${subjectBusinessName || 'New enquiry'}`,
         text: textBody,
         html: htmlBody,
       });
 
+      if (!receipt.accepted?.length) throw { code: 'EENVELOPE', command: 'RCPT TO' };
       sendError = null;
       break;
     } catch (error) {
@@ -692,13 +735,16 @@ export const POST: APIRoute = async ({ request }) => {
         code: sendError.code,
         command: sendError.command,
         responseCode: sendError.responseCode,
-        response: sendError.response,
-        message: sendError.message,
       });
+      // Only retry failures provably before message submission. DATA/socket failures
+      // can mean the provider accepted mail but its acknowledgement was lost.
+      if (!['CONN', 'EHLO', 'HELO', 'STARTTLS'].includes(sendError.command?.toUpperCase() ?? '')) break;
     }
   }
 
   if (sendError) {
+    const safeFailure = ['CONN', 'EHLO', 'HELO', 'STARTTLS', 'AUTH', 'MAIL FROM', 'RCPT TO'].includes(sendError.command?.toUpperCase() ?? '');
+    try { await reservation.finish?.(safeFailure ? 'failed' : 'uncertain'); } catch { /* Pending reservation still prevents a retry. */ }
     logContactOutcome('delivery_failed', {
       error_code: sendError.code ?? 'unknown',
       response_code: sendError.responseCode ?? 0,
@@ -706,19 +752,35 @@ export const POST: APIRoute = async ({ request }) => {
     return json(
       {
         ok: false,
-        message: mapClientFacingErrorMessage(sendError),
+        retrySafe: safeFailure,
+        message: safeFailure ? mapClientFacingErrorMessage(sendError) : 'Email delivery could not be confirmed. Please contact us by email before sending again.',
       },
       502,
     );
   }
 
+  try { await reservation.finish?.('accepted'); } catch { /* Leave pending; never send again automatically. */ }
   logContactOutcome('accepted');
-  void sendServerLeadAcceptedEvent(serviceFocus);
+  if (formData.get('analyticsConsent') === 'granted') await sendServerLeadAcceptedEvent(serviceFocus);
   return json(
     {
       ok: true,
+      confirmed: true,
       message: 'Thanks, your message has been sent. We will reply by email soon.',
     },
     202,
   );
+}
+
+export const POST: APIRoute = async ({ request }) => {
+  const response = await handlePost(request);
+  if (!request.headers.get('accept')?.includes('text/html')) return response;
+  const payload = await response.json();
+  const success = response.ok && payload.ok;
+  const title = success ? 'Thank you for your enquiry' : 'Your enquiry needs attention';
+  const message = payload.errors?.join(' ') || payload.message || 'Please check your enquiry and try again.';
+  const headers = new Headers(response.headers);
+  headers.set('content-type', 'text/html; charset=utf-8');
+  headers.set('x-robots-tag', 'noindex, nofollow');
+  return new Response(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>${title} | Splendid Wren Marketing</title><link rel="stylesheet" href="/contact-result.css"></head><body><main><h1>${title}</h1><p role="${success ? 'status' : 'alert'}">${escapeHtml(message)}</p><p>${success ? 'You can return to our website.' : 'Use your browser’s Back button to edit your enquiry. Keep a copy of your message. If delivery is unconfirmed, email us before resubmitting.'}</p><p><a href="/contact">Open a new contact form</a></p><p><a href="mailto:sarahm@splendidwrenmarketing.com.au">Email Splendid Wren Marketing</a></p><p><a href="/">Return to the homepage</a></p></main></body></html>`, { status: response.status, headers });
 };

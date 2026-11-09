@@ -1,0 +1,45 @@
+[
+  {
+    "url": "https://splendidwrenmarketing.com.au/",
+    "status": 200,
+    "location": null,
+    "csp": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; object-src 'none'; img-src 'self' data: https:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://vitals.vercel-insights.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com"
+  },
+  {
+    "url": "https://splendidwrenmarketing.com.au/about?amp=1",
+    "status": 308,
+    "location": "https://splendidwrenmarketing.com.au/about?amp=1",
+    "csp": null
+  },
+  {
+    "url": "https://splendidwrenmarketing.com.au/amp",
+    "status": 308,
+    "location": "https://splendidwrenmarketing.com.au/",
+    "csp": null
+  },
+  {
+    "url": "https://splendidwrenmarketing.com.au/about/amp",
+    "status": 308,
+    "location": "https://splendidwrenmarketing.com.au/about",
+    "csp": null
+  },
+  {
+    "url": "https://splendidwrenmarketing.com.au/amp/about",
+    "status": 308,
+    "location": "https://splendidwrenmarketing.com.au/about",
+    "csp": null
+  },
+  {
+    "url": "https://antondelange.github.io/Splendid-Wren-Marketing/",
+    "status": 200
+  },
+  {
+    "url": "https://antondelange.github.io/_astro/about.D8U0fnzy.css",
+    "status": 404
+  },
+  {
+    "url": "https://splendid-wren-marketing-gm7466ywd-antons-projects-978e1a78.vercel.app",
+    "status": 302,
+    "protectionRedirect": true
+  }
+]

@@ -1,0 +1,732 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@24/24.19.0/bin/node",
+      "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/node_modules/.bin/playwright",
+      "test"
+    ],
+    "configFile": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/playwright.config.ts",
+    "rootDir": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/tests/browser",
+        "snapshotDir": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4321",
+          "headless": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/serve-built.mjs",
+      "url": "http://127.0.0.1:4321",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "maintenance.spec.ts",
+      "file": "maintenance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "layout, menu and form at 320x740",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1753,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:14.862Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-17de85bf700cb0100542",
+          "file": "maintenance.spec.ts",
+          "line": 4,
+          "column": 3
+        },
+        {
+          "title": "layout, menu and form at 375x812",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1505,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:16.783Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-d45211c48160428f011d",
+          "file": "maintenance.spec.ts",
+          "line": 4,
+          "column": 3
+        },
+        {
+          "title": "layout, menu and form at 390x844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1566,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:18.294Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-25aade5272a61ad215f7",
+          "file": "maintenance.spec.ts",
+          "line": 4,
+          "column": 3
+        },
+        {
+          "title": "layout, menu and form at 430x932",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1494,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:19.871Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-e0ed53e7a9301bdd20e0",
+          "file": "maintenance.spec.ts",
+          "line": 4,
+          "column": 3
+        },
+        {
+          "title": "layout, menu and form at 740x320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1564,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:21.372Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-fbcf78046d6cb3d75ffb",
+          "file": "maintenance.spec.ts",
+          "line": 4,
+          "column": 3
+        },
+        {
+          "title": "layout, menu and form at 768x1024",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1590,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:22.941Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-3826e27e1dc6e88a9e8b",
+          "file": "maintenance.spec.ts",
+          "line": 4,
+          "column": 3
+        },
+        {
+          "title": "layout, menu and form at 1024x768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1650,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:24.537Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-bb24a747ba4c51b21c66",
+          "file": "maintenance.spec.ts",
+          "line": 4,
+          "column": 3
+        },
+        {
+          "title": "branding remains optional and does not redirect after five seconds",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5317,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:26.192Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-5b8f876ff23816952d5d",
+          "file": "maintenance.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "native form has a submission ID, selected package, and readable errors",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 780,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:31.515Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-578436931a528d1211a6",
+          "file": "maintenance.spec.ts",
+          "line": 47,
+          "column": 1
+        },
+        {
+          "title": "consent gates actual SDK requests, strips queries and stops after withdrawal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4606,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:32.300Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "measurement-request-summary",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJwcm92aWRlciI6ICJ2ZXJjZWwiLAogICAgInBhdGgiOiAiL192ZXJjZWwvaW5zaWdodHMvdmlldyIsCiAgICAiaGFzQm9keSI6IHRydWUsCiAgICAiaW50ZXJjZXB0ZWQiOiB0cnVlCiAgfSwKICB7CiAgICAicHJvdmlkZXIiOiAiZ29vZ2xlIiwKICAgICJwYXRoIjogIi9nL2NvbGxlY3QiLAogICAgImhhc0JvZHkiOiBmYWxzZSwKICAgICJpbnRlcmNlcHRlZCI6IHRydWUKICB9LAogIHsKICAgICJwcm92aWRlciI6ICJnb29nbGUiLAogICAgInBhdGgiOiAiL2cvY29sbGVjdCIsCiAgICAiaGFzQm9keSI6IGZhbHNlLAogICAgImludGVyY2VwdGVkIjogdHJ1ZQogIH0KXQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-59a006f4aada2f5d71da",
+          "file": "maintenance.spec.ts",
+          "line": 63,
+          "column": 1
+        },
+        {
+          "title": "sitemap destinations and local assets resolve with production canonicals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 100,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:36.912Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-8f7abdae795f33d98216",
+          "file": "maintenance.spec.ts",
+          "line": 108,
+          "column": 1
+        },
+        {
+          "title": "JavaScript retries retain IDs after network loss and count only new confirmed acceptances",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4073,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:37.020Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-069776cbbd70f472a7d7",
+          "file": "maintenance.spec.ts",
+          "line": 125,
+          "column": 1
+        },
+        {
+          "title": "storage-disabled visitors can browse and make a session consent choice",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1090,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:41.100Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-8ed8c6f376fb4c2ddb7f",
+          "file": "maintenance.spec.ts",
+          "line": 157,
+          "column": 1
+        },
+        {
+          "title": "saved denial and withdrawal in another tab prevent measurement after reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3163,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:42.197Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-80b91380ea9c148feedf",
+          "file": "maintenance.spec.ts",
+          "line": 171,
+          "column": 1
+        },
+        {
+          "title": "native SMTP-unavailable response is readable and offers recovery",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 729,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:45.367Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-a40008c6d704fc4f7310",
+          "file": "maintenance.spec.ts",
+          "line": 197,
+          "column": 1
+        },
+        {
+          "title": "AMP query URLs serve canonical content without a self redirect",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:46.102Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-4bf7373a6ef5f4192aca",
+          "file": "maintenance.spec.ts",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "runtime transformation is disabled and contact images use static assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:46.111Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-dd6010b22896158ee563",
+          "file": "maintenance.spec.ts",
+          "line": 220,
+          "column": 1
+        },
+        {
+          "title": "social metadata uses a full-size brand image separately from the favicon",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:36:46.131Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-f71ed052b9bf9c94eea4",
+          "file": "maintenance.spec.ts",
+          "line": 234,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-09T06:36:14.200Z",
+    "duration": 31974.467,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

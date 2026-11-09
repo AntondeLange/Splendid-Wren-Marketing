@@ -24,3 +24,7 @@ pnpm-debug.log*
 .idea/
 .vercel
 .env*.local
+
+# local browser evidence
+test-results/
+playwright-report/
