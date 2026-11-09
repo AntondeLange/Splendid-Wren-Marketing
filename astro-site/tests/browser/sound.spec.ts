@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures';
+import { readFileSync } from 'node:fs';
 
 async function mockSound(page: import('@playwright/test').Page, blocked = false) {
   await page.addInitScript(({ blocked }) => {
@@ -101,4 +102,38 @@ test('the real recording can play and be muted using the button', async ({ page 
   await expect.poll(() => audio.evaluate(el => (el as HTMLAudioElement).currentTime)).toBeGreaterThan(0);
   await button.click(); await expect(audio).toHaveJSProperty('paused', true);
   await expect(button).toHaveText('Sound off');
+});
+
+test('a returning visitor cannot run the cached legacy audio alongside the sound toggle', async ({ page }) => {
+  // Simulate the old response retained under the pre-toggle public URL.
+  // The fixture is the actual script from commit 0a6691f, which created its
+  // own detached Audio element. New markup must never request this URL.
+  const legacy = readFileSync(new URL('../fixtures/legacy-hero-effects.js', import.meta.url), 'utf8');
+  let legacyRequests = 0;
+  await page.route('**/scripts/hero-effects.js', route => {
+    legacyRequests++;
+    return route.fulfill({ contentType: 'application/javascript', body: legacy });
+  });
+  await page.addInitScript(() => {
+    sessionStorage.setItem('swm_intro_seen_v1', 'true');
+    const Native = window.Audio;
+    const state = window as unknown as { detachedHeroAudio: HTMLAudioElement[] };
+    state.detachedHeroAudio = [];
+    window.Audio = function (src?: string) {
+      const audio = new Native(src);
+      state.detachedHeroAudio.push(audio);
+      return audio;
+    } as unknown as typeof Audio;
+  });
+  await page.goto('/');
+  const button = page.locator('[data-hero-sound-toggle]');
+  const audio = page.locator('[data-hero-audio]');
+  if (await audio.evaluate(el => (el as HTMLAudioElement).paused)) await button.click();
+  await expect(button).toHaveText('Sound on');
+  await button.click();
+  await expect(button).toHaveText('Sound off');
+  await page.mouse.click(20, 300);
+  await expect(audio).toHaveJSProperty('paused', true);
+  expect(legacyRequests).toBe(0);
+  expect(await page.evaluate(() => (window as unknown as { detachedHeroAudio: HTMLAudioElement[] }).detachedHeroAudio.length)).toBe(0);
 });
