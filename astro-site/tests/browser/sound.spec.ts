@@ -79,11 +79,12 @@ test('mute in another tab stops playback and reduced motion still exposes the so
   await other.close();
 });
 
-test('sound control stays visible below the header at mobile, landscape and tablet sizes', async ({ page }) => {
+test('sound control aligns with header content and stays visible from mobile to ultrawide', async ({ page }) => {
   await mockSound(page);
   await page.goto('/');
-  for (const [width, height] of [[320, 740], [375, 812], [390, 844], [430, 932], [740, 320], [768, 1024], [1024, 768]]) {
+  for (const [width, height] of [[320, 740], [375, 812], [390, 844], [430, 932], [740, 320], [768, 1024], [1024, 768], [1280, 720], [1440, 900], [1725, 900], [2048, 1152], [2560, 1440], [3440, 1440]]) {
     await page.setViewportSize({ width, height });
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
     const hero = await page.locator('.hero-section').boundingBox();
     const button = await page.locator('[data-hero-sound-toggle]').boundingBox();
     expect(button).not.toBeNull();
@@ -96,10 +97,30 @@ test('sound control stays visible below the header at mobile, landscape and tabl
     expect(button!.y).toBeGreaterThanOrEqual(header!.y + header!.height);
     expect(button!.y).toBeLessThanOrEqual(hero!.y + 24);
     expect(button!.y + button!.height).toBeLessThanOrEqual(height);
-    expect(button!.x + button!.width).toBeCloseTo(width - (width < 640 ? 16 : 24), 0);
+    const anchor = width >= 768
+      ? page.locator('[data-cta-location="header_desktop"]')
+      : page.locator('[data-mobile-nav] summary');
+    const anchorBox = await anchor.boundingBox();
+    expect(button!.x + button!.width).toBeCloseTo(anchorBox!.x + anchorBox!.width, 0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    expect(await page.locator('[data-hero-sound-toggle]').evaluate(el => {
+      const box = el.getBoundingClientRect();
+      return el.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
+    })).toBe(true);
     const notice = await page.locator('#analytics-consent-banner').boundingBox();
     if (notice && button!.y < notice.y + notice.height) expect(button!.y + button!.height).toBeLessThanOrEqual(notice.y);
-    if (width === 390) await page.screenshot({ path: 'test-results/hero-sound-390.png' });
+    if (width === 390 || width === 1725 || width === 2560) await page.screenshot({ path: `test-results/hero-sound-${width}.png` });
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
+  // Exercise page scaling as well as viewport resizing: the control must use
+  // the header's content boundary rather than the full-width media edge.
+  for (const zoom of [0.8, 1.25, 1.5, 2]) {
+    await page.evaluate(value => { document.documentElement.style.zoom = String(value); }, zoom);
+    const control = await page.locator('[data-hero-sound-toggle]').boundingBox();
+    const contact = await page.locator('[data-cta-location="header_desktop"]').boundingBox();
+    expect(control!.x + control!.width).toBeCloseTo(contact!.x + contact!.width, 0);
+    expect(control!.x + control!.width).toBeLessThanOrEqual(1440);
+    expect(control!.y + control!.height).toBeLessThanOrEqual(900);
   }
 });
 
