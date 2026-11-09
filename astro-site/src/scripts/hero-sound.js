@@ -11,18 +11,6 @@
   try { enabled = localStorage.getItem(preferenceKey) !== 'off'; } catch { /* Use this document's choice. */ }
   audio.volume = 0.28;
 
-  const placeControl = () => {
-    button.style.bottom = '';
-    const notice = document.querySelector('#analytics-consent-banner');
-    if (!(notice instanceof HTMLElement)) return;
-    const control = button.getBoundingClientRect();
-    const banner = notice.getBoundingClientRect();
-    if (control.bottom > banner.top && control.top < banner.bottom && control.right > banner.left && control.left < banner.right) {
-      const bottom = parseFloat(getComputedStyle(button).bottom) || 0;
-      button.style.bottom = `${bottom + control.bottom - banner.top + 12}px`;
-    }
-  };
-
   const render = () => {
     const playing = enabled && !audio.paused;
     button.setAttribute('aria-pressed', String(playing));
@@ -30,7 +18,6 @@
     if (label) label.textContent = playing ? 'Sound on' : enabled ? 'Enable sound' : 'Sound off';
     onIcon?.classList.toggle('hidden', !playing);
     offIcon?.classList.toggle('hidden', playing);
-    placeControl();
   };
   const start = () => {
     if (!enabled || pending || !audio.paused || document.hidden) return;
@@ -56,10 +43,6 @@
   document.addEventListener('visibilitychange', () => { if (document.hidden) audio.pause(); else start(); });
   window.addEventListener('pagehide', () => audio.pause());
   window.addEventListener('pageshow', start);
-  // Keep the mute control reachable above the optional consent notice.
-  window.addEventListener('resize', placeControl);
-  window.addEventListener('scroll', placeControl, { passive: true });
-  new MutationObserver(placeControl).observe(document.body, { childList: true });
   window.addEventListener('storage', (event) => {
     if (event.key !== preferenceKey) return;
     enabled = event.newValue !== 'off';

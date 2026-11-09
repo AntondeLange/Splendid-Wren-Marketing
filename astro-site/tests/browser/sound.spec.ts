@@ -72,7 +72,7 @@ test('mute in another tab stops playback and reduced motion still exposes the so
   await other.close();
 });
 
-test('sound control fits the hero at mobile, landscape and tablet sizes', async ({ page }) => {
+test('sound control stays visible below the header at mobile, landscape and tablet sizes', async ({ page }) => {
   await mockSound(page);
   await page.goto('/');
   for (const [width, height] of [[320, 740], [375, 812], [390, 844], [430, 932], [740, 320], [768, 1024], [1024, 768]]) {
@@ -84,7 +84,11 @@ test('sound control fits the hero at mobile, landscape and tablet sizes', async 
     expect(button!.x + button!.width).toBeLessThan(hero!.x + hero!.width);
     expect(button!.y + button!.height).toBeLessThan(hero!.y + hero!.height);
     expect(button!.x).toBeGreaterThanOrEqual(0);
-    expect(button!.y).toBeGreaterThan(hero!.y + hero!.height / 2);
+    const header = await page.locator('header').first().boundingBox();
+    expect(button!.y).toBeGreaterThanOrEqual(header!.y + header!.height);
+    expect(button!.y).toBeLessThanOrEqual(hero!.y + 24);
+    expect(button!.y + button!.height).toBeLessThanOrEqual(height);
+    expect(button!.x + button!.width).toBeCloseTo(width - (width < 640 ? 16 : 24), 0);
     const notice = await page.locator('#analytics-consent-banner').boundingBox();
     if (notice && button!.y < notice.y + notice.height) expect(button!.y + button!.height).toBeLessThanOrEqual(notice.y);
     if (width === 390) await page.screenshot({ path: 'test-results/hero-sound-390.png' });
