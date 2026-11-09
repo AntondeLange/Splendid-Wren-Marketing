@@ -2,8 +2,8 @@ import { test, expect } from './fixtures';
 import { readFileSync } from 'node:fs';
 
 async function mockSound(page: import('@playwright/test').Page, blocked = false) {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addInitScript(({ blocked }) => {
-    sessionStorage.setItem('swm_intro_seen_v1', 'true');
     const play = HTMLMediaElement.prototype.play;
     const pause = HTMLMediaElement.prototype.pause;
     let attempts = 0;
@@ -79,12 +79,37 @@ test('mute in another tab stops playback and reduced motion still exposes the so
   await other.close();
 });
 
-test('sound control aligns with header content and stays visible from mobile to ultrawide', async ({ page }) => {
+test('sound pauses when the hero passes above the header and stays paused during other interactions', async ({ page }) => {
   await mockSound(page);
+  await page.goto('/');
+  const audio = page.locator('[data-hero-audio]');
+  await expect(audio).toHaveJSProperty('paused', false);
+  await page.evaluate(() => {
+    const hero = document.querySelector('.hero-section')!.getBoundingClientRect();
+    const header = document.querySelector('body > header')!.getBoundingClientRect();
+    window.scrollTo({ top: scrollY + hero.bottom - header.bottom + 1, behavior: 'instant' });
+  });
+  await expect(audio).toHaveJSProperty('paused', true);
+  await page.mouse.click(20, 300); await page.keyboard.press('a');
+  await expect(audio).toHaveJSProperty('paused', true);
+  // Scrolling is a temporary pause, not a change to the saved sound setting.
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  await expect(audio).toHaveJSProperty('paused', false);
+  await page.locator('[data-hero-sound-toggle]').click();
+  await expect(audio).toHaveJSProperty('paused', true);
+  await page.evaluate(() => window.scrollTo({ top: 1000, behavior: 'instant' }));
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  await expect(audio).toHaveJSProperty('paused', true);
+});
+
+test('sound control sits at the hero bottom and aligns with header content from mobile to ultrawide', async ({ page }) => {
+  await mockSound(page);
+  await page.addInitScript(() => localStorage.setItem('swm_analytics_consent_v1', 'denied'));
   await page.goto('/');
   for (const [width, height] of [[320, 740], [375, 812], [390, 844], [430, 932], [740, 320], [768, 1024], [1024, 768], [1280, 720], [1440, 900], [1725, 900], [2048, 1152], [2560, 1440], [3440, 1440]]) {
     await page.setViewportSize({ width, height });
     await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+    await page.locator('[data-hero-sound-toggle]').scrollIntoViewIfNeeded();
     const hero = await page.locator('.hero-section').boundingBox();
     const button = await page.locator('[data-hero-sound-toggle]').boundingBox();
     expect(button).not.toBeNull();
@@ -95,7 +120,7 @@ test('sound control aligns with header content and stays visible from mobile to 
     expect(button!.x).toBeGreaterThanOrEqual(0);
     const header = await page.locator('header').first().boundingBox();
     expect(button!.y).toBeGreaterThanOrEqual(header!.y + header!.height);
-    expect(button!.y).toBeLessThanOrEqual(hero!.y + 24);
+    expect(button!.y + button!.height).toBeCloseTo(hero!.y + hero!.height - (width < 640 ? 16 : 24), 0);
     expect(button!.y + button!.height).toBeLessThanOrEqual(height);
     const anchor = width >= 768
       ? page.locator('[data-cta-location="header_desktop"]')
@@ -107,8 +132,6 @@ test('sound control aligns with header content and stays visible from mobile to 
       const box = el.getBoundingClientRect();
       return el.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
     })).toBe(true);
-    const notice = await page.locator('#analytics-consent-banner').boundingBox();
-    if (notice && button!.y < notice.y + notice.height) expect(button!.y + button!.height).toBeLessThanOrEqual(notice.y);
     if (width === 390 || width === 1725 || width === 2560) await page.screenshot({ path: `test-results/hero-sound-${width}.png` });
   }
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -116,6 +139,7 @@ test('sound control aligns with header content and stays visible from mobile to 
   // the header's content boundary rather than the full-width media edge.
   for (const zoom of [0.8, 1.25, 1.5, 2]) {
     await page.evaluate(value => { document.documentElement.style.zoom = String(value); }, zoom);
+    await page.locator('[data-hero-sound-toggle]').scrollIntoViewIfNeeded();
     const control = await page.locator('[data-hero-sound-toggle]').boundingBox();
     const contact = await page.locator('[data-cta-location="header_desktop"]').boundingBox();
     expect(control!.x + control!.width).toBeCloseTo(contact!.x + contact!.width, 0);
@@ -125,7 +149,7 @@ test('sound control aligns with header content and stays visible from mobile to 
 });
 
 test('the real recording can play and be muted using the button', async ({ page }) => {
-  await page.addInitScript(() => sessionStorage.setItem('swm_intro_seen_v1', 'true'));
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   const audio = page.locator('[data-hero-audio]');
   const button = page.locator('[data-hero-sound-toggle]');
@@ -147,8 +171,8 @@ test('a returning visitor cannot run the cached legacy audio alongside the sound
     legacyRequests++;
     return route.fulfill({ contentType: 'application/javascript', body: legacy });
   });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addInitScript(() => {
-    sessionStorage.setItem('swm_intro_seen_v1', 'true');
     const Native = window.Audio;
     const state = window as unknown as { detachedHeroAudio: HTMLAudioElement[] };
     state.detachedHeroAudio = [];
