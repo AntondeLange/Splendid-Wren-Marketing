@@ -14,7 +14,9 @@
   const render = () => {
     const playing = enabled && !audio.paused;
     button.setAttribute('aria-pressed', String(playing));
-    button.setAttribute('aria-label', playing ? 'Turn sound off' : 'Turn sound on');
+    const action = playing ? 'Turn sound off' : 'Turn sound on';
+    button.setAttribute('aria-label', action);
+    button.title = action;
     if (label) label.textContent = playing ? 'Sound on' : enabled ? 'Enable sound' : 'Sound off';
     onIcon?.classList.toggle('hidden', !playing);
     offIcon?.classList.toggle('hidden', playing);
