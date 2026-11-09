@@ -32,10 +32,17 @@ test('sound defaults on, keyboard mute persists and pointer movement cannot rest
   const button = page.locator('[data-hero-sound-toggle]');
   await expect(button).toHaveText('Sound on');
   await expect(button).toHaveAttribute('aria-pressed', 'true');
+  await expect(button).toHaveAttribute('title', 'Turn sound off');
+  await expect(button.locator('[data-sound-label]')).toHaveClass('sr-only');
+  await expect(button.locator('[data-sound-on-icon]')).toBeVisible();
+  await expect(button.locator('[data-sound-off-icon]')).not.toBeVisible();
   await expect(page.locator('[data-hero-audio]')).toHaveJSProperty('loop', true);
   await button.focus(); await page.keyboard.press('Space');
   await expect(button).toHaveText('Sound off');
   await expect(button).toHaveAttribute('aria-pressed', 'false');
+  await expect(button).toHaveAttribute('title', 'Turn sound on');
+  await expect(button.locator('[data-sound-on-icon]')).not.toBeVisible();
+  await expect(button.locator('[data-sound-off-icon]')).toBeVisible();
   await expect(page.locator('[data-hero-audio]')).toHaveJSProperty('paused', true);
   await page.mouse.click(20, 300); await page.keyboard.press('Tab');
   await expect(page.locator('[data-hero-audio]')).toHaveJSProperty('paused', true);
@@ -81,6 +88,7 @@ test('sound control stays visible below the header at mobile, landscape and tabl
     const button = await page.locator('[data-hero-sound-toggle]').boundingBox();
     expect(button).not.toBeNull();
     expect(button!.height).toBeGreaterThanOrEqual(44);
+    expect(button!.width).toBe(44);
     expect(button!.x + button!.width).toBeLessThan(hero!.x + hero!.width);
     expect(button!.y + button!.height).toBeLessThan(hero!.y + hero!.height);
     expect(button!.x).toBeGreaterThanOrEqual(0);
