@@ -1,6 +1,7 @@
 import { test, expect, authorizeContext } from './fixtures';
 
 test('intro can be skipped immediately by keyboard and preserves the homepage URL', async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem('swm_intro_seen_v1', 'true'));
   await page.goto('/?package=Momentum');
   const intro = page.locator('[data-brand-intro]');
   await expect(intro).toBeVisible();
@@ -13,6 +14,8 @@ test('intro can be skipped immediately by keyboard and preserves the homepage UR
   await expect(page.locator('#main-content')).toBeFocused();
   await expect(page).toHaveURL(/\/?\?package=Momentum$/);
   await page.reload();
+  await expect(intro).toBeVisible();
+  await page.keyboard.press('Escape');
   await expect(intro).not.toBeVisible();
 });
 
@@ -26,7 +29,6 @@ test('intro closes on animation completion and Escape can bypass it', async ({ p
   await page.goto('/');
   await expect(page.locator('[data-brand-intro]')).toBeVisible();
   await expect(page.locator('[data-brand-intro]')).not.toBeVisible({ timeout: 4000 });
-  await page.evaluate(() => sessionStorage.removeItem('swm_intro_seen_v1'));
   await page.reload();
   await expect(page.locator('[data-brand-intro]')).toBeVisible();
   await page.keyboard.press('Escape');

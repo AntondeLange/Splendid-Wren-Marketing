@@ -3,15 +3,11 @@
   const image = intro?.querySelector('[data-brand-intro-image]');
   const skip = intro?.querySelector('[data-intro-skip]');
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const key = 'swm_intro_seen_v1';
   if (!(intro instanceof HTMLDialogElement) || !(image instanceof HTMLImageElement) || !(skip instanceof HTMLAnchorElement)) return;
   // Let direct section links reach their target without interrupting focus.
   if (window.location.hash) return;
-  // Storage failure must never block access or cause a redirect loop.
-  try {
-    if (sessionStorage.getItem(key) === 'true' || motion.matches) return;
-    sessionStorage.setItem(key, 'true');
-  } catch { return; }
+  // Replay on each homepage load, without requiring browser storage.
+  if (motion.matches) return;
   if (typeof intro.showModal !== 'function') return;
 
   const previousOverflow = document.documentElement.style.overflow;

@@ -2,6 +2,8 @@
   const audio = document.querySelector('[data-hero-audio]');
   const button = document.querySelector('[data-hero-sound-toggle]');
   if (!(audio instanceof HTMLAudioElement) || !(button instanceof HTMLButtonElement)) return;
+  const hero = button.closest('.hero-section');
+  const position = button.closest('[data-hero-sound-position]');
   const label = button.querySelector('[data-sound-label]');
   const onIcon = button.querySelector('[data-sound-on-icon]');
   const offIcon = button.querySelector('[data-sound-off-icon]');
@@ -10,6 +12,26 @@
   let pending = false;
   try { enabled = localStorage.getItem(preferenceKey) !== 'off'; } catch { /* Use this document's choice. */ }
   audio.volume = 0.28;
+
+  const heroIsVisible = () => {
+    if (!(hero instanceof HTMLElement)) return false;
+    const rect = hero.getBoundingClientRect();
+    const headerBottom = document.querySelector('body > header')?.getBoundingClientRect().bottom ?? 0;
+    return rect.bottom > Math.max(0, headerBottom) && rect.top < window.innerHeight;
+  };
+  const canPlay = () => enabled && !document.hidden && heroIsVisible();
+  const placeControl = () => {
+    if (!(position instanceof HTMLElement)) return;
+    position.style.bottom = '';
+    const notice = document.querySelector('#analytics-consent-banner');
+    if (!(notice instanceof HTMLElement)) return;
+    const control = button.getBoundingClientRect();
+    const banner = notice.getBoundingClientRect();
+    if (control.bottom > banner.top && control.top < banner.bottom && control.right > banner.left && control.left < banner.right) {
+      const bottom = parseFloat(getComputedStyle(position).bottom) || 0;
+      position.style.bottom = `${bottom + control.bottom - banner.top + 12}px`;
+    }
+  };
 
   const render = () => {
     const playing = enabled && !audio.paused;
@@ -22,12 +44,12 @@
     offIcon?.classList.toggle('hidden', playing);
   };
   const start = () => {
-    if (!enabled || pending || !audio.paused || document.hidden) return;
+    if (!canPlay() || pending || !audio.paused) return;
     pending = true;
     // A denied autoplay promise is expected. Show the actual state and retry
     // on a visitor gesture; never claim that blocked audio is already playing.
     audio.play().then(() => {
-      if (!enabled || document.hidden) audio.pause();
+      if (!canPlay()) audio.pause();
     }).catch(() => {}).finally(() => { pending = false; render(); });
   };
   button.addEventListener('click', () => {
@@ -42,7 +64,17 @@
   };
   document.addEventListener('pointerdown', unlock, { passive: true });
   document.addEventListener('keydown', unlock);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) audio.pause(); else start(); });
+  const syncViewport = () => {
+    // Preserve the visitor's on/off choice while pausing off-screen playback.
+    // Recheck geometry on gestures too, so other page interactions cannot
+    // restart sound after the hero has passed behind the sticky header.
+    if (!canPlay()) audio.pause(); else start();
+    placeControl();
+  };
+  document.addEventListener('visibilitychange', syncViewport);
+  window.addEventListener('scroll', syncViewport, { passive: true });
+  window.addEventListener('resize', syncViewport);
+  new MutationObserver(placeControl).observe(document.body, { childList: true });
   window.addEventListener('pagehide', () => audio.pause());
   window.addEventListener('pageshow', start);
   window.addEventListener('storage', (event) => {
@@ -56,5 +88,6 @@
   audio.addEventListener('error', render);
   button.hidden = false;
   render();
+  placeControl();
   start();
 })();
