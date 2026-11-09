@@ -1,0 +1,16 @@
+astro-site@0.0.1 /Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site
+├─┬ @astrojs/vercel@11.0.20
+│ ├─┬ @vercel/functions@3.11.0
+│ │ └─┬ @vercel/oidc@4.0.7
+│ │   └─┬ @vercel/cli-config@0.3.7
+│ │     └── zod@4.6.7 deduped
+│ ├─┬ @vercel/nft@1.11.0
+│ │ └─┬ glob@14.0.2 overridden
+│ │   └── minimatch@11.0.5
+│ └── astro@7.4.7 deduped
+├─┬ astro@7.4.7
+│ ├── sharp@0.35.5 deduped
+│ ├─┬ unstorage@1.17.6
+│ │ └── @vercel/functions@3.11.0 deduped
+│ └── zod@4.6.7
+└── sharp@0.35.5

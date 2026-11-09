@@ -9,6 +9,7 @@ interface Props {
   required?: boolean;
   rows?: number;
   maxLength?: number;
+  minLength?: number;
   class?: string;
 }
 
@@ -22,6 +23,7 @@ const {
   required = false,
   rows = 6,
   maxLength,
+  minLength,
   class: className = '',
 } = Astro.props;
 
@@ -29,10 +31,10 @@ const isTextarea = type === 'textarea';
 ---
 
 <div class={className}>
-  <label for={id} class="mb-2 block text-sm font-medium text-brand-900">
+  {label && <label for={id} class="mb-2 block text-sm font-medium text-brand-900">
     {label}
     {required && <span class="text-red-700"> *</span>}
-  </label>
+  </label>}
   {isTextarea ? (
     <textarea
       id={id}
@@ -41,6 +43,7 @@ const isTextarea = type === 'textarea';
       required={required}
       placeholder={placeholder}
       maxlength={maxLength}
+      minlength={minLength}
       aria-describedby={`${id}-error`}
       class="min-h-36 w-full rounded-lg border border-neutral-400 bg-white px-4 py-3 text-base text-neutral-700 shadow-sm transition placeholder:text-neutral-400 focus:border-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400/40"
     ></textarea>
@@ -53,6 +56,7 @@ const isTextarea = type === 'textarea';
       placeholder={placeholder}
       autocomplete={autocomplete}
       maxlength={maxLength}
+      minlength={minLength}
       aria-describedby={`${id}-error`}
       class="w-full rounded-lg border border-neutral-400 bg-white px-4 py-3 text-base text-neutral-700 shadow-sm transition placeholder:text-neutral-400 focus:border-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400/40"
     />

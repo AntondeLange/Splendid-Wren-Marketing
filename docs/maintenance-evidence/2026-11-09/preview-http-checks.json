@@ -1,0 +1,65 @@
+{
+  "origin": "https://splendid-wren-marketing-387i2n4ki-antons-projects-978e1a78.vercel.app",
+  "checks": [
+    {
+      "name": "anonymous protection",
+      "passed": true
+    },
+    {
+      "name": "homepage CSP and external bootstrap",
+      "passed": true
+    },
+    {
+      "name": "redirect /amp",
+      "passed": true
+    },
+    {
+      "name": "redirect /about/amp",
+      "passed": true
+    },
+    {
+      "name": "redirect /amp/about",
+      "passed": true
+    },
+    {
+      "name": "redirect /amp/contact?package=Momentum",
+      "passed": true
+    },
+    {
+      "name": "AMP query canonical content",
+      "passed": true
+    },
+    {
+      "name": "fresh contact ID, selected package and no-store",
+      "passed": true
+    },
+    {
+      "name": "email disabled application/json",
+      "passed": true
+    },
+    {
+      "name": "email disabled text/html",
+      "passed": true
+    },
+    {
+      "name": "foreign origin rejected",
+      "passed": true
+    },
+    {
+      "name": "malformed body rejected",
+      "passed": true
+    },
+    {
+      "name": "oversized body rejected",
+      "passed": true
+    },
+    {
+      "name": "analytics script served",
+      "passed": true
+    },
+    {
+      "name": "favicon optimized",
+      "passed": true
+    }
+  ]
+}

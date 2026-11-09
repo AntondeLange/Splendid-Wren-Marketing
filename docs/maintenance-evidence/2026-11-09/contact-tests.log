@@ -1,0 +1,12 @@
+
+> astro-site@0.0.1 test
+> vitest run
+
+
+ RUN  v5.0.5 /Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site
+
+
+ Test Files  2 passed (2)
+      Tests  43 passed (43)
+   Start at  14:35:54
+   Duration  293ms (tests 54%, transform 29%, import 15%, worker 2%)

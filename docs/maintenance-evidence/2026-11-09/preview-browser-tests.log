@@ -1,0 +1,25 @@
+
+Running 18 tests using 1 worker
+
+(node:50359) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/maintenance.spec.ts:4:3 › layout, menu and form at 320x740 (3.2s)
+  ✓   2 tests/browser/maintenance.spec.ts:4:3 › layout, menu and form at 375x812 (2.9s)
+  ✓   3 tests/browser/maintenance.spec.ts:4:3 › layout, menu and form at 390x844 (2.8s)
+  ✓   4 tests/browser/maintenance.spec.ts:4:3 › layout, menu and form at 430x932 (2.8s)
+  ✓   5 tests/browser/maintenance.spec.ts:4:3 › layout, menu and form at 740x320 (3.0s)
+  ✓   6 tests/browser/maintenance.spec.ts:4:3 › layout, menu and form at 768x1024 (3.3s)
+  ✓   7 tests/browser/maintenance.spec.ts:4:3 › layout, menu and form at 1024x768 (3.1s)
+  ✓   8 tests/browser/maintenance.spec.ts:40:1 › branding remains optional and does not redirect after five seconds (6.5s)
+  ✓   9 tests/browser/maintenance.spec.ts:47:1 › native form has a submission ID, selected package, and readable errors (1.6s)
+  ✓  10 tests/browser/maintenance.spec.ts:63:1 › consent gates actual SDK requests, strips queries and stops after withdrawal (6.5s)
+  ✓  11 tests/browser/maintenance.spec.ts:108:1 › sitemap destinations and local assets resolve with production canonicals (11.3s)
+  ✓  12 tests/browser/maintenance.spec.ts:125:1 › JavaScript retries retain IDs after network loss and count only new confirmed acceptances (2.8s)
+  ✓  13 tests/browser/maintenance.spec.ts:157:1 › storage-disabled visitors can browse and make a session consent choice (1.4s)
+  ✓  14 tests/browser/maintenance.spec.ts:171:1 › saved denial and withdrawal in another tab prevent measurement after reload (5.8s)
+  ✓  15 tests/browser/maintenance.spec.ts:197:1 › native SMTP-unavailable response is readable and offers recovery (1.6s)
+  ✓  16 tests/browser/maintenance.spec.ts:214:1 › AMP query URLs serve canonical content without a self redirect (265ms)
+  ✓  17 tests/browser/maintenance.spec.ts:220:1 › runtime transformation is disabled and contact images use static assets (1.7s)
+  ✓  18 tests/browser/maintenance.spec.ts:234:1 › social metadata uses a full-size brand image separately from the favicon (620ms)
+
+  18 passed (1.0m)

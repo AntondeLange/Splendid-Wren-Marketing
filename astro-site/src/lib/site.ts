@@ -12,7 +12,7 @@ export const SITE = {
   defaultTitle: 'Splendid Wren Marketing | Small Business Marketing Consultancy',
   defaultDescription:
     'Warm, clear, and human-focused marketing guidance for small businesses in Australia.',
-  defaultOgImage: '/favicon.png',
+  defaultOgImage: '/media/brand-share.png',
 };
 
 export const NAV_ITEMS: NavItem[] = [
@@ -59,8 +59,8 @@ export function getPrimaryBusinessSchema(): Record<string, unknown> {
     '@id': `${SITE.siteUrl}/#business`,
     name: SITE.name,
     url: `${SITE.siteUrl}/`,
-    logo: buildAbsoluteUrl('/favicon.png'),
-    image: buildAbsoluteUrl('/favicon.png'),
+    logo: buildAbsoluteUrl('/media/brand-share.png'),
+    image: buildAbsoluteUrl('/media/brand-share.png'),
     description: SITE.defaultDescription,
     email: COMPANY_EMAIL,
     areaServed: {

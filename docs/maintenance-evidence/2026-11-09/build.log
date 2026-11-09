@@ -1,0 +1,148 @@
+
+> astro-site@0.0.1 prebuild
+> node scripts/prepare-images.mjs
+
+
+> astro-site@0.0.1 build
+> astro build
+
+14:35:54 [content] Syncing content
+14:35:54 [content] Synced content
+14:35:54 [types] Generated 353ms
+14:35:54 [build] output: "static"
+14:35:54 [build] mode: "server"
+14:35:54 [build] directory: /Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site/dist/
+14:35:54 [build] adapter: @astrojs/vercel
+14:35:54 [build] Collecting build info...
+14:35:54 [build] ✓ Completed in 433ms.
+14:35:54 [build] Building server entrypoints...
+14:35:54 [vite] ✓ built in 246ms
+14:35:55 [vite] ✓ built in 117ms
+14:35:55 [vite] ✓ built in 18ms
+
+ prerendering static routes
+14:35:55   ├─ /about/index.html (+14ms)
+14:35:55   ├─ /ai-marketing-support-small-business/index.html (+4ms)
+14:35:55   ├─ /blog/7-marketing-priorities-for-australian-small-businesses/index.html (+3ms)
+14:35:55   ├─ /blog/ai-marketing-workflow-from-prompt-to-publish/index.html (+2ms)
+14:35:55   ├─ /blog/avoiding-the-ai-shame-spiral/index.html (+2ms)
+14:35:55   ├─ /blog/brand-positioning-checklist-for-small-business-owners/index.html (+1ms)
+14:35:55   ├─ /blog/how-small-businesses-can-use-ai-without-losing-their-voice/index.html (+2ms)
+14:35:55   ├─ /blog/how-to-describe-your-business-in-one-sentence/index.html (+2ms)
+14:35:55   ├─ /blog/human-first-marketing-in-an-ai-world/index.html (+2ms)
+14:35:55   ├─ /blog/marketing-clarity-for-small-brands/index.html (+2ms)
+14:35:55   ├─ /blog/my-on-again-off-again-love-affair-with-ai/index.html (+1ms)
+14:35:55   ├─ /blog/no-more-marketing-mayhem/index.html (+1ms)
+14:35:55   ├─ /blog/what-marketing-and-mafs-have-in-common/index.html (+1ms)
+14:35:55   ├─ /blog/what-to-fix-first-when-your-marketing-feels-scattered/index.html (+1ms)
+14:35:55   ├─ /blog/why-small-business-owners-need-a-brand-bestie/index.html (+1ms)
+14:35:55   ├─ /blog/index.html (+5ms)
+14:35:55   ├─ /brand-strategy-small-business/index.html (+8ms)
+14:35:55   ├─ /how-we-work/index.html (+4ms)
+14:35:55   ├─ /loader/index.html (+1ms)
+14:35:55   ├─ /privacy/index.html (+2ms)
+14:35:55   ├─ /sitemap.xml (+1ms)
+14:35:55   ├─ /small-business-marketing-consultant-australia/index.html (+2ms)
+14:35:55   ├─ /terms/index.html (+2ms)
+14:35:55   ├─ /index.html (+3ms)
+14:35:55 ✓ Completed in 86ms.
+
+ generating optimized images
+14:35:55   ▶ /_astro/logo-navbar.B6qOsS_7_17yhc1.webp (reused cache entry) (+2ms) (1/90)
+14:35:55   ▶ /_astro/sw-agree.BORCIVoi_Z1MuqxP.webp (reused cache entry) (+2ms) (2/90)
+14:35:55   ▶ /_astro/headshot-cuppa.BYm_Y87H_1XlSpG.webp (reused cache entry) (+2ms) (3/90)
+14:35:55   ▶ /_astro/sw-working-2.Dyed8kaU_FepVU.webp (reused cache entry) (+2ms) (4/90)
+14:35:55   ▶ /_astro/sw-together.DuM1kRTK_Z12SPMQ.webp (reused cache entry) (+2ms) (5/90)
+14:35:55   ▶ /_astro/sw-notebook.C8frNhYG_Z1xqv4N.webp (reused cache entry) (+2ms) (6/90)
+14:35:55   ▶ /_astro/sw-explain.BDfwiQty_Z1fNYoX.webp (reused cache entry) (+2ms) (7/90)
+14:35:55   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_Zl2l6g.webp (reused cache entry) (+2ms) (8/90)
+14:35:55   ▶ /_astro/logo-footer.qP5BbXPC_ZkUleW.webp (reused cache entry) (+2ms) (9/90)
+14:35:55   ▶ /_astro/sw-team.J_h_iEn4_Z26ylY6.webp (reused cache entry) (+2ms) (10/90)
+14:35:55   ▶ /_astro/sw-agree.BORCIVoi_2gQxtU.webp (reused cache entry) (+1ms) (11/90)
+14:35:55   ▶ /_astro/sw-together.DuM1kRTK_Z1i8JvE.webp (reused cache entry) (+1ms) (12/90)
+14:35:55   ▶ /_astro/logo-navbar.B6qOsS_7_Z1WFgRY.webp (reused cache entry) (+1ms) (13/90)
+14:35:55   ▶ /_astro/sw-notebook.C8frNhYG_19kfxu.webp (reused cache entry) (+1ms) (14/90)
+14:35:55   ▶ /_astro/headshot-cuppa.BYm_Y87H_18mhBR.webp (reused cache entry) (+1ms) (15/90)
+14:35:55   ▶ /_astro/sw-explain.BDfwiQty_Z2kgbuL.webp (reused cache entry) (+1ms) (16/90)
+14:35:55   ▶ /_astro/sw-working-2.Dyed8kaU_mWq3q.webp (reused cache entry) (+2ms) (17/90)
+14:35:55   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_ZX2KbG.webp (reused cache entry) (+1ms) (18/90)
+14:35:55   ▶ /_astro/logo-footer.qP5BbXPC_zItkf.webp (reused cache entry) (+2ms) (19/90)
+14:35:55   ▶ /_astro/sw-team.J_h_iEn4_Z2gzpCL.webp (reused cache entry) (+2ms) (20/90)
+14:35:55   ▶ /_astro/sw-together.DuM1kRTK_2oMWOH.webp (reused cache entry) (+1ms) (21/90)
+14:35:55   ▶ /_astro/sw-agree.BORCIVoi_1LwjCW.webp (reused cache entry) (+1ms) (22/90)
+14:35:55   ▶ /_astro/logo-navbar.B6qOsS_7_21E3nY.webp (reused cache entry) (+1ms) (23/90)
+14:35:55   ▶ /_astro/sw-notebook.C8frNhYG_Z1VXyFE.webp (reused cache entry) (+1ms) (24/90)
+14:35:55   ▶ /_astro/sw-explain.BDfwiQty_1gfXlP.webp (reused cache entry) (+2ms) (25/90)
+14:35:55   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_EEesD.webp (reused cache entry) (+2ms) (26/90)
+14:35:55   ▶ /_astro/sw-working-2.Dyed8kaU_EnJxI.webp (reused cache entry) (+2ms) (27/90)
+14:35:55   ▶ /_astro/headshot-cuppa.BYm_Y87H_1BgtF2.webp (reused cache entry) (+2ms) (28/90)
+14:35:55   ▶ /_astro/logo-footer.qP5BbXPC_1o3Eu5.webp (reused cache entry) (+1ms) (29/90)
+14:35:55   ▶ /_astro/sw-team.J_h_iEn4_2qsqkV.webp (reused cache entry) (+1ms) (30/90)
+14:35:55   ▶ /_astro/sw-together.DuM1kRTK_21PwjM.webp (reused cache entry) (+2ms) (31/90)
+14:35:55   ▶ /_astro/sw-coffee.BccRABhB_ZazmCR.webp (reused cache entry) (+1ms) (32/90)
+14:35:55   ▶ /_astro/sw-agree.BORCIVoi_10UUeh.webp (reused cache entry) (+2ms) (33/90)
+14:35:55   ▶ /_astro/sw-notebook.C8frNhYG_1qIguH.webp (reused cache entry) (+1ms) (34/90)
+14:35:55   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_dfQAT.webp (reused cache entry) (+2ms) (35/90)
+14:35:55   ▶ /_astro/sw-explain.BDfwiQty_jINU4.webp (reused cache entry) (+2ms) (36/90)
+14:35:55   ▶ /_astro/sw-working-2.Dyed8kaU_1XCuf6.webp (reused cache entry) (+2ms) (37/90)
+14:35:55   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_Z24NieP.webp (reused cache entry) (+1ms) (38/90)
+14:35:55   ▶ /_astro/sw-team.J_h_iEn4_2qnIos.webp (reused cache entry) (+2ms) (39/90)
+14:35:55   ▶ /_astro/sw-ready.CoMXpfQg_Z1PQ7Kf.webp (reused cache entry) (+2ms) (40/90)
+14:35:55   ▶ /_astro/sw-together.DuM1kRTK_1svuNh.webp (reused cache entry) (+1ms) (41/90)
+14:35:55   ▶ /_astro/sw-coffee.BccRABhB_1wzvjw.webp (reused cache entry) (+2ms) (42/90)
+14:35:55   ▶ /_astro/sw-agree.BORCIVoi_1fpuMH.webp (reused cache entry) (+2ms) (43/90)
+14:35:55   ▶ /_astro/blog-avoid-the-shame-spiral.Dr32mGOW_1ElLIF.webp (reused cache entry) (+1ms) (44/90)
+14:35:55   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_Z2kDOQa.webp (reused cache entry) (+2ms) (45/90)
+14:35:55   ▶ /_astro/blog-mafs.CX2HO7Rr_2uH0kQ.webp (reused cache entry) (+1ms) (46/90)
+14:35:55   ▶ /_astro/sw-explain.BDfwiQty_Z1yn3fe.webp (reused cache entry) (+1ms) (47/90)
+14:35:55   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_zNmP8.webp (reused cache entry) (+1ms) (48/90)
+14:35:55   ▶ /_astro/sw-team.J_h_iEn4_ZvFO1u.webp (reused cache entry) (+1ms) (49/90)
+14:35:55   ▶ /_astro/sw-ready.CoMXpfQg_Z2op0LC.webp (reused cache entry) (+1ms) (50/90)
+14:35:55   ▶ /_astro/sw-together.DuM1kRTK_2icf4n.webp (reused cache entry) (+2ms) (51/90)
+14:35:55   ▶ /_astro/sw-agree.BORCIVoi_ZSTULG.webp (reused cache entry) (+1ms) (52/90)
+14:35:55   ▶ /_astro/sw-coffee.BccRABhB_nrId8.webp (reused cache entry) (+2ms) (53/90)
+14:35:55   ▶ /_astro/blog-brand-bestie.gYF_28U0_27hLv1.webp (reused cache entry) (+1ms) (54/90)
+14:35:55   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_23rzVl.webp (reused cache entry) (+1ms) (55/90)
+14:35:55   ▶ /_astro/blog-mafs.CX2HO7Rr_ZdwwJf.webp (reused cache entry) (+1ms) (56/90)
+14:35:55   ▶ /_astro/sw-explain.BDfwiQty_1PbVlq.webp (reused cache entry) (+1ms) (57/90)
+14:35:55   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_1xRmng.webp (reused cache entry) (+1ms) (58/90)
+14:35:55   ▶ /_astro/sw-ready.CoMXpfQg_Z19WJN2.webp (reused cache entry) (+2ms) (59/90)
+14:35:55   ▶ /_astro/sw-team.J_h_iEn4_2qj1rY.webp (reused cache entry) (+2ms) (60/90)
+14:35:55   ▶ /_astro/headshot-bridge._mVWdSrL_ZsBSVg.webp (reused cache entry) (+1ms) (61/90)
+14:35:55   ▶ /_astro/blue-wren.CDmHKc3C_ZsVTOC.webp (reused cache entry) (+1ms) (62/90)
+14:35:55   ▶ /_astro/sw-coffee.BccRABhB_1qWRvO.webp (reused cache entry) (+1ms) (63/90)
+14:35:55   ▶ /_astro/blog-brand-bestie.gYF_28U0_Z10su83.webp (reused cache entry) (+1ms) (64/90)
+14:35:55   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_nTXpU.webp (reused cache entry) (+1ms) (65/90)
+14:35:55   ▶ /_astro/sw-explain.BDfwiQty_Z1sdR1a.webp (reused cache entry) (+1ms) (66/90)
+14:35:55   ▶ /_astro/blog-mafs.CX2HO7Rr_21M2Gr.webp (reused cache entry) (+2ms) (67/90)
+14:35:55   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_Z2aehkt.webp (reused cache entry) (+2ms) (68/90)
+14:35:55   ▶ /_astro/sw-ready.CoMXpfQg_1Qic63.webp (reused cache entry) (+1ms) (69/90)
+14:35:55   ▶ /_astro/blue-wren-2.DAJRCo_t_16zxyD.webp (reused cache entry) (+1ms) (70/90)
+14:35:55   ▶ /_astro/sw-coffee.BccRABhB_1IspFB.webp (reused cache entry) (+1ms) (71/90)
+14:35:55   ▶ /_astro/blue-wren.CDmHKc3C_ZmAzpB.webp (reused cache entry) (+1ms) (72/90)
+14:35:55   ▶ /_astro/headshot-bridge._mVWdSrL_1f2mqw.webp (reused cache entry) (+1ms) (73/90)
+14:35:55   ▶ /_astro/blog-brand-bestie.gYF_28U0_ruc7I.webp (reused cache entry) (+1ms) (74/90)
+14:35:55   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_HDCU.webp (reused cache entry) (+1ms) (75/90)
+14:35:55   ▶ /_astro/blue-wren-couple.Cr3l1gOP_ZuzuYT.webp (reused cache entry) (+1ms) (76/90)
+14:35:55   ▶ /_astro/blog-mafs.CX2HO7Rr_Z7MgE8.webp (reused cache entry) (+1ms) (77/90)
+14:35:55   ▶ /_astro/sw-ready.CoMXpfQg_Z9Mkpk.webp (reused cache entry) (+1ms) (78/90)
+14:35:55   ▶ /_astro/blog-on-again-off-again-affair.BJnftDdu_2wGF8V.webp (reused cache entry) (+1ms) (79/90)
+14:35:55   ▶ /_astro/blue-wren-2.DAJRCo_t_S7oM3.webp (reused cache entry) (+1ms) (80/90)
+14:35:55   ▶ /_astro/sw-coffee.BccRABhB_Z2uQO75.webp (reused cache entry) (+1ms) (81/90)
+14:35:55   ▶ /_astro/blue-wren.CDmHKc3C_Z235wlb.webp (reused cache entry) (+2ms) (82/90)
+14:35:55   ▶ /_astro/blog-brand-bestie.gYF_28U0_Z1qtrXz.webp (reused cache entry) (+1ms) (83/90)
+14:35:55   ▶ /_astro/blog-no-more-marketing-mayhem.DLSRJ0pC_2h5i0X.webp (reused cache entry) (+1ms) (84/90)
+14:35:55   ▶ /_astro/blue-wren-couple.Cr3l1gOP_JS3TA.webp (reused cache entry) (+1ms) (85/90)
+14:35:55   ▶ /_astro/headshot-bridge._mVWdSrL_ZCEoLw.webp (reused cache entry) (+2ms) (86/90)
+14:35:55   ▶ /_astro/blog-mafs.CX2HO7Rr_Z1IzIL1.webp (reused cache entry) (+1ms) (87/90)
+14:35:55   ▶ /_astro/sw-ready.CoMXpfQg_ZcCYNN.webp (reused cache entry) (+1ms) (88/90)
+14:35:55   ▶ /_astro/blue-wren-2.DAJRCo_t_ZyYggH.webp (reused cache entry) (+1ms) (89/90)
+14:35:55   ▶ /_astro/blue-wren-couple.Cr3l1gOP_1LXzJJ.webp (reused cache entry) (+1ms) (90/90)
+14:35:55 ✓ Completed in 14ms.
+
+14:35:55 [build] Rearranging server assets...
+14:35:55 [build] ✓ Completed in 521ms.
+14:35:55 [@astrojs/vercel] Bundling function ../../server/entry.mjs
+14:35:55 [@astrojs/vercel] Copying static files to .vercel/output/static
+14:35:55 [build] Server built in 1.81s
+14:35:55 [build] Complete!

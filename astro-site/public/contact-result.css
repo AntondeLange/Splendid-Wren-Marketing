@@ -1,0 +1,6 @@
+:root { font: 1.125rem/1.6 system-ui, sans-serif; color: #1e3a5f; background: #f8f9fa; }
+body { margin: 0; padding: 1.25rem; }
+main { max-width: 42rem; margin: 8vh auto; padding: clamp(1rem, 4vw, 3rem); background: white; border: 1px solid #bccce1; border-radius: 1rem; }
+h1 { line-height: 1.2; }
+a { color: #1e3a5f; text-underline-offset: .2em; overflow-wrap: anywhere; }
+a:focus-visible { outline: 3px solid #4479bf; outline-offset: 4px; }

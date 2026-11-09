@@ -1,0 +1,158 @@
+{
+  "id": "dpl_GgprvDxo9wJmSVhpkjZSGeSH7YH8",
+  "name": "splendid-wren-marketing",
+  "url": "splendid-wren-marketing-387i2n4ki-antons-projects-978e1a78.vercel.app",
+  "target": "preview",
+  "readyState": "READY",
+  "createdAt": 1794206765020,
+  "builds": [
+    {
+      "id": "bld_7qzy2zesi",
+      "deploymentId": "dpl_GgprvDxo9wJmSVhpkjZSGeSH7YH8",
+      "entrypoint": ".",
+      "readyState": "READY",
+      "readyStateAt": 1794206764938,
+      "createdAt": 1794206764938,
+      "createdIn": "sfo1",
+      "use": "@vercel/vc-build",
+      "config": {
+        "framework": "astro",
+        "installCommand": "npm --prefix astro-site ci",
+        "buildCommand": "npm --prefix astro-site run build && rm -rf .vercel/output && cp -R astro-site/.vercel/output .vercel/output",
+        "devCommand": "npm --prefix astro-site run dev",
+        "nodeVersion": "24.x",
+        "projectCreatedAt": 1770706094097,
+        "vercelConfig": {
+          "$schema": "https://openapi.vercel.sh/vercel.json",
+          "framework": "astro",
+          "installCommand": "npm --prefix astro-site ci",
+          "buildCommand": "npm --prefix astro-site run build && rm -rf .vercel/output && cp -R astro-site/.vercel/output .vercel/output",
+          "devCommand": "npm --prefix astro-site run dev",
+          "redirects": [
+            {
+              "source": "/(.*)",
+              "has": [
+                {
+                  "type": "host",
+                  "value": "www.splendidwrenmarketing.com.au"
+                }
+              ],
+              "destination": "https://splendidwrenmarketing.com.au/$1",
+              "permanent": true
+            },
+            {
+              "source": "/amp",
+              "destination": "https://splendidwrenmarketing.com.au/",
+              "permanent": true
+            },
+            {
+              "source": "/(.*)/amp",
+              "destination": "https://splendidwrenmarketing.com.au/$1",
+              "permanent": true
+            },
+            {
+              "source": "/amp/(.*)",
+              "destination": "https://splendidwrenmarketing.com.au/$1",
+              "permanent": true
+            }
+          ],
+          "headers": [
+            {
+              "source": "/sw.js",
+              "headers": [
+                {
+                  "key": "Cache-Control",
+                  "value": "no-store, no-cache, must-revalidate"
+                }
+              ]
+            },
+            {
+              "source": "/scripts/(.*)",
+              "headers": [
+                {
+                  "key": "Cache-Control",
+                  "value": "public, max-age=3600, stale-while-revalidate=86400"
+                }
+              ]
+            },
+            {
+              "source": "/media/(.*)",
+              "headers": [
+                {
+                  "key": "Cache-Control",
+                  "value": "public, max-age=86400, stale-while-revalidate=604800"
+                }
+              ]
+            },
+            {
+              "source": "/loader(.*)",
+              "headers": [
+                {
+                  "key": "X-Robots-Tag",
+                  "value": "noindex, nofollow, noarchive"
+                }
+              ]
+            },
+            {
+              "source": "/(.*)",
+              "headers": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; object-src 'none'; img-src 'self' data: https:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://vitals.vercel-insights.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+                }
+              ]
+            }
+          ],
+          "name": "splendid-wren-marketing",
+          "version": 2
+        }
+      },
+      "middleware": [],
+      "output": [
+        {
+          "prerender": null,
+          "type": "lambda",
+          "path": "_render",
+          "digest": "prj_XQNkuOVJIIXdG9TEahawW2Hkc0wE/9f53fbbd93a8aa628d588413cb5ee95331a900a7aa72774a79d0d4e528ec2c0d",
+          "mode": 49590,
+          "size": 1111182,
+          "lambda": {
+            "functionName": "team_zEkHfvxHWKBOUSdHNxugblpE-dd8807c33ac8a49c802d3c7060315d90d5",
+            "deployedTo": [
+              "iad1"
+            ],
+            "runtime": "nodejs24.x",
+            "memorySize": 2048,
+            "timeout": 60,
+            "layers": [
+              "arn:aws:lambda:AWS_REGION_PLACEHOLDER:977805900156:layer:vercel-rusty-runtime-nodejs-1_51_18-production-a82c18e1a4-AWS_ARCH_PLACEHOLDER:1"
+            ]
+          },
+          "edge": null
+        }
+      ],
+      "fingerprint": null
+    }
+  ],
+  "contextName": "antons-projects-978e1a78"
+}

@@ -5,9 +5,7 @@
   }
 
   const gaId = currentScript.dataset.gaId?.trim();
-  if (!gaId) {
-    return;
-  }
+
 
   const CONSENT_KEY = 'swm_analytics_consent_v1';
   const TRACKED_ONCE_PREFIX = 'swm_analytics_once_';
@@ -31,6 +29,7 @@
   };
   const queue = [];
   let isAnalyticsEnabled = false;
+  let sessionConsent = null;
 
   const safeStorage = {
     get(key) {
@@ -98,7 +97,7 @@
   }
 
   function getConsent() {
-    const stored = safeStorage.get(CONSENT_KEY);
+    const stored = sessionConsent ?? safeStorage.get(CONSENT_KEY);
     if (stored === CONSENT_GRANTED || stored === CONSENT_DENIED) {
       return stored;
     }
@@ -159,14 +158,6 @@
     window.SWMAnalyticsDefaultsApplied = true;
   }
 
-  function applyDeniedConsent() {
-    if (typeof window.gtag !== 'function') {
-      return;
-    }
-
-    window.gtag('consent', 'update', defaultConsentState);
-  }
-
   function flushQueue() {
     if (!isAnalyticsEnabled || typeof window.gtag !== 'function') {
       return;
@@ -183,11 +174,15 @@
   }
 
   function enableAnalytics() {
+    window.dispatchEvent(new CustomEvent('swm:consent', { detail: 'granted' }));
+    if (!gaId) return;
     initializeGoogleTagDefaults();
     window.gtag('consent', 'update', grantedConsentState);
     if (!isAnalyticsEnabled) {
       window.gtag('config', gaId, {
         anonymize_ip: true,
+        page_location: window.location.origin + window.location.pathname,
+        page_referrer: (() => { try { const url = new URL(document.referrer); return url.origin + url.pathname; } catch { return ''; } })(),
         send_page_view: !isLoaderPage,
       });
       isAnalyticsEnabled = true;
@@ -201,6 +196,7 @@
       return;
     }
 
+    sessionConsent = value;
     safeStorage.set(CONSENT_KEY, value);
     if (value === CONSENT_GRANTED) {
       enableAnalytics();
@@ -208,7 +204,8 @@
       return;
     }
 
-    applyDeniedConsent();
+    // A fresh document unloads previously accepted SDKs and blocks further measurement.
+    window.location.reload();
   }
 
   function track(eventName, params = {}, options = {}) {
@@ -234,6 +231,7 @@
       markTrackedOnce(options.onceKey);
     }
 
+    if (!gaId) return;
     if (!isAnalyticsEnabled || typeof window.gtag !== 'function') {
       queue.push({ eventName, params: payload });
       return;
@@ -249,8 +247,15 @@
     hasConsent: () => getConsent() === CONSENT_GRANTED,
   };
 
-  function maybeAttachConsentBanner() {
-    if (getConsent() !== null) {
+  // A withdrawal in another tab must also unload SDKs in this document.
+  window.addEventListener('storage', (event) => {
+    if (event.key === CONSENT_KEY && event.newValue !== CONSENT_GRANTED && isAnalyticsEnabled) {
+      window.location.reload();
+    }
+  });
+
+  function maybeAttachConsentBanner(force = false) {
+    if (!force && getConsent() !== null) {
       return;
     }
 
@@ -258,9 +263,12 @@
       return;
     }
 
+    document.querySelector('#analytics-consent-banner')?.remove();
+    const previousFocus = document.activeElement;
     const banner = document.createElement('div');
     banner.id = 'analytics-consent-banner';
-    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('role', 'region');
+    banner.setAttribute('aria-label', 'Analytics preferences');
     banner.setAttribute('aria-live', 'polite');
     banner.style.position = 'fixed';
     banner.style.left = '1rem';
@@ -277,7 +285,7 @@
     banner.innerHTML = `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;justify-content:space-between;">
         <p style="margin:0;max-width:38rem;color:#1e3a5f;font:500 0.92rem/1.4 Poppins, sans-serif;">
-          We use analytics cookies to understand visits and improve enquiries. See our <a href="/privacy" style="color:#1e3a5f;text-decoration:underline;">privacy policy</a>.
+          With your permission, we use Google and Vercel analytics to understand visits and improve enquiries. See our <a href="/privacy" style="color:#1e3a5f;text-decoration:underline;">privacy policy</a>.
         </p>
         <div style="display:inline-flex;gap:0.5rem;">
           <button type="button" data-consent-action="decline" style="border:1px solid #1e3a5f;background:#fff;color:#1e3a5f;border-radius:0.5rem;padding:0.5rem 0.85rem;font:600 0.86rem/1 Poppins, sans-serif;cursor:pointer;">Decline</button>
@@ -286,7 +294,7 @@
       </div>
     `;
 
-    const dismiss = () => banner.remove();
+    const dismiss = () => { banner.remove(); if (previousFocus instanceof HTMLElement) previousFocus.focus(); };
     banner.querySelector('[data-consent-action="accept"]')?.addEventListener('click', () => {
       setConsent(CONSENT_GRANTED);
       dismiss();
@@ -297,6 +305,7 @@
     });
 
     document.body.append(banner);
+    if (force) banner.querySelector('button')?.focus();
   }
 
   function getSafeUrl(rawHref) {
@@ -337,6 +346,11 @@
       return;
     }
 
+    if (url.origin === 'https://443253477.hs-sites-ap1.com' && url.pathname === '/splendid-wren-marketing-brand-audit') {
+      track('brand_audit_click', { click_location: inferLocation(link) });
+      return;
+    }
+
     const isSameOrigin = url.origin === window.location.origin;
     if (isSameOrigin && (url.pathname === '/contact' || url.pathname === '/contact/')) {
       track('cta_click', {
@@ -356,13 +370,15 @@
     }
   });
 
-  initializeGoogleTagDefaults();
+  document.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('[data-analytics-preferences]')) maybeAttachConsentBanner(true);
+  });
 
   const storedConsent = getConsent();
   if (storedConsent === CONSENT_GRANTED) {
     enableAnalytics();
   } else if (storedConsent === CONSENT_DENIED) {
-    applyDeniedConsent();
+    // No measurement SDKs are loaded for a denied choice.
   } else if (storedConsent === null) {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', maybeAttachConsentBanner, { once: true });

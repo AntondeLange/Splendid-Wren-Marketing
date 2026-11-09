@@ -1,0 +1,19 @@
+{
+  "id": "prj_XQNkuOVJIIXdG9TEahawW2Hkc0wE",
+  "nodeVersion": "24.x",
+  "resourceConfig": {
+    "fluid": true,
+    "functionDefaultRegions": [
+      "iad1"
+    ],
+    "buildMachineType": "basic",
+    "buildMachineSelection": "fixed"
+  },
+  "retention": {
+    "expirationDays": 30,
+    "expirationDaysProduction": 30,
+    "expirationDaysCanceled": 30,
+    "expirationDaysErrored": 30,
+    "deploymentsToKeep": 10
+  }
+}

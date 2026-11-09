@@ -1,0 +1,12 @@
+
+> astro-site@0.0.1 typecheck
+> astro check
+
+14:36:16 [content] Syncing content
+14:36:16 [content] Synced content
+14:36:16 [types] Generated 803ms
+14:36:16 [check] Getting diagnostics for Astro files in /Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Splendid Wren/astro-site...
+Result (62 files):
+- 0 errors
+- 0 warnings
+- 0 hints

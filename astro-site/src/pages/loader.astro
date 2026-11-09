@@ -1,7 +1,7 @@
 ---
 import { GOOGLE_ANALYTICS_MEASUREMENT_ID } from '../lib/site';
 
-const refreshDelaySeconds = 5;
+
 ---
 
 <!doctype html>
@@ -88,18 +88,18 @@ const refreshDelaySeconds = 5;
         outline-offset: 2px;
       }
     </style>
-    <script is:inline src="/scripts/loader-reduced-motion.js"></script>
+
   </head>
-  <body data-loader-seconds={refreshDelaySeconds}>
+  <body>
     <main class="loader-shell" aria-labelledby="loader-heading">
       <h1 id="loader-heading" class="sr-only">Splendid Wren Marketing intro screen</h1>
       <p id="loader-status" class="sr-only" aria-live="polite" aria-atomic="true"></p>
       <div class="loader">
-        <img src="/media/logo-loader.svg" alt="Splendid Wren Marketing" width="431" height="357" />
+        <img src="/media/logo-loader.webp" alt="Splendid Wren Marketing" width="480" height="480" />
       </div>
       <div class="loader-actions">
-        <a href="/?from=loader" class="loader-link" data-loader-action="skip">Skip intro</a>
-        <button type="button" class="loader-link" data-loader-extend>Stay longer</button>
+        <a href="/" class="loader-link" data-loader-action="skip">Continue to website</a>
+
       </div>
     </main>
   </body>

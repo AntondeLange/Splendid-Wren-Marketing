@@ -17,7 +17,7 @@ const meta = {
     <Container class="max-w-4xl">
       <Heading level={1}>Privacy Policy</Heading>
       <Text class="mt-4 text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">
-        Updated 13 August 2026
+        Updated 22 October 2026
       </Text>
 
       <div class="mt-8 space-y-8 text-base leading-relaxed text-neutral-700">
@@ -63,13 +63,7 @@ const meta = {
               our site - things like pages viewed, time spent on site, device and browser type, and general location
               at a country or city level. This is aggregated, non-identifying information wherever possible.
             </li>
-            <li class="list-disc">
-              <strong>Payment and booking information:</strong> If you make a payment or book a service through our
-              website, our payment/booking processor, Stripe, collects the information needed to process that
-              transaction, such as your name, contact details, and payment card information. We do not store your full
-              card details ourselves. This is handled directly by our payment processor in line with its own security
-              standards, such as PCI DSS.
-            </li>
+
           </ul>
           <p class="mt-4">
             We do not knowingly collect sensitive information, such as health, financial, or government-identifier
@@ -113,35 +107,13 @@ const meta = {
         </section>
 
         <section>
-          <Heading level={2} class="text-2xl">Cookies and website analytics</Heading>
+          <Heading level={2} class="text-2xl">Website services and analytics choices</Heading>
           <div class="mt-3 space-y-4">
-            <p>
-              Our website uses cookies, small files stored on your device, to help the site function and to help us
-              understand visitor behaviour. We use Google Analytics to gather information about how visitors use our
-              site, and we may use tools such as the Meta (Facebook) pixel to measure the performance of our social
-              media advertising and show you more relevant ads.
-            </p>
-            <p>
-              These tools may collect information such as your IP address, browser type, device information, and
-              browsing activity on our site. You can control or disable cookies through your browser settings, though
-              some parts of our site may not work as well if you do. You can also opt out of Google Analytics tracking
-              using the
-              <a
-                href="https://tools.google.com/dlpage/gaoptout"
-                class="font-semibold text-brand-800 underline decoration-brand-300 underline-offset-4 hover:text-brand-950"
-                rel="noreferrer"
-              >
-                Google Analytics Opt-out Browser Add-on
-              </a>
-              and manage how Meta uses your data for ads through your
-              <a
-                href="https://www.facebook.com/adpreferences"
-                class="font-semibold text-brand-800 underline decoration-brand-300 underline-offset-4 hover:text-brand-950"
-                rel="noreferrer"
-              >
-                Facebook ad preferences
-              </a>.
-            </p>
+            <p>Vercel hosts this website and processes requests to its pages and contact endpoint. The site loads fonts from Google Fonts. Hosting and font requests provide those services with network information such as your IP address.</p>
+            <p>Our contact endpoint sends your enquiry fields to our configured email recipient through SMTP2GO. Enquiry text, names and email addresses are not included in our analytics events. Operational logs record outcomes and error codes, without the enquiry text.</p>
+            <p>Optional measurement starts only after you accept analytics. This includes Google Analytics, Vercel Web Analytics and, when enabled, Vercel Speed Insights. Before a choice or after declining, these measurement tools are not loaded. The contact endpoint also requires an explicit analytics consent value before sending a server completion event to Google.</p>
+            <p>We store your analytics choice in your browser. Use <button type="button" data-analytics-preferences class="cursor-pointer font-semibold underline underline-offset-4">Analytics preferences</button> to change it. Declining optional analytics does not prevent enquiries. Forms submitted without JavaScript do not opt into analytics.</p>
+            <p>Measurement includes page paths, broad interaction categories, external brand-audit clicks and accepted contact submissions. Query strings are removed from page locations sent by our measurement code. Clicking the brand-audit link opens a separate HubSpot-hosted site; a click does not confirm that you completed its form. That site controls its own forms and consent choices.</p>
           </div>
         </section>
 
@@ -150,23 +122,17 @@ const meta = {
           <p class="mt-3">We do not share your personal information with third parties except:</p>
           <ul class="mt-4 space-y-3 pl-5">
             <li class="list-disc">
-              With service providers who help us run our business, such as HubSpot, our CRM and email marketing
-              platform, Google Analytics, Meta/Facebook, and Stripe;
+              With the website service providers described above when needed to deliver those services;
             </li>
             <li class="list-disc">Where we are required to by law; or</li>
             <li class="list-disc">With your consent.</li>
           </ul>
           <div class="mt-4 space-y-4">
             <p>
-              These service providers are only permitted to use your information to provide services to us, and are
-              bound by their own privacy and data protection obligations.
+              Service providers also publish their own privacy policies. The website configuration alone does not establish their storage locations or retention periods.
             </p>
             <p>
-              <strong>Overseas disclosure:</strong> Some of the service providers we use, including Google, Meta,
-              HubSpot, and our payment processor, store or process data on servers located outside Australia,
-              including in the United States. Where this occurs, we take reasonable steps to ensure your information
-              continues to be handled in line with the Australian Privacy Principles, including relying on the security
-              and privacy commitments of these providers.
+              <strong>Processing locations:</strong> The Vercel function serving our contact form is currently configured in the United States. We have not verified an Australia-only storage or processing commitment for our website and email services.
             </p>
           </div>
         </section>
@@ -191,9 +157,7 @@ const meta = {
           <div class="mt-3 space-y-4">
             <p>
               We take reasonable steps to protect the personal information we hold from misuse, interference, loss,
-              and unauthorised access, modification, or disclosure. This includes using secure, reputable platforms,
-              such as HubSpot and Microsoft 365, to store client and contact information, and limiting access to
-              personal information to team members who need it to do their jobs.
+              and unauthorised access, modification, or disclosure. Our website uses encrypted HTTPS connections. Access to contact information is limited to people who need it to respond to enquiries.
             </p>
             <p>
               No method of storage or transmission over the internet is completely secure, so while we do our best to
