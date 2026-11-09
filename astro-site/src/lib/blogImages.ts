@@ -4,6 +4,7 @@ import brandBestie from '../assets/images/blog-brand-bestie.png';
 import mafs from '../assets/images/blog-mafs.png';
 import noMoreMarketingMayhem from '../assets/images/blog-no-more-marketing-mayhem.png';
 import onAgainOffAgainAffair from '../assets/images/blog-on-again-off-again-affair.png';
+import staceySpencer from '../assets/images/stacey-spencer.jpg';
 import swAgree from '../assets/images/sw-agree.png';
 import swCoffee from '../assets/images/sw-coffee.png';
 import swExplain from '../assets/images/sw-explain.png';
@@ -19,6 +20,10 @@ export interface BlogImageEntry {
 }
 
 export const BLOG_IMAGES: Record<string, BlogImageEntry> = {
+  'the-wisdom-behind-the-re-do-branding-the-regional-hr-consultancy': {
+    image: staceySpencer,
+    imageAlt: 'Stacey Spencer of The Regional HR Consultancy seated at her laptop',
+  },
   'avoiding-the-ai-shame-spiral': {
     image: avoidTheShameSpiral,
     imageAlt: 'Woman covering her face while sitting at a laptop',

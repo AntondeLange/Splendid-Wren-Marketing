@@ -108,7 +108,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout meta={meta} structuredData={structuredData}>
+<BaseLayout meta={{ ...meta, ogImage: postImageUrl }} structuredData={structuredData}>
   <Section tone="white">
     <Container class="max-w-3xl">
       <a href="/blog" class="text-sm font-medium text-brand-700 hover:text-brand-900">Back to Blog</a>

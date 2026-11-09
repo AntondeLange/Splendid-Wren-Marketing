@@ -1,0 +1,20 @@
+{
+  "articleStatus": 200,
+  "headings": 6,
+  "scopeItems": 6,
+  "socialDraftsExcluded": true,
+  "photoAndSharingImage": true,
+  "blogListing": true,
+  "sitemap": true,
+  "viewports": [
+    1440,
+    390
+  ],
+  "horizontalOverflow": false,
+  "ga4Id": "G-2GR85M2GT9",
+  "realGoogleSdkPageViewRequestIntercepted": true,
+  "unknownAndDeclinedConsentNoGoogleRequests": true,
+  "consoleErrors": [],
+  "cspViolations": [],
+  "providerIngestionTested": false
+}
