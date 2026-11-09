@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BrandIntro from '../components/BrandIntro.astro';
 import Button from '../components/primitives/Button.astro';
 import Card from '../components/primitives/Card.astro';
 import Container from '../components/primitives/Container.astro';
@@ -78,9 +79,7 @@ const structuredData = [
 ---
 
 <BaseLayout meta={meta} structuredData={structuredData}>
-  <Fragment slot="head">
-
-  </Fragment>
+  <BrandIntro />
 
   <section class="hero-section relative isolate flex min-h-[78vh] items-center overflow-hidden bg-brand-900">
     <video
